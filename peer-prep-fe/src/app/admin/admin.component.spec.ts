@@ -16,7 +16,7 @@ describe('AdminComponent', () => {
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
-
+  // create component
   it('should create', () => {
     expect(component).toBeTruthy();
   });
