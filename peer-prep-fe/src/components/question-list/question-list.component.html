@@ -1,0 +1,21 @@
+<div>
+  <h1 class="tourney-title">List of Questions</h1>
+  <app-search-and-filter
+    (refresh)="refreshQuestions()"
+    (filter)="applyFilter($event)"
+    (sort)="applyFilterWithSort()"
+    (search)="refreshQuestionsSearch($event)"></app-search-and-filter>
+  <div class="qn-list-container">
+    <div class="question-list">
+      <ul>
+        <li>
+          <app-question-box
+            *ngFor="let question of questions; let index = index"
+            [question]="question"
+            [index]="index"
+            (refresh)="refreshQuestions()"></app-question-box>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
