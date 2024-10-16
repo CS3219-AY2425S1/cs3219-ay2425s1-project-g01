@@ -8,6 +8,7 @@ import { AppComponent } from "./app.component"
 import { CreateAccountComponent } from "./create-account/create-account.component"
 import { HomeComponent } from "./home/home.component"
 import { LoginComponent } from "./login/login.component"
+import { LandingPageComponent } from "../landing-page/landing-page.component"
 
 export const routes: Routes = [
   { path: "", component: HomeComponent },
@@ -16,5 +17,6 @@ export const routes: Routes = [
   { path: "admin-controls", component: AdminComponent },
   { path: "add-question", component: AddPageComponent },
   { path: "edit-question", component: EditPageComponent },
-  { path: "question-list", component: QuestionListComponent }
+  { path: "question-list", component: QuestionListComponent },
+  { path: "landing", component: LandingPageComponent }
 ]

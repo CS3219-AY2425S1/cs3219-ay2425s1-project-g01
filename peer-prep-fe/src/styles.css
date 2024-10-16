@@ -7,7 +7,7 @@ body {
   margin: 0;
   padding: 0;
   height: 100%;
-  font-family: Roboto, "Helvetica Neue", sans-serif;
+  font-family: "Signika Negative", sans-serif;
   background-image: url(../assets/background.png);
   overflow: hidden;
 }
@@ -97,3 +97,5 @@ body {
   border: none;
   cursor: pointer;
 }
+
+
