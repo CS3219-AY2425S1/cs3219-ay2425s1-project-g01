@@ -1,0 +1,50 @@
+<div class="table-container">
+  <table>
+    <thead>
+      <tr>
+        <th>Username</th>
+        <th>ID</th>
+        <th>Email</th>
+        <th>Admin</th>
+        <th>Created At</th>
+        <th></th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let user of users">
+        <td *ngIf="user.isEditing">
+          <input [(ngModel)]="user.username" />
+        </td>
+        <td *ngIf="!user.isEditing">
+          {{ user.username }}
+        </td>
+        <td>{{ user.id }}</td>
+        <td *ngIf="user.isEditing">
+          <input [(ngModel)]="user.email" />
+        </td>
+        <td *ngIf="!user.isEditing">
+          {{ user.email }}
+        </td>
+        <td *ngIf="user.isEditing">
+          <input type="checkbox" [(ngModel)]="user.isAdmin" />
+        </td>
+        <td *ngIf="!user.isEditing">
+          {{ user.isAdmin }}
+        </td>
+        <td>{{ user.createdAt }}</td>
+        <!-- Edit button to trigger editing mode -->
+        <td class="button-cell">
+          <button *ngIf="!user.isEditing" (click)="editUser(user)">Edit</button>
+          <button *ngIf="user.isEditing" (click)="saveUser(user)">Save</button>
+        </td>
+        <td class="button-cell">
+          <!-- Save button to save changes -->
+          <button *ngIf="user.isEditing" (click)="cancelEdit(user)">
+            Cancel
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

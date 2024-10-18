@@ -1,0 +1,43 @@
+version: "3.8"
+
+services:
+  question:
+    image: golang:1.23-alpine
+    container_name: peer-prep-question
+    working_dir: /app
+    env_file:
+      - ./peer-prep-be/.env
+    volumes:
+      - ./peer-prep-be:/app
+    command: sh -c "go run ./src/server.go"
+    ports:
+      - "8080:8080"
+    environment:
+      - CGO_ENABLED=0
+    depends_on:
+      - mongo
+
+  user:
+    image: node:18-alpine
+    container_name: peer-prep-user
+    working_dir: /app
+    env_file:
+      - ./peer-prep-user/user-service/.env
+    volumes:
+      - ./peer-prep-user/user-service:/app
+    command: sh -c "npm install && npm start"
+    ports:
+      - "3001:3001"
+    depends_on:
+      - mongo
+
+  mongo:
+    image: mongo:6.0
+    container_name: peer-prep-mongo
+    volumes:
+      - mongo_data:/data/db
+    ports:
+      - "27017:27017"
+
+volumes:
+  mongo_data:
