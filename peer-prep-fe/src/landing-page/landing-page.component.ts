@@ -1,19 +1,21 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import {Component, ViewChild} from '@angular/core';
 import { Router } from '@angular/router';
 import { MatchService } from '../services/match.service';
 import { QUEUE_NAMES, DIFFICULTY } from '../app/constants/queue-constants';
 import { UserService } from '../app/userService/user-service';
+import {MatchModalComponent} from "../loading-screen/match-modal/match-modal.component";
 
 @Component({
   selector: 'app-landing-page',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, MatchModalComponent],
   templateUrl: './landing-page.component.html',
   styleUrl: './landing-page.component.css'
 })
 
 export class LandingPageComponent {
+  @ViewChild(MatchModalComponent) matchModal !: MatchModalComponent;
   selectedDifficulty: string | null = null;
   selectedCategory: string | null = null;
   question_categories = [
@@ -27,12 +29,12 @@ export class LandingPageComponent {
     { name: "Strings", selected: false }
   ];
 
-  categoryLines: any[] = []; 
+  categoryLines: any[] = [];
   errorMessage: string | null = null;
   matchButtonActive: boolean = false;
 
   constructor(
-    private matchService: MatchService, 
+    private matchService: MatchService,
     private userService: UserService,
     private router: Router
   ) {}
@@ -42,7 +44,7 @@ export class LandingPageComponent {
   }
 
 
-  // ===== LATER OPTIMISATION OF CATEGORIES ====== 
+  // ===== LATER OPTIMISATION OF CATEGORIES ======
 
   // ngOnInit() {
   //   this.fetchCategoriesFromApi();
@@ -80,7 +82,8 @@ export class LandingPageComponent {
         this.displayError('Failed to find a match. Please try again.');
       }
     );
-    this.router.navigate(['/loading-screen']);
+    // this.router.navigate(['/loading-screen']);
+    this.matchModal.findMatch();
   }
 
   findMatchDummy() {
@@ -104,55 +107,59 @@ export class LandingPageComponent {
     }
   }
 
-  
+
   toggleCategory(category: any) {
     category.selected = !category.selected; // Toggle the selected state
     this.checkSelections();
-    
   }
 
   imagePath: string = "assets/ufo.png";
-  xPosition: string = '0px'; 
+  xPosition: string = '0px';
   yPosition: string = '0px';
 
   rotation: string = '0deg';
 
   handleDifficulty(difficulty: string) {
     if (difficulty === DIFFICULTY.EASY) {
-        this.rotation = '-50.39deg'; 
+        this.rotation = '-50.39deg';
         this.xPosition = '140px'; // Initial X position
         this.yPosition = '-80px';
     } else if (difficulty === DIFFICULTY.MEDIUM) {
-        this.rotation = '-20deg'; 
+        this.rotation = '-20deg';
         this.xPosition = '360px'; // Initial X position
         this.yPosition = '-80px';
     } else if (difficulty === DIFFICULTY.HARD){
-        this.rotation = '10.39deg'; 
+        this.rotation = '10.39deg';
         this.xPosition = '570px'; // Initial X position
         this.yPosition = '-80px';
     }
     this.selectedDifficulty = difficulty; // Update the selected difficulty
     this.checkSelections();
-  
+
   }
 
   // only one category can be selected, click on another means give up current
-  selectCategory(category: any) {
-    this.selectedCategory = category;
+  selectCategory(categoryName: string) {
+    this.question_categories.forEach(category => {
+      category.selected = category.name === categoryName;
+    });
+
+    this.selectedCategory = categoryName;
     this.checkSelections();
   }
 
+
   distributeCategories() {
     const lines = [];
-    let currentLine = []; 
-    let count = 0; 
+    let currentLine = [];
+    let count = 0;
 
     for (let j = 0; j < this.question_categories.length; j++) {
       currentLine.push(this.question_categories[j]);
       if ((count % 2 === 0 && currentLine.length === 4) || (count % 2 !== 0 && currentLine.length === 3)) {
-        lines.push(currentLine);  
-        currentLine = [];         
-        count++;                  
+        lines.push(currentLine);
+        currentLine = [];
+        count++;
       }
     }
 
@@ -182,11 +189,11 @@ export class LandingPageComponent {
     } else if (!hasSelectedDifficulty && hasSelectedTopics) {
       this.displayError("Please select a difficulty.");
     } else if (hasSelectedDifficulty && !hasSelectedTopics) {
-      this.displayError("Please select at least one topic.");   
-    }  
+      this.displayError("Please select at least one topic.");
+    }
     else {
       this.errorMessage = null;
-      this.matchButtonActive = true
+      this.matchButtonActive = true;
     }
 
     if (this.matchButtonActive) {
@@ -195,6 +202,6 @@ export class LandingPageComponent {
   }
 
   displayError(message: string) {
-    this.errorMessage = message; 
+    this.errorMessage = message;
   }
 }

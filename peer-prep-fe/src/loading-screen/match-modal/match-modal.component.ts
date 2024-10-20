@@ -1,6 +1,9 @@
 import {Component, Input, OnInit} from '@angular/core';
 import { timer, Subscription } from 'rxjs';
 import { NgClass, NgIf } from "@angular/common";
+import {MatchService} from "../../services/match.service";
+import {UserService} from "../../app/userService/user-service";
+import {Router} from "@angular/router";
 // import { MatchService } from '../services/match.service'; ignore this line
 
 @Component({
@@ -14,8 +17,8 @@ import { NgClass, NgIf } from "@angular/common";
   styleUrls: ['./match-modal.component.css']
 })
 export class MatchModalComponent implements OnInit {
-  @Input() categories: string = 'bitwise'
-  @Input() difficulty: string = 'easy'
+  @Input() categories: string = ''
+  @Input() difficulty: string = ''
 
   isVisible: boolean = false;
   isCounting: boolean = false;
@@ -24,9 +27,11 @@ export class MatchModalComponent implements OnInit {
   displayMessage: string = 'Finding Suitable Match...';
   countdownSubscription: Subscription | undefined;
 
+  constructor (
+    private router: Router
+  ) {}
   ngOnInit(): void {
     // Placeholder for component initialization if needed
-    this.findMatch();
   }
 
   findMatch() {
@@ -73,5 +78,6 @@ export class MatchModalComponent implements OnInit {
     if (this.countdownSubscription) {
       this.countdownSubscription.unsubscribe();
     }
+    this.router.navigate(['/landing']);
   }
 }

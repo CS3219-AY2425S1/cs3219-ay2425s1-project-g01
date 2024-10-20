@@ -15,36 +15,42 @@
 
 <hr style="width: 50%; margin: 0 auto; border: 1px solid #ccc;">
 
-<img *ngIf="selectedDifficulty" 
-     [src]="imagePath" 
-     alt="UFO" 
-     class="difficulty-image" 
-     [ngStyle]="{ 
-       'transform': 'rotate(' + rotation + ')', 
-       'position': 'absolute', 
-       'left': xPosition, 
-       'top': yPosition 
+<img *ngIf="selectedDifficulty"
+     [src]="imagePath"
+     alt="UFO"
+     class="difficulty-image"
+     [ngStyle]="{
+       'transform': 'rotate(' + rotation + ')',
+       'position': 'absolute',
+       'left': xPosition,
+       'top': yPosition
      }">
 
 <div class="categories">
   <div class="category-list">
     <div *ngFor="let line of categoryLines">
-    <div class="category-line">
-      <button *ngFor="let category of line" 
-          (click)="selectCategory(category.name)" 
-          [ngClass]="{'category-selected': selectedCategory === category}"
-          class="cat-buttons">
-      {{ category.name.toUpperCase() }}
-      </button>
-    </div>
+      <div class="category-line">
+        <button *ngFor="let category of line"
+                (click)="selectCategory(category.name)"
+                [ngClass]="{'category-selected': category.selected}"
+                class="cat-buttons">
+          {{ category.name.toUpperCase() }}
+        </button>
+      </div>
     </div>
   </div>
 </div>
 
+
 <div>
-    <button class="match-button"  
-            (click)="handleFindMatch()" 
-            [ngClass]="{'active': matchButtonActive}">  
-    FIND MATCH 
+    <button class="match-button"
+            (click)="handleFindMatch()"
+            [ngClass]="{'active': matchButtonActive}">
+    FIND MATCH
   </button>
 </div>
+
+<app-match-modal
+  [categories]="selectedCategory || ''"
+  [difficulty]="selectedDifficulty || ''">
+</app-match-modal>

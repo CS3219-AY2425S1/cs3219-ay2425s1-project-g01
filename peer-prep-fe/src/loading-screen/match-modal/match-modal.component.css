@@ -50,7 +50,7 @@
   transform-origin: center;
   stroke-dasharray: 1288.05;
   stroke-dashoffset: 0;
-  animation: countdown 3s linear forwards, change-colour 3s linear forwards;
+  animation: countdown 30s linear forwards, change-colour 30s linear forwards;
 }
 
 .match-found {
