@@ -18,8 +18,9 @@
         <div class="inner-content">
           <div class="message">{{ displayMessage }}</div>
           <div class="details">{{ difficulty }} • {{category}}</div>
+          <div class="countdown-timer" *ngIf="matchFound && !timeout">Time left: {{ timeLeft }}s</div>
           <div class="button-wrapper">
-            <button class="inner-button" *ngIf="matchFound" (click)="acceptMatch()">Accept!</button>
+            <button class="inner-button" *ngIf="matchFound && !timeout" (click)="acceptMatch()">Accept!</button>
             <button class="inner-button" *ngIf="timeout" (click)="requeue()">Requeue</button>
           </div>
         </div>

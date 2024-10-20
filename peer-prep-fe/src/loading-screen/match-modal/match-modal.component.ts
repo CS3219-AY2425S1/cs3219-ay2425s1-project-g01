@@ -1,5 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
-import { Subscription } from 'rxjs';
+import {interval, Subscription, take} from 'rxjs';
 import { NgClass, NgIf } from "@angular/common";
 import { Router, ActivatedRoute } from '@angular/router';
 import { MatchService } from '../../services/match.service';
@@ -29,6 +29,7 @@ export class MatchModalComponent implements OnInit {
   countdownSubscription: Subscription | undefined;
   matchCheckSubscription: Subscription | undefined;
   userData: any;
+  timeLeft: number = 10;
 
   constructor(private router: Router, private route: ActivatedRoute, private matchService: MatchService) { }
 
@@ -41,7 +42,7 @@ export class MatchModalComponent implements OnInit {
       this.queueName = params['queueName'];
     });
     this.userData = {difficulty: this.difficulty, topic: this.category, user_id: this.userId};
-    
+
     this.findMatch();
   }
 
@@ -55,7 +56,7 @@ export class MatchModalComponent implements OnInit {
     // const response = await this.matchService.checkMatchResponse(this.queueName);
     this.handleMatchResponse(response);
   }
-  
+
   handleMatchResponse(response: MatchResponse) {
     if (response.timeout) {
       this.timeout = true;
@@ -67,10 +68,30 @@ export class MatchModalComponent implements OnInit {
       this.matchFound = true;
       this.isCounting = false;
       this.displayMessage = `MATCH FOUND: Matched with ${response.matchedUsers[1].user_id}`;
+      this.startCountDown();
     }
   }
 
+  startCountDown() {
+    this.timeLeft = 10;
+    this.countdownSubscription = interval(1000).pipe(
+      take(this.timeLeft)
+    ).subscribe({
+      next: (value) => this.timeLeft--,
+      complete: () => this.onTimeout()
+    });
+  }
+
+  onTimeout() {
+    if(!this.matchFound) return;
+    this.timeout = true;
+    this.displayMessage = 'Timeout: oh no!'
+  }
+
   acceptMatch() {
+    if (this.countdownSubscription) {
+      this.countdownSubscription.unsubscribe();
+    }
     this.isVisible = false;
     // Logic to navigate to the next page
   }
