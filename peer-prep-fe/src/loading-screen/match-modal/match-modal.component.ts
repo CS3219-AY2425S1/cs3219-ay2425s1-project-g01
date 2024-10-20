@@ -4,6 +4,7 @@ import { NgClass, NgIf } from "@angular/common";
 import { Router, ActivatedRoute } from '@angular/router';
 import { MatchService } from '../../services/match.service';
 import { MatchResponse } from '../../app/models/match.model';
+import {UserService} from '../../app/userService/user-service';
 
 @Component({
   selector: 'app-match-modal',
@@ -29,9 +30,15 @@ export class MatchModalComponent implements OnInit {
   countdownSubscription: Subscription | undefined;
   matchCheckSubscription: Subscription | undefined;
   userData: any;
+  myUsername: string = '';
+  otherUsername: string = '';
+  otherUserId: string = '';
   timeLeft: number = 10;
 
-  constructor(private router: Router, private route: ActivatedRoute, private matchService: MatchService) { }
+  constructor(private router: Router,
+    private route: ActivatedRoute,
+    private matchService: MatchService,
+    private userService: UserService) {}
 
   ngOnInit(): void {
     // Placeholder for component initialization if needed
@@ -69,7 +76,20 @@ export class MatchModalComponent implements OnInit {
       this.isCounting = false;
       this.displayMessage = `MATCH FOUND: Matched with ${response.matchedUsers[1].user_id}`;
       this.startCountDown();
+      this.otherUserId = response.matchedUsers[1].user_id;
+      this.setUsernames();
+      this.displayMessage = `BEST MATCH FOUND!`;
+
     }
+  }
+
+  setUsernames() {
+    this.userService.getUser(this.userId).subscribe(user => {
+      this.myUsername = user.username;
+    });
+    this.userService.getUser(this.otherUserId).subscribe(user => {
+      this.otherUsername = user.username;
+    });
   }
 
   startCountDown() {
