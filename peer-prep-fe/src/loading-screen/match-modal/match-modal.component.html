@@ -20,7 +20,8 @@
           <div class="details">{{ difficulty }} • {{category}}</div>
           <div class="countdown-timer" *ngIf="matchFound && !timeout">Time left: {{ timeLeft }}s</div>
           <div class="button-wrapper">
-            <button class="inner-button" *ngIf="matchFound && !timeout" (click)="acceptMatch()">Accept!</button>
+            <button class="inner-button" *ngIf="matchFound && !timeout && !isWaiting" (click)="acceptMatch()">Accept!</button>
+            <div *ngIf="isWaiting" class="waiting-message">Waiting for match to start...</div>
             <button class="inner-button" *ngIf="timeout" (click)="requeue()">Requeue</button>
           </div>
         </div>
@@ -29,3 +30,4 @@
     </div>
   </div>
 </div>
+

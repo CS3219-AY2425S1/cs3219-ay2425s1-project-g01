@@ -34,11 +34,12 @@ export class MatchModalComponent implements OnInit {
   otherUsername: string = '';
   otherUserId: string = '';
   timeLeft: number = 10;
+  isWaiting: boolean = false;
 
   constructor(private router: Router,
-    private route: ActivatedRoute,
-    private matchService: MatchService,
-    private userService: UserService) {}
+              private route: ActivatedRoute,
+              private matchService: MatchService,
+              private userService: UserService) {}
 
   ngOnInit(): void {
     // Placeholder for component initialization if needed
@@ -58,6 +59,7 @@ export class MatchModalComponent implements OnInit {
     this.isCounting = true;
     this.matchFound = false;
     this.timeout = false;
+    this.isWaiting = false;
     this.displayMessage = 'Finding Suitable Match...';
     const response = await this.matchService.sendMatchRequest(this.userData,this.queueName);
     // const response = await this.matchService.checkMatchResponse(this.queueName);
@@ -79,7 +81,6 @@ export class MatchModalComponent implements OnInit {
       this.otherUserId = response.matchedUsers[1].user_id;
       this.setUsernames();
       this.displayMessage = `BEST MATCH FOUND!`;
-
     }
   }
 
@@ -106,13 +107,16 @@ export class MatchModalComponent implements OnInit {
     if(!this.matchFound) return;
     this.timeout = true;
     this.displayMessage = 'Timeout: oh no!'
+    this.matchService.sendMatchResponse(this.userId, false);
   }
 
   acceptMatch() {
     if (this.countdownSubscription) {
       this.countdownSubscription.unsubscribe();
     }
-    this.isVisible = false;
+    // this.isVisible = false;
+    this.isWaiting = true;
+    // this.matchService.sendMatchResponse(this.userId, true);
     // Logic to navigate to the next page
   }
 
@@ -135,4 +139,5 @@ export class MatchModalComponent implements OnInit {
     this.router.navigate(['/landing']);
   }
 }
+
 

@@ -55,7 +55,7 @@
 
 .match-found {
   stroke: green;
-  animation: glow-animation-success 1.5s infinite alternate, countdown 10s linear forwards;
+  animation: glow-animation-success 1.5s infinite alternate, countdown 12s linear forwards;
 }
 
 .timeout {
@@ -176,3 +176,4 @@
     stroke: #374c4f;
   }
 }
+
