@@ -1,0 +1,86 @@
+<div class="container">
+  <div class="form-container">
+    <h2>Create Account</h2>
+    <form id="userForm" [formGroup]="createAccountForm">
+      <!-- Username -->
+      <label for="name">Name:</label>
+      <div
+        *ngIf="
+          createAccountForm.get('username')?.invalid &&
+          createAccountForm.get('username')?.touched
+        "
+        class="error-message">
+        <small *ngIf="createAccountForm.get('username')?.hasError('required')"
+          >Username is required</small
+        >
+      </div>
+      <input type="text" id="name" formControlName="username" />
+
+      <!-- Email -->
+      <label for="email">Email:</label>
+      <div
+        *ngIf="
+          createAccountForm.get('email')?.invalid &&
+          createAccountForm.get('email')?.touched
+        "
+        class="error-message">
+        <small *ngIf="createAccountForm.get('email')?.hasError('required')"
+          >Email is required</small
+        >
+        <small *ngIf="createAccountForm.get('email')?.hasError('email')"
+          >Invalid email address</small
+        >
+      </div>
+
+      <input type="email" id="email" formControlName="email" />
+
+      <!-- Password -->
+      <label for="password">Password:</label>
+      <div
+        *ngIf="
+          createAccountForm.get('password')?.invalid &&
+          createAccountForm.get('password')?.touched
+        "
+        class="error-message">
+        <small *ngIf="createAccountForm.get('password')?.hasError('required')"
+          >Password is required</small
+        >
+        <small *ngIf="createAccountForm.get('password')?.hasError('minlength')"
+          >Minimum 6 characters</small
+        >
+      </div>
+      <input type="password" id="password" formControlName="password" />
+
+      <!-- Confirm Password -->
+      <label for="confirmPassword">Confirm Password:</label>
+      <div
+        *ngIf="
+          createAccountForm?.hasError &&
+          createAccountForm.get('confirmPassword')?.touched
+        "
+        class="error-message">
+        <small
+          *ngIf="createAccountForm.get('confirmPassword')?.hasError('required')"
+          >Please confirm your password.
+        </small>
+        <small *ngIf="createAccountForm?.hasError('passwordMismatch')"
+          >Password does not match</small
+        >
+      </div>
+      <input type="password" id="password" formControlName="confirmPassword" />
+
+      <button
+        class="submit"
+        type="submit"
+        (click)="createAccount()"
+        [disabled]="createAccountForm.invalid">
+        Submit
+      </button>
+    </form>
+  </div>
+
+  <!-- <div class="button">
+    
+    <div id="google-login-button" class="login-button btn btn-primary" (click)="signInWithGoogle()"></div>
+  </div> -->
+</div>

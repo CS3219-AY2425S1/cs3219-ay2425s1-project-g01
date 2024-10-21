@@ -1,0 +1,50 @@
+<div class="home">
+    <div class="content">
+      <h1>Welcome to PeerPrep.</h1>
+      <h2>PICK 1 DIFFICULTY & AT LEAST 1 TOPIC.</h2>
+      <div *ngIf = "errorMessage" class = "error-message">{{ errorMessage }}
+      </div>
+    </div>
+</div>
+
+<div class="categories">
+    <button (click)="handleDifficulty('EASY')" [ngClass]="{'difficulty-selected': selectedDifficulty === 'EASY'}">EASY</button>
+    <button (click)="handleDifficulty('MEDIUM')" [ngClass]="{'difficulty-selected': selectedDifficulty === 'MEDIUM'}">MEDIUM</button>
+    <button (click)="handleDifficulty('HARD')" [ngClass]="{'difficulty-selected': selectedDifficulty === 'HARD'}">HARD</button>
+</div>
+
+<hr style="width: 50%; margin: 0 auto; border: 1px solid #ccc;">
+
+<img *ngIf="selectedDifficulty" 
+     [src]="imagePath" 
+     alt="UFO" 
+     class="difficulty-image" 
+     [ngStyle]="{ 
+       'transform': 'rotate(' + rotation + ')', 
+       'position': 'absolute', 
+       'left': xPosition, 
+       'top': yPosition 
+     }">
+
+<div class="categories">
+  <div class="category-list">
+    <div *ngFor="let line of categoryLines">
+    <div class="category-line">
+      <button *ngFor="let category of line" 
+          (click)="selectCategory(category.name)" 
+          [ngClass]="{'category-selected': selectedCategory === category}"
+          class="cat-buttons">
+      {{ category.name.toUpperCase() }}
+      </button>
+    </div>
+    </div>
+  </div>
+</div>
+
+<div>
+    <button class="match-button"  
+            (click)="handleFindMatch()" 
+            [ngClass]="{'active': matchButtonActive}">  
+    FIND MATCH 
+  </button>
+</div>

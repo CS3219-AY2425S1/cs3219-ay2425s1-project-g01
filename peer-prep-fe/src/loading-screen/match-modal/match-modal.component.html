@@ -1,0 +1,65 @@
+<!-- <button (click)="findMatch()">Open Match Modal</button> -->
+
+<div class="modal-overlay" *ngIf="isVisible">
+  <div class="modal-content">
+    <div class="outer-border">
+      <div class="border-circle-wrapper">
+
+        <svg class="countdown-svg">
+          <circle
+            class="countdown-circle"
+            [ngClass]="{'match-found': matchFound, 'timeout': timeout}"
+            cx="50%"
+            cy="50%"
+            r="205"
+          ></circle>
+        </svg>
+
+        <!-- MATCHING PROCESS, STILL LOADING -->
+        <div class="matching-container" *ngIf="!matchFound && !timeout">
+          <div class="message">{{ displayMessage }}</div>
+          <div class="details">{{ difficulty }} • {{category}}</div>
+        </div>
+
+        <!-- MATCH FOUND, SHOW BOTH PLAYERS -->
+        <div class="inner-content" 
+        *ngIf="matchFound"
+        >
+          <div class="message">{{ displayMessage }}</div>
+          <div class="player-info">
+            <div class="player my-player">
+              <div class="player-details">{{ myUsername }}</div>
+              <div class="player-details">{{ difficulty }} • {{ category }}</div>
+            </div>
+            <div class="versus my-player">vs</div>
+            <div class="player my-player">
+              <div class="player-details">{{ otherUsername }}</div>
+              <div class="player-details">{{ otherDifficulty }} • {{ otherCategory }}</div>
+            </div>
+          </div>
+          <div class="button-wrapper">
+            <button class="inner-button" (click)="acceptMatch()">Accept!</button>
+          </div>
+        </div>
+        
+         <!-- TIMEOUT SECTION -->
+         <div class="inner-content" *ngIf="timeout">
+          <div class="message">No matches found</div>
+          <div class="button-wrapper">
+            <button class="inner-button" (click)="requeue()">Requeue</button>
+          </div>
+        </div>
+
+        <!-- <div class="inner-content">
+          <div class="message">{{ displayMessage }}</div>
+          <div class="details">{{ difficulty }} • {{category}}</div>
+          <div class="button-wrapper">
+            <button class="inner-button" *ngIf="matchFound" (click)="acceptMatch()">Accept!</button>
+            <button class="inner-button" *ngIf="timeout" (click)="requeue()">Requeue</button>
+          </div>
+        </div> -->
+
+    </div>
+    <button class="cancel-button" (click)="cancelMatch()">CANCEL</button>
+  </div>
+</div>
