@@ -23,7 +23,8 @@
        'transform': 'rotate(' + rotation + ')', 
        'position': 'absolute', 
        'left': xPosition, 
-       'top': yPosition 
+       'top': yPosition,
+       'width': '55%',
      }">
 
 <div class="categories">
@@ -32,7 +33,7 @@
     <div class="category-line">
       <button *ngFor="let category of line" 
           (click)="selectCategory(category.name)" 
-          [ngClass]="{'category-selected': selectedCategory === category}"
+          [ngClass]="{'category-selected': category.selected}"
           class="cat-buttons">
       {{ category.name.toUpperCase() }}
       </button>
