@@ -5,6 +5,7 @@
                 Peer Prep
             </header>
         </div>
+
         <div class="right-container">
             <div class = "pair-settings">
                 <button class = "users-icon">
@@ -14,9 +15,6 @@
                     <div class = "pair-name">
                         &#64;{{ username }} paired with &#64;{{ pairedUsername }}
                     </div>
-                    <button class = "chat-icon">
-                        <i class = "fa-regular fa-comments"> </i>
-                    </button>
                 </div>
             </div>
             <button class = "end-session" (click)="endSession()">
@@ -25,12 +23,16 @@
         </div> 
     </nav>
     
+    
     <div class="collab-container">
         <div class="question-container">
             <app-sidebar [question]="question"></app-sidebar>
         </div>
         <!-- <div class="editor-container"> -->
-        <app-collaborative-editor [sessionId]="sessionId" [userId]="userId"></app-collaborative-editor>
+                <app-collaborative-editor [sessionId]="sessionId" [userId]="userId"></app-collaborative-editor>
+                    <app-chat [sessionId]="sessionId" [userId]="userId"></app-chat>
+               
         <!-- </div> -->
     </div>
+    
 </div>
