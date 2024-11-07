@@ -65,6 +65,18 @@ echo "collab-websocket deployed successfully."
 echo "------------------------------------------------------------------------------"
 
 echo "------------------------------------------------------------------------------"
+echo "Building and deploying chat-websocket..."
+docker build --platform linux/amd64 -t gcr.io/g01-peer-prep/chat-websocket ./chat-websocket
+docker tag gcr.io/g01-peer-prep/chat-websocket:latest gcr.io/g01-peer-prep/chat-websocket:latest
+docker push gcr.io/g01-peer-prep/chat-websocket:latest
+gcloud run deploy chat-websocket \
+  --image gcr.io/g01-peer-prep/chat-websocket:latest \
+  --region asia-southeast1 \
+  --allow-unauthenticated
+echo "chat-websocket deployed successfully."  
+echo "------------------------------------------------------------------------------"
+
+echo "------------------------------------------------------------------------------"
 echo "Building and dploying peer-prep-gateway"
 docker build --platform linux/amd64 -t gcr.io/g01-peer-prep/peer-prep-gateway -f ./peer-prep-gateway/Dockerfile .
 docker tag gcr.io/g01-peer-prep/peer-prep-gateway:latest gcr.io/g01-peer-prep/peer-prep-gateway:latest
@@ -85,3 +97,4 @@ echo "All microservices have been deployed, check for errors."
 # Collaboration Service: https://peer-prep-collab-1093398872288.asia-southeast1.run.app
 # WebSocket Service: https://collab-websocket-1093398872288.asia-southeast1.run.app
 # Gateway Service: https://peer-prep-gateway-1093398872288.asia-southeast1.run.app
+# Chat WebSocket Service: https://chat-websocket-1093398872288.asia-southeast1.run.app
