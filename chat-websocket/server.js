@@ -1,5 +1,5 @@
 const WebSocket = require('ws');
-const server = new WebSocket.Server({ port: 8082 });
+const server = new WebSocket.Server({ port: process.env.PORT || 8082 });
 
 // Store the chat messages for each session ID
 const sessionData = {};
@@ -18,7 +18,7 @@ server.on('connection', (socket, request) => {
     if (!activeUsers[sessionID]) {
         activeUsers[sessionID] = {};
     }
-
+s
     activeUsers[sessionID][userID] = socket;
 
     // Broadcast to other users that a new user has connected
