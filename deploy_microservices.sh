@@ -48,7 +48,10 @@ gcloud run deploy peer-prep-collab \
   --image gcr.io/g01-peer-prep/peer-prep-collab:latest \
   --region asia-southeast1 \
   --allow-unauthenticated \
-  --set-env-vars "AMQP_SERVER=amqps://lguugvwb:UtQY1D0zOoX8s0ZvR4GunuRDk0xv8UuI@octopus.rmq3.cloudamqp.com/lguugvwb,MATCHING_SERVICE_URL=https://peer-prep-matching-1093398872288.asia-southeast1.run.app,QUESTIONS_SERVICE_URL=https://peer-prep-question-1093398872288.asia-southeast1.run.app"
+  --set-env-vars "AMQP_SERVER=amqps://lguugvwb:UtQY1D0zOoX8s0ZvR4GunuRDk0xv8UuI@octopus.rmq3.cloudamqp.com/lguugvwb,
+  MATCHING_SERVICE_URL=https://peer-prep-matching-1093398872288.asia-southeast1.run.app,
+  QUESTIONS_SERVICE_URL=https://peer-prep-question-1093398872288.asia-southeast1.run.app, 
+  DB_CLOUD_URI=mongodb+srv://peer-prep:1EjJPR5eiyIwhIql@peer-prep-cluster0.ftsoh.mongodb.net/?retryWrites=true&w=majority&appName=peer-prep-cluster0"
 echo "peer-prep-collab deployed successfully."
 echo "------------------------------------------------------------------------------"
 
