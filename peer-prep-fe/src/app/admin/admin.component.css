@@ -4,6 +4,8 @@
   margin-right: auto;
   margin-top: 5vh;
   overflow-x: auto;
+  overflow-y: scroll;
+  max-height: 90vh;
   border-radius: 10px;
 }
 
