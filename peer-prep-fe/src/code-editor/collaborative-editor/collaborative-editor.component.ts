@@ -111,7 +111,7 @@ export class CollaborativeEditorComponent implements OnInit, OnDestroy {
         this.webSocketService.sendMessage({ type: 'typingEnded', userID: this.userId });
       }, 2000); // Adjust the timeout as necessary
     }
-  }x
+  }
 
   onEditorInit(editor: monaco.editor.IStandaloneCodeEditor) {
     this.editor = editor;
