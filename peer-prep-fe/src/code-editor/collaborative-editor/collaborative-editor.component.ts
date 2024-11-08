@@ -22,7 +22,7 @@ import { HttpClientModule } from '@angular/common/http';
   templateUrl: './collaborative-editor.component.html',
   styleUrls: ['./collaborative-editor.component.css']
 })
-export class CollaborativeEditorComponent implements OnInit, OnDestroy {
+export class CollaborativeEditorComponent implements OnDestroy {
 
   @Input() sessionId!: string;
   @Input() userId!: string;
@@ -54,36 +54,30 @@ export class CollaborativeEditorComponent implements OnInit, OnDestroy {
     private collabService: CollabService
   ) {}
 
-  ngOnInit() {
-    // Connect to WebSocket and subscribe to messages
-    this.webSocketService.connect(this.sessionId, this.userId);
-
-    this.messageSubscription = this.webSocketService.getMessages().subscribe((message) => {
-      if (message) {
-        if (message.type === 'initialCode') {
-          this.code = message.content;
-        } else if (message.type === 'code') {
-          this.code = message.content;
-        } else if (message.type === 'userConnected') {
-          this.addNotification(`User ${message.userID} connected`);
-        } else if (message.type === 'userDisconnected') {
-          this.addNotification(`User ${message.userID} disconnected`);
-        } else if (message.type === 'typingStarted') {
-          if (message.userID !== this.userId) {
-            this.addNotification(`User ${message.userID} is typing...`);
-            this.isLocked = true;
-            this.updateEditorLock();
-          }
-        } else if (message.type === 'typingEnded') {
-          if (message.userID !== this.userId) {
-            this.isLocked = false;
-            this.updateEditorLock();
-            this.clearNotification();
-          }
-        }
+  public handleWebSocketMessage(message: any): void {
+    if (message.type === 'initialCode') {
+      this.code = message.content;
+    } else if (message.type === 'code') {
+      this.code = message.content;
+    } else if (message.type === 'userConnected') {
+      this.addNotification(`User ${message.userID} connected`);
+    } else if (message.type === 'userDisconnected') {
+      this.addNotification(`User ${message.userID} disconnected`);
+    } else if (message.type === 'typingStarted') {
+      if (message.userID !== this.userId) {
+        this.addNotification(`User ${message.userID} is typing...`);
+        this.isLocked = true;
+        this.updateEditorLock();
       }
-    });
+    } else if (message.type === 'typingEnded') {
+      if (message.userID !== this.userId) {
+        this.isLocked = false;
+        this.updateEditorLock();
+        this.clearNotification();
+      }
+    }
   }
+  
 
   updateEditorLock() {
     this.editorOptions = { ...this.editorOptions, readOnly: this.isLocked };

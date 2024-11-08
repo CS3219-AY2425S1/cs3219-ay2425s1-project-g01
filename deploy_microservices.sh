@@ -48,7 +48,10 @@ gcloud run deploy peer-prep-collab \
   --image gcr.io/g01-peer-prep/peer-prep-collab:latest \
   --region asia-southeast1 \
   --allow-unauthenticated \
-  --set-env-vars "AMQP_SERVER=amqps://lguugvwb:UtQY1D0zOoX8s0ZvR4GunuRDk0xv8UuI@octopus.rmq3.cloudamqp.com/lguugvwb,MATCHING_SERVICE_URL=https://peer-prep-matching-1093398872288.asia-southeast1.run.app,QUESTIONS_SERVICE_URL=https://peer-prep-question-1093398872288.asia-southeast1.run.app"
+  --set-env-vars "AMQP_SERVER=amqps://lguugvwb:UtQY1D0zOoX8s0ZvR4GunuRDk0xv8UuI@octopus.rmq3.cloudamqp.com/lguugvwb,
+  MATCHING_SERVICE_URL=https://peer-prep-matching-1093398872288.asia-southeast1.run.app,
+  QUESTIONS_SERVICE_URL=https://peer-prep-question-1093398872288.asia-southeast1.run.app, 
+  DB_CLOUD_URI=mongodb+srv://peer-prep:1EjJPR5eiyIwhIql@peer-prep-cluster0.ftsoh.mongodb.net/?retryWrites=true&w=majority&appName=peer-prep-cluster0"
 echo "peer-prep-collab deployed successfully."
 echo "------------------------------------------------------------------------------"
 
@@ -62,6 +65,18 @@ gcloud run deploy collab-websocket \
   --region asia-southeast1 \
   --allow-unauthenticated
 echo "collab-websocket deployed successfully."
+echo "------------------------------------------------------------------------------"
+
+echo "------------------------------------------------------------------------------"
+echo "Building and deploying chat-websocket..."
+docker build --platform linux/amd64 -t gcr.io/g01-peer-prep/chat-websocket ./chat-websocket
+docker tag gcr.io/g01-peer-prep/chat-websocket:latest gcr.io/g01-peer-prep/chat-websocket:latest
+docker push gcr.io/g01-peer-prep/chat-websocket:latest
+gcloud run deploy chat-websocket \
+  --image gcr.io/g01-peer-prep/chat-websocket:latest \
+  --region asia-southeast1 \
+  --allow-unauthenticated
+echo "chat-websocket deployed successfully."  
 echo "------------------------------------------------------------------------------"
 
 echo "------------------------------------------------------------------------------"
@@ -85,3 +100,4 @@ echo "All microservices have been deployed, check for errors."
 # Collaboration Service: https://peer-prep-collab-1093398872288.asia-southeast1.run.app
 # WebSocket Service: https://collab-websocket-1093398872288.asia-southeast1.run.app
 # Gateway Service: https://peer-prep-gateway-1093398872288.asia-southeast1.run.app
+# Chat WebSocket Service: https://chat-websocket-1093398872288.asia-southeast1.run.app
