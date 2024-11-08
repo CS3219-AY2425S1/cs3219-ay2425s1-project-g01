@@ -16,6 +16,7 @@ import {CollaborativeEditorComponent} from "../code-editor/collaborative-editor/
 import {CollabPageComponent} from "../collab-page/collab-page.component";
 import {loginGuard} from "./authService/login.guard";
 import { ProfilePageComponent } from "./profile-page/profile-page.component"
+import { saveGuard } from "../collab-page/save.guard"
 import { ChatComponent } from "../chat-feature/chat/chat.component"
 
 export const routes: Routes = [
@@ -36,7 +37,8 @@ export const routes: Routes = [
     children: [
       { path: "editor", component: CollaborativeEditorComponent },
       { path: "chat", component: ChatComponent }
-    ]
+    ],
+    canDeactivate: [saveGuard]
   },
   { path: "code-editor", component: CollaborativeEditorComponent }
 ];

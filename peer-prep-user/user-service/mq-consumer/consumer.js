@@ -32,7 +32,9 @@ const startConsume = async (onMessage) => {
 }
 
 async function onMessage(message) {
-  updateUsers(message.users.username1, message.users.username2, message.question)
+  const { sessionIdentifier, question } = message
+  const {username1, username2 } = message.users
+  updateUsers(sessionIdentifier, username1, username2, question)
 }
 
 export const initConsumer = () => startConsume(onMessage)

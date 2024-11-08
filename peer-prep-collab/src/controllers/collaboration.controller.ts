@@ -1,21 +1,36 @@
 import { Request, Response, RequestHandler } from 'express';
-import { createCollaborationService, getSessionData } from '../services/collaboration.services';
+import { getQuestion, getSessionDataFromMongo } from '../services/collaboration.services';
 import { updateUserService } from '..';
+import SessionModel from '../models/session.schema';
+import {Session} from '../models/session.model';
 
 export const initiateCollaboration = async (sessionId: string, difficulty: string, category: string, username1: string, username2: string) => {
     try {
-        // call service to CREATE collaboration session
-        const session = await createCollaborationService(sessionId, difficulty, category, username1, username2);
-    
-        if (!session) {
+        // Get question based on given conditions
+        const polledQuestion = await getQuestion(difficulty, category);
+        if (!polledQuestion) {
             console.log('No suitable question found for specified difficulty and category');
             return null;
         }
-        updateUserService(session);
-        return session;
+
+        const session: Session = {
+            sessionId,
+            users: {username1, username2},
+            question: polledQuestion
+        }
+
+        const sessionDocument = new SessionModel({ //New entry to add to db
+            matchedUsers: session.users,
+            question: session.question,
+            sessionId: session.sessionId
+        })
+        
+        sessionDocument.save() //Add to db
+            .then(entry => {
+                updateUserService({...session, sessionIdentifier: entry.id}); //Send to userservice to update matched pair
+            })    
     } catch (error) {
         console.error('Error starting collaboration', error);
-        return null;
     }
 }
 
@@ -45,14 +60,14 @@ export const getCollaborationSession: RequestHandler = async (req: Request, res:
     
     try {
         // Call service to retrieve session data
-        const session = await getSessionData(sessionId);
+        const sessionResponse = await getSessionDataFromMongo(sessionId);
 
-        if (!session) {
+        if (!sessionResponse) {
             res.status(404).json({error: 'Session not found'});
             return;
         }
 
-        res.status(200).json(session);
+        res.status(200).json(sessionResponse);
         return;
     } catch (error) {
         console.error('Error fetching collaboration session', error);
@@ -60,3 +75,35 @@ export const getCollaborationSession: RequestHandler = async (req: Request, res:
         return;
     }
 };
+
+export const getDocument: RequestHandler = async (req: Request, res: Response): Promise<void> => {
+    const id = req.params.documentId
+    const doc = await SessionModel.findById({_id: id})
+    if (doc) {
+        res.status(200).json({
+            message: "Request successful",
+            code: doc.code
+        })
+    } else {
+        res.status(404).json({
+            message: "Could not find code",
+            code: ""
+        })
+    }
+}
+
+export const saveCodeToDocument: RequestHandler = async(req: Request, res: Response): Promise<void> => {
+    const id = req.body.documentId
+    const codeToUpdate = req.body.code
+    await SessionModel.findByIdAndUpdate({_id: id}, {code: codeToUpdate})
+        .then(data => {
+            res.status(200).json({
+                message: "Code updated"
+            })
+        })
+        .catch((err) => {
+            res.status(400).json({
+                message: err.message
+            })
+        })
+}

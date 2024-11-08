@@ -34,7 +34,7 @@ const startConsume = async (onMessage: (message: Message) => void) => {
   }
 }
 
-export const updateUserService = (session: Session) => {
+export const updateUserService = (session: any) => {
   channel.assertQueue(ADD_SESSION_QUEUE,{durable: true})
   channel.sendToQueue(ADD_SESSION_QUEUE, Buffer.from(JSON.stringify(session)))
 }
@@ -52,7 +52,6 @@ async function onMessage(message: any) {
   console.log("BEFORE CALLING INITIATE COLLABORATION - sessionId: ", sessionId);
   // creates collaboration service 
   await initiateCollaboration(sessionId, finalDifficulty, finalCategory, username1, username2);
-
 }
 
 function processPreferences(matchedUsers: any): { finalDifficulty: string, finalCategory: string } {

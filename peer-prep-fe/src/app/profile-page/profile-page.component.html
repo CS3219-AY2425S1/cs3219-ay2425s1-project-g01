@@ -11,10 +11,18 @@
     <h2 class="field">Questions Attempted:</h2>
     <ul class="value">
       <li *ngFor="let i of matches">
-        <p>{{i.question_title}} ({{i.question_complexity}}) - {{i.dateTime}}</p>
+        <p class="item">
+          {{i.question_title}} ({{i.question_complexity}}) - {{i.dateTime}} 
+          <button (click)="viewCode(i.IdInSessionDB)">View</button>
+        </p>
       </li>
     </ul>
   </div>
+  <div class="editor-container">
+    <h2>Editor</h2>
+    <ngx-monaco-editor class="editor" [options]="editorOptions" [(ngModel)]="code"></ngx-monaco-editor>
+  </div>
+
 
 
 
