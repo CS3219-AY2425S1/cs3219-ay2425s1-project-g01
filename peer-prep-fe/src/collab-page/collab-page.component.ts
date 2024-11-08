@@ -47,17 +47,27 @@ export class CollabPageComponent implements OnInit, OnDestroy {
 
       this.userId = this.route.snapshot.queryParamMap.get('userId') || '';
 
-      this.fetchSessionData();
-      console.log('Entering code')
-
+      console.log('Entering editor');
       // Connect to the code editor WebSocket service
-      this.editorWebSocketService.connect(this.sessionId, this.userId);
+      this.fetchSessionData().then(() => {
+        this.editorWebSocketService.connect(this.sessionId, this.userId);  // Connect editor WebSocket here
+        this.listenForEditorMessages();
+      });
 
-      console.log('Entering chat')
+      console.log('Entering chat');
       // Connect to the chat WebSocket service
       this.chatWebSocketService.connect(this.sessionId, this.userId);
     });
   }
+
+  private listenForEditorMessages(): void {
+    this.editorWebSocketService.getMessages().subscribe(message => {
+      if (message && this.editor) {
+        this.editor.handleWebSocketMessage(message);  // Pass messages to the editor component
+      }
+    });
+  }
+  
 
   fetchSessionData(): Promise<void> {
     console.log("CURRENTLY AT BEFORE FETCHING QUESTION");
