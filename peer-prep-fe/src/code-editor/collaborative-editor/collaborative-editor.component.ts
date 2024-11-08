@@ -33,7 +33,8 @@ export class CollaborativeEditorComponent implements OnInit, OnDestroy {
     language: 'javascript',
     paths: {
       vs: 'https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.52.0/min/vs/'
-    }
+    },
+    readOnly: false,
   };
   code: string = '';
   line: number = 1;
@@ -42,6 +43,9 @@ export class CollaborativeEditorComponent implements OnInit, OnDestroy {
   private messageSubscription!: Subscription;
 
   private editor!: monaco.editor.IStandaloneCodeEditor;
+
+  isLocked: boolean = false;
+  private typingTimeout: any;
 
   constructor(
     private webSocketService: WebSocketService,
@@ -64,23 +68,49 @@ export class CollaborativeEditorComponent implements OnInit, OnDestroy {
           this.addNotification(`User ${message.userID} connected`);
         } else if (message.type === 'userDisconnected') {
           this.addNotification(`User ${message.userID} disconnected`);
+        } else if (message.type === 'typingStarted') {
+          if (message.userID !== this.userId) {
+            this.addNotification(`User ${message.userID} is typing...`);
+            this.isLocked = true;
+            this.updateEditorLock();
+          }
+        } else if (message.type === 'typingEnded') {
+          if (message.userID !== this.userId) {
+            this.isLocked = false;
+            this.updateEditorLock();
+            this.clearNotification();
+          }
         }
       }
     });
   }
 
+  updateEditorLock() {
+    this.editorOptions = { ...this.editorOptions, readOnly: this.isLocked };
+    this.cdr.detectChanges();
+  }
+
   addNotification(message: string) {
-    this.notifications.push(message);
-    // Auto-remove notification after a few seconds
-    setTimeout(() => {
-      this.notifications.shift();
-      this.cdr.detectChanges();
-    }, 3000);
+    this.notifications = [message];
+    this.cdr.detectChanges();
+  }
+
+  clearNotification() {
+    this.notifications = [];
+    this.cdr.detectChanges();
   }
 
   onEditorChange(content: string) {
-    // Send updated content to the WebSocket server
-    this.webSocketService.sendMessage({ type: 'code', content });
+    if (!this.isLocked) {
+      this.webSocketService.sendMessage({ type: 'code', content });
+
+      // Send typing status messages
+      this.webSocketService.sendMessage({ type: 'typingStarted', userID: this.userId });
+      clearTimeout(this.typingTimeout);
+      this.typingTimeout = setTimeout(() => {
+        this.webSocketService.sendMessage({ type: 'typingEnded', userID: this.userId });
+      }, 2000); // Adjust the timeout as necessary
+    }
   }
 
   onEditorInit(editor: monaco.editor.IStandaloneCodeEditor) {
@@ -127,6 +157,7 @@ export class CollaborativeEditorComponent implements OnInit, OnDestroy {
       if (this.messageSubscription) {
           this.messageSubscription.unsubscribe();
       }
+      clearTimeout(this.typingTimeout);
       this.webSocketService.disconnect();
   }
 }
