@@ -4,6 +4,7 @@ import { Observable } from "rxjs"
 import { SessionResponse } from "../app/models/session.model"
 import { Question } from "../app/models/question.model"
 import { baseUrlProduction } from "../../constants"
+import { Router } from "@angular/router"
 
 @Injectable({
   providedIn: "root",
@@ -15,7 +16,7 @@ export class CollabService {
         return window.location.hostname !== "localhost";
     }
     
-    constructor(private http: HttpClient) {}
+    constructor(private http: HttpClient, private router: Router) {}
 
     // Fetches session data by sessionId
     getSession(sessionId: string): Observable<SessionResponse> {
@@ -28,6 +29,13 @@ export class CollabService {
         documentId: docId,
         code: code
       })
+    }
+
+    isInSession(): boolean {
+      if (this.router.url.includes('/collab')) {
+        return false
+      }
+      return true
     }
 
     

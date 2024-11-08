@@ -30,9 +30,10 @@ export class authService {
   }
 
   logout(): void {
-    sessionStorage.removeItem("userData")
-    this.currentUserSubject.next(null)
     this.router.navigate(["/login"])
+    sessionStorage.removeItem("userData")
+    console.log("Logged out")
+    this.currentUserSubject.next(null)
     this.currentUser = null
   }
 
