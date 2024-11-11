@@ -42,6 +42,9 @@ export class MatchModalComponent implements OnInit {
   countdownSeconds: number = 31;
   frontendTimeoutSubscription: Subscription | undefined;
 
+  acceptCountdown: number = 10;
+  acceptTimeoutSubscription: Subscription | undefined;
+
   constructor(private router: Router,
     private route: ActivatedRoute,
     private matchService: MatchService,
@@ -60,21 +63,6 @@ export class MatchModalComponent implements OnInit {
     console.log('userData', this.userData);
     this.findMatch();
   }
-
-  // startCountDown() {
-  //   this.seconds = 30;
-  //   this.countdownSubscription = interval(1000).pipe(
-  //     take(this.seconds)
-  //   ).subscribe({
-  //     next: (value) => this.seconds--,
-  //     complete: () => this.onTimeout()
-  //   });
-  // }
-  // onTimeout() {
-  //   if(!this.matchFound) return;
-  //   this.timeout = true;
-  //   this.displayMessage = 'Timeout: oh no!'
-  // }
 
   async findMatch() {
 
@@ -155,7 +143,21 @@ export class MatchModalComponent implements OnInit {
       this.isCounting = false;
       this.otherUserId = response.matchedUsers[1].user_id;
       this.displayMessage = `BEST MATCH FOUND!`;
+      this.startAcceptTimer();
     }
+  }
+
+  startAcceptTimer() {
+    this.acceptCountdown = 10;
+    this.acceptTimeoutSubscription = timer(this.acceptCountdown * 1000).subscribe(() => {
+      if (!this.isVisible) return;
+      this.timeout = true;
+      this.isCounting = false;
+      this.displayMessage = 'Did not accept in time :('
+    });
+    interval(1000)
+      .pipe(take(this.acceptCountdown))
+      .subscribe(() => this.acceptCountdown--);
   }
 
   async setMyUsername(): Promise<void> {
@@ -197,6 +199,9 @@ export class MatchModalComponent implements OnInit {
     this.isVisible = false;
     if (this.countdownSubscription) {
       this.countdownSubscription.unsubscribe();
+    }
+    if (this.acceptTimeoutSubscription) {
+      this.acceptTimeoutSubscription.unsubscribe();
     }
     // navigate back to /landing
     this.router.navigate(['/landing']);

@@ -133,13 +133,14 @@
   font-family: Georgia, serif;
   font-size: 15px;
   position: absolute;
-  bottom: -20px;
+  bottom: -60px;
   background: #1b3853;
   color: #f1cc8f;
   border: 2px solid #f1cc8f;
   padding: 10px 20px;
   cursor: pointer;
   z-index: 2;
+  margin-left: 200px;
 }
 
 .cancel-button:hover {
@@ -227,3 +228,49 @@
     stroke: #374c4f;
   }
 }
+
+/* 10-second countdown styles */
+.accept-countdown-svg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.accept-countdown-circle {
+  fill: none;
+  stroke-width: 8;
+  transform: rotate(90deg);
+  transform-origin: center;
+  stroke-dasharray: 1288.05;
+  stroke-dashoffset: 0;
+  animation: accept-countdown 10s linear forwards, change-accept-colour 10s linear forwards;
+}
+
+@keyframes accept-countdown {
+  from {
+    stroke-dashoffset: 0;
+  }
+  to {
+    stroke-dashoffset: 1288.05;
+  }
+}
+
+@keyframes change-accept-colour {
+  0% {
+    stroke: darkseagreen;
+  }
+  50% {
+    stroke: mediumspringgreen;
+  }
+  100% {
+    stroke: darkgreen;
+  }
+}
+
+.accept-countdown-circle.timeout {
+  stroke: red;
+  animation: glow-animation-failure 1.5s infinite alternate;
+}
+
