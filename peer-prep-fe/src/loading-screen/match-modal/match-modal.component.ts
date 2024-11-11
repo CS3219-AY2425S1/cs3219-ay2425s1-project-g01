@@ -1,10 +1,11 @@
-import {Component, Injectable, Input, OnInit} from '@angular/core';
+import {Component, Injectable, Input, OnDestroy, OnInit} from '@angular/core';
 import {interval, Subscription, take, timer} from 'rxjs';
 import { NgClass, NgIf } from "@angular/common";
 import { Router, ActivatedRoute, NavigationExtras } from '@angular/router';
 import { MatchService } from '../../services/match.service';
 import { MatchResponse } from '../../app/models/match.model';
 import {UserService} from '../../app/userService/user-service';
+import {WebSocketService} from "../websocket.service";
 
 @Component({
   selector: 'app-match-modal',
@@ -18,7 +19,7 @@ import {UserService} from '../../app/userService/user-service';
 })
 
 @Injectable({providedIn: 'root'})
-export class MatchModalComponent implements OnInit {
+export class MatchModalComponent implements OnInit, OnDestroy {
 
   @Input() queueName: string = '';
   @Input() userId: string = '';
@@ -45,10 +46,15 @@ export class MatchModalComponent implements OnInit {
   acceptCountdown: number = 10;
   acceptTimeoutSubscription: Subscription | undefined;
 
+  waitingForOtherUser: boolean = false;
+  bothAcceptedSub: Subscription | undefined;
+  userCanceledSub: Subscription | undefined;
+
   constructor(private router: Router,
     private route: ActivatedRoute,
     private matchService: MatchService,
-    private userService: UserService) {}
+    private userService: UserService,
+    private webSocketService: WebSocketService) {}
 
   async ngOnInit(): Promise<void> {
     // Placeholder for component initialization if needed
@@ -92,6 +98,23 @@ export class MatchModalComponent implements OnInit {
       this.otherUsername = isUser1 ? response.matchedUsers[1].username : response.matchedUsers[0].username;
       this.collabSessionId = response.sessionId;
       // console.log('otherUsername', this.otherUsername);
+
+      await this.webSocketService.connect(this.collabSessionId, this.userId);
+
+      if(this.bothAcceptedSub) this.bothAcceptedSub.unsubscribe();
+      if(this.userCanceledSub) this.userCanceledSub.unsubscribe();
+
+      this.bothAcceptedSub = this.webSocketService.onBothAccepted().subscribe(() => {
+        console.log("Both users have accepted. Navigating to collaboration page.");
+        this.displayMessage = 'Both users accepted!';
+        this.navigateToCollab();
+      });
+
+      this.userCanceledSub = this.webSocketService.onUserCanceled().subscribe(() => {
+        this.displayMessage = 'User canceled';
+        this.waitingForOtherUser = false;
+      });
+
       this.clearFrontendTimeout();
       this.handleMatchResponseUi(response);
     }
@@ -179,13 +202,22 @@ export class MatchModalComponent implements OnInit {
   }
 
   acceptMatch() {
+    this.waitingForOtherUser = true;
+    this.displayMessage = 'Waiting for other user to accept...';
+    this.webSocketService.sendAccept(this.collabSessionId, this.userId);
+
+
+    console.log("sent accepted");
+  }
+
+  navigateToCollab() {
     this.isVisible = false;
-    // Logic to navigate to the next page
     const navigationExtras: NavigationExtras = {
       queryParams: {
         userId: this.userId,
       }
     };
+    this.webSocketService.disconnect();
     this.router.navigate(['collab', this.collabSessionId], navigationExtras);
   }
 
@@ -203,8 +235,20 @@ export class MatchModalComponent implements OnInit {
     if (this.acceptTimeoutSubscription) {
       this.acceptTimeoutSubscription.unsubscribe();
     }
+
+    if (this.matchFound && this.collabSessionId) {
+      this.webSocketService.sendCancel(this.collabSessionId, this.userId);
+      this.webSocketService.disconnect();
+    }
+
     // navigate back to /landing
     this.router.navigate(['/landing']);
+  }
+
+  ngOnDestroy(): void {
+    if (this.bothAcceptedSub) this.bothAcceptedSub.unsubscribe();
+    if (this.userCanceledSub) this.userCanceledSub.unsubscribe();
+    this.webSocketService.disconnect();
   }
 }
 
