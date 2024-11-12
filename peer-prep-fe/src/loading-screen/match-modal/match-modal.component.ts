@@ -30,7 +30,6 @@ export class MatchModalComponent implements OnInit, OnDestroy {
   matchFound: boolean = false;
   timeout: boolean = false;
   displayMessage: string = 'Finding Suitable Match...';
-  smallMessage: string = '';
   countdownSubscription: Subscription | undefined;
   matchCheckSubscription: Subscription | undefined;
   userData: any;
@@ -132,14 +131,11 @@ export class MatchModalComponent implements OnInit, OnDestroy {
     }
   }
 
-<<<<<<< HEAD
   sleep(ms: number): Promise<void> {
     return new Promise(resolve => setTimeout(resolve, ms));
   }
   
 
-=======
->>>>>>> main
   startFrontendCountdown() {
     this.countdownSubscription = interval(1000)
       .pipe(take(this.countdownSeconds))
