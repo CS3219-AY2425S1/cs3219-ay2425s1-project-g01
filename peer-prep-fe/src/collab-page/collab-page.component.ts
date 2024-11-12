@@ -21,7 +21,7 @@ import { ChatComponent } from '../chat-feature/chat/chat.component';
 export class CollabPageComponent implements OnInit, OnDestroy {
   sessionId!: string;
   userId!: string;
-  userName!: string;
+  currentUser!: string;
   question!: Question;
   username!: string;
   pairedUsername!: string;
@@ -29,6 +29,8 @@ export class CollabPageComponent implements OnInit, OnDestroy {
   private routeSubscription!: Subscription;
   private sessionSubscription!: Subscription;
   showChat: boolean = false;
+
+
 
   @ViewChild(CollaborativeEditorComponent) editor!: CollaborativeEditorComponent;
 
@@ -45,14 +47,18 @@ export class CollabPageComponent implements OnInit, OnDestroy {
     this.routeSubscription = this.route.params.subscribe(params => {
       this.sessionId = params['sessionId'];
 
+      this.getCurrUser();
+      console.log(`FK ME: ${this.currentUser}`);
+
       this.userId = this.route.snapshot.queryParamMap.get('userId') || '';
 
       console.log('Entering editor');
       // Connect to the code editor WebSocket service
       this.fetchSessionData().then(() => {
-        this.editorWebSocketService.connect(this.sessionId, this.userId);  // Connect editor WebSocket here
+        this.editorWebSocketService.connect(this.sessionId, this.userId, this.currentUser);  // Connect editor WebSocket here
         this.listenForEditorMessages();
       });
+
 
       console.log('Entering chat');
       // Connect to the chat WebSocket service
@@ -67,7 +73,7 @@ export class CollabPageComponent implements OnInit, OnDestroy {
       }
     });
   }
-  
+
 
   fetchSessionData(): Promise<void> {
     console.log("CURRENTLY AT BEFORE FETCHING QUESTION");
@@ -114,6 +120,13 @@ export class CollabPageComponent implements OnInit, OnDestroy {
     this.editorWebSocketService.disconnect();
     this.chatWebSocketService.disconnect();
     this.router.navigate(['landing']);
+  }
+
+  getCurrUser() {
+    const userData = (sessionStorage.getItem("userData") || '') as string
+    if ( userData !== '') {
+      this.currentUser = JSON.parse(userData).data.username
+    }
   }
 
   ngOnDestroy(): void {

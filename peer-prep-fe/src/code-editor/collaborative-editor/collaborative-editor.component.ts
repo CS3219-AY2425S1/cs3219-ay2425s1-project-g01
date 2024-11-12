@@ -27,6 +27,7 @@ export class CollaborativeEditorComponent implements OnDestroy {
   @Input() sessionId!: string;
   @Input() userId!: string;
   @Input() docId!: string;
+  @Input() userName!: string;
 
   editorOptions = {
     theme: 'vs-dark',
@@ -60,12 +61,12 @@ export class CollaborativeEditorComponent implements OnDestroy {
     } else if (message.type === 'code') {
       this.code = message.content;
     } else if (message.type === 'userConnected') {
-      this.addNotification(`User ${message.userID} connected`);
+      this.addNotification(`User ${message.userName} connected`);
     } else if (message.type === 'userDisconnected') {
-      this.addNotification(`User ${message.userID} disconnected`);
+      this.addNotification(`User ${message.userName} disconnected`);
     } else if (message.type === 'typingStarted') {
       if (message.userID !== this.userId) {
-        this.addNotification(`User ${message.userID} is typing...`);
+        this.addNotification(`User ${message.userName} is typing...`);
         this.isLocked = true;
         this.updateEditorLock();
       }
@@ -77,7 +78,7 @@ export class CollaborativeEditorComponent implements OnDestroy {
       }
     }
   }
-  
+
 
   updateEditorLock() {
     this.editorOptions = { ...this.editorOptions, readOnly: this.isLocked };
@@ -99,10 +100,10 @@ export class CollaborativeEditorComponent implements OnDestroy {
       this.webSocketService.sendMessage({ type: 'code', content });
 
       // Send typing status messages
-      this.webSocketService.sendMessage({ type: 'typingStarted', userID: this.userId });
+      this.webSocketService.sendMessage({ type: 'typingStarted', userID: this.userId, userName: this.userName });
       clearTimeout(this.typingTimeout);
       this.typingTimeout = setTimeout(() => {
-        this.webSocketService.sendMessage({ type: 'typingEnded', userID: this.userId });
+        this.webSocketService.sendMessage({ type: 'typingEnded', userID: this.userId, userName: this.userName });
       }, 2000); // Adjust the timeout as necessary
     }
   }
