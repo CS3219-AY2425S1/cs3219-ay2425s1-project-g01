@@ -7,6 +7,10 @@ const SessionSchema = new Schema({
     type: Object,
     required: true
   },
+  matchedUserIds: {
+    type: Object,
+    required: true
+  },
   question: {
     type: Object,
     required: true,
