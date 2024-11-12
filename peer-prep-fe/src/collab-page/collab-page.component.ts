@@ -129,6 +129,10 @@ export class CollabPageComponent implements OnInit, OnDestroy {
   }
 
   getCurrUser() {
-    return JSON.parse(sessionStorage.getItem("userData")!).data.username
+    const userData = (sessionStorage.getItem("userData") || '') as string
+    if ( userData !== '') {
+      return JSON.parse(userData).data.username
+    }
+    return ''
   }
 }

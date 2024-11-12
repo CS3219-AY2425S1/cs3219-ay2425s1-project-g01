@@ -122,7 +122,9 @@ export class ChatComponent implements OnInit, OnDestroy {
   }
 
   setMyUsername(): void {
-    this.myUsername = JSON.parse(sessionStorage.getItem('userData')!).data.username
+    const userData = (sessionStorage.getItem("userData") || '') as string
+    if ( userData !== '') {
+      this.myUsername = JSON.parse(userData).data.username
+    }
   }
-
 }
