@@ -1,6 +1,6 @@
 import {ChangeDetectorRef, Component, Injectable, Input, OnDestroy, OnInit} from '@angular/core';
 import {FormsModule} from '@angular/forms';
-import {WebSocketService} from '../websocket.service';
+import {WebSocketService} from '../../services/code-websocket.service';
 import {MonacoEditorModule} from 'ngx-monaco-editor-v2';
 import {Subscription} from 'rxjs';
 import * as monaco from 'monaco-editor';

@@ -5,7 +5,7 @@ import { Router, ActivatedRoute, NavigationExtras } from '@angular/router';
 import { MatchService } from '../../services/match.service';
 import { MatchResponse } from '../../app/models/match.model';
 import {UserService} from '../../app/userService/user-service';
-import {WebSocketService} from "../websocket.service";
+import {WebSocketService} from "../../services/match-websocket.service";
 
 @Component({
   selector: 'app-match-modal',

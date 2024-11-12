@@ -3,7 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { of, Subject } from 'rxjs';
 import { CollabPageComponent } from './collab-page.component';
 import { CollabService } from '../services/collab.service';
-import { WebSocketService } from '../code-editor/websocket.service';
+import { WebSocketService } from '../services/code-websocket.service';
 import { NGX_MONACO_EDITOR_CONFIG } from 'ngx-monaco-editor-v2';
 
 describe('CollabPageComponent', () => {

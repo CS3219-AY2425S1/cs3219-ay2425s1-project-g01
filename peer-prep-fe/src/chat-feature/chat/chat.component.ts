@@ -2,7 +2,7 @@ import { CommonModule, NgClass } from '@angular/common';
 import { Component, OnInit, OnDestroy, Input, ChangeDetectorRef, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Subscription } from 'rxjs';
-import { WebSocketService } from '../websocket.service'; 
+import { WebSocketService } from '../../services/chat-websocket.service'; 
 import { MessageService } from '../../services/message.service';
 
 @Component({
@@ -15,9 +15,10 @@ import { MessageService } from '../../services/message.service';
 export class ChatComponent implements OnInit, OnDestroy {
   @Input() sessionId!: string;
   @Input() userId!: string;
+  @Input() matchedUser!: string;
   @ViewChild('chatContainer') private chatContainer!: ElementRef;
 
-  messages: { userID: string; content: string;}[] = [];
+  messages: { userID: string; content: string; username: string}[] = [];
   newMessage: string = '';
   private messageSubscription!: Subscription;
   myUsername: string = '';
@@ -39,12 +40,13 @@ export class ChatComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     console.log('INIT')
     this.messages = this.messageService.getMessages().slice();
+    this.setMyUsername()
     this.webSocketService.connect(this.sessionId, this.userId);
 
     // Subscribe to incoming messages
     this.messageSubscription = this.webSocketService.getMessages().subscribe((message) => {
       if (message.type === 'chat') {
-        const newMessage = { userID: message.userID, content: message.content};
+        const newMessage = { userID: message.userID, content: message.content, username: this.matchedUser };
         this.messages.push(newMessage);
         this.messageService.addMessage(newMessage);
 
@@ -71,12 +73,12 @@ export class ChatComponent implements OnInit, OnDestroy {
         type: 'chat',
         userID: this.userId,
         content: this.newMessage.trim(),
+        username: this.myUsername
       };
 
-      this.messages.push({ userID: this.userId, content: this.newMessage, });
-      this.messageService.addMessage({ userID: this.userId, content: this.newMessage});
-
-      
+      this.messages.push({ userID: this.userId, content: this.newMessage, username: this.myUsername});
+      this.messageService.addMessage({ userID: this.userId, content: this.newMessage, username: this.myUsername});
+ 
       this.webSocketService.sendMessage(message);
       this.newMessage = ''; // Clear the input field
       
@@ -117,5 +119,12 @@ export class ChatComponent implements OnInit, OnDestroy {
   // Track user interaction
   onUserInteraction(): void {
     this.hasUserInteracted = true;
+  }
+
+  setMyUsername(): void {
+    const userData = (sessionStorage.getItem("userData") || '') as string
+    if ( userData !== '') {
+      this.myUsername = JSON.parse(userData).data.username
+    }
   }
 }

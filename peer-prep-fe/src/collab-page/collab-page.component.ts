@@ -4,8 +4,8 @@ import { SidebarComponent } from '../components/sidebar/sidebar.component';
 import { Router, ActivatedRoute } from '@angular/router';
 import { CollaborativeEditorComponent } from "../code-editor/collaborative-editor/collaborative-editor.component";
 import { CollabService } from '../services/collab.service';
-import { WebSocketService as EditorWebSocketService } from '../code-editor/websocket.service';  // WebSocket service for the editor
-import { WebSocketService as ChatWebSocketService } from '../chat-feature/websocket.service';  // WebSocket service for the chat
+import { WebSocketService as EditorWebSocketService } from '../services/code-websocket.service';  // WebSocket service for the editor
+import { WebSocketService as ChatWebSocketService } from '../services/chat-websocket.service';  // WebSocket service for the chat
 import { Question } from '../app/models/question.model';
 import { SessionResponse } from '../app/models/session.model';
 import { Subscription } from 'rxjs';
@@ -86,9 +86,8 @@ export class CollabPageComponent implements OnInit, OnDestroy {
             console.log("Fetched session question", this.question);
           }
           this.username = session.users.username1;
-          console.log("username 1: ", this.username);
           this.pairedUsername = session.users.username2;
-          console.log("username 2: ", this.pairedUsername);
+
           this.docId = session.docId
           resolve(); // Resolve the promise when data is fetched
         },

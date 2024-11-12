@@ -22,7 +22,7 @@
   
   .chat-messages {
     flex: 1;
-    overflow-y: auto; /* Allow vertical scrolling */
+    overflow-y: auto;
     overflow-x: hidden;
     padding: 10px;
     background-color: black;
@@ -31,17 +31,17 @@
     display: flex;
     flex-direction: column;
     gap: 10px;
-    scrollbar-width: none; /* Firefox */
+    scrollbar-width: none;
   }
   
   .chat-messages::-webkit-scrollbar {
-    display: none; /* Chrome, Safari, and newer versions of Edge */
+    display: none; 
   }
   
   .chat-input-container {
     display: flex;
     align-items: center;
-    gap: 10px; /* Space between input and button */
+    gap: 10px; 
     padding: 10px;
     background-color: #242222;
     border-radius: 10px;

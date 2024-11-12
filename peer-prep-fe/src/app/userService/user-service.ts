@@ -44,7 +44,7 @@ export class UserService {
   }
 
   getCurrUserId(): string {
-    return this.userJson !== null ? JSON.parse(this.userJson).data.id : "";
+    return sessionStorage.getItem("userData") !== null ? JSON.parse(sessionStorage.getItem("userData")!).data.id : "";
   }
 
   getUser(id: string): Observable<any> {

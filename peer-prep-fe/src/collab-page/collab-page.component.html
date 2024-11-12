@@ -31,6 +31,8 @@
         <!-- <div class="editor-container"> -->
         <app-collaborative-editor [sessionId]="sessionId" [userId]="userId" [docId]="docId" [userName]="username"></app-collaborative-editor>
         <app-chat [sessionId]="sessionId" [userId]="userId"></app-chat>
+        <app-collaborative-editor [sessionId]="sessionId" [userId]="userId" [docId]="docId"></app-collaborative-editor>
+        <app-chat [sessionId]="sessionId" [userId]="userId" [matchedUser]="getCurrUser() === username ? pairedUsername : username"></app-chat>
 
         <!-- </div> -->
     </div>

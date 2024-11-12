@@ -1,5 +1,5 @@
 const WebSocket = require('ws');
-const server = new WebSocket.Server({ port: 8083 });
+const server = new WebSocket.Server({ port: process.env.PORT || 8083 });
 
 const sessions = {};
 
