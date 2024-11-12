@@ -105,9 +105,13 @@ export class MatchModalComponent implements OnInit, OnDestroy {
       if(this.bothAcceptedSub) this.bothAcceptedSub.unsubscribe();
       if(this.userCanceledSub) this.userCanceledSub.unsubscribe();
 
-      this.bothAcceptedSub = this.webSocketService.onBothAccepted().subscribe(() => {
+      this.bothAcceptedSub = this.webSocketService.onBothAccepted().subscribe(async () => {
         console.log("Both users have accepted. Navigating to collaboration page.");
         this.displayMessage = 'Both users accepted!';
+        if (this.acceptTimeoutSubscription) {
+          this.acceptTimeoutSubscription.unsubscribe();
+        }
+        await this.sleep(2000);
         this.navigateToCollab();
       });
 
@@ -126,6 +130,11 @@ export class MatchModalComponent implements OnInit, OnDestroy {
       this.handleMatchResponseUi(response);
     }
   }
+
+  sleep(ms: number): Promise<void> {
+    return new Promise(resolve => setTimeout(resolve, ms));
+  }
+  
 
   startFrontendCountdown() {
     this.countdownSubscription = interval(1000)

@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { webSocket, WebSocketSubject } from 'rxjs/webSocket';
 import { Observable } from 'rxjs';
-import { baseUrlProduction } from '../../constants';
 
 @Injectable({
   providedIn: 'root'

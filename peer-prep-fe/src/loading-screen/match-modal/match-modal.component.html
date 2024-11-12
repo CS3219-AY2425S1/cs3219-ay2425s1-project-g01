@@ -46,7 +46,11 @@
             </div>
           </div>
           <div class="button-wrapper">
-            <button class="inner-button" (click)="acceptMatch()">Accept!</button>
+            <button 
+            class="inner-button" 
+            (click)="acceptMatch()" 
+            [ngClass]="{ 'disabled-button': matchAccepted }"
+            [disabled]="matchAccepted">Accept!</button>
           </div>
         </div>
 
@@ -90,25 +94,6 @@
                     <div class="matching-container" *ngIf="!matchFound && !timeout">
                       <div class="message">{{ displayMessage }}</div>
                       <div class="details">{{ difficulty }} • {{ category }}</div>
-                    </div>
-
-                    <!-- MATCH FOUND, SHOW BOTH PLAYERS, WAITING FOR ACCEPTANCE -->
-                    <div class="inner-content" *ngIf="matchFound && !timeout">
-                      <div class="message">{{ displayMessage }}</div>
-                      <div class="player-info">
-                        <div class="player my-player">
-                          <div class="player-details">{{ myUsername }}</div>
-                          <div class="player-details">{{ difficulty }} • {{ category }}</div>
-                        </div>
-                        <div class="versus my-player">vs</div>
-                        <div class="player my-player">
-                          <div class="player-details">{{ otherUsername }}</div>
-                          <div class="player-details">{{ otherDifficulty }} • {{ otherCategory }}</div>
-                        </div>
-                      </div>
-                      <div class="button-wrapper">
-                        <button class="inner-button" (click)="acceptMatch()" [disabled]="matchAccepted">Accept!</button>
-                      </div>
                     </div>
 
                     <!-- MATCH FOUND, ACCEPT TIMER EXPIRED -->

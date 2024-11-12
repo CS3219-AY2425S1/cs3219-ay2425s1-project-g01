@@ -129,6 +129,25 @@
   transform: scale(1.1);
 }
 
+.disabled-button {
+  background: #1b3853;
+  color: rgb(128, 128, 128);
+  border: 2px solid #8ac0c6;
+  font-family: Georgia, serif;
+  font-size: 20px;
+  padding: 10px 20px;
+  cursor: not-allowed;
+  z-index: 2;
+  opacity: 0.5;
+}
+
+.disabled-button:hover {
+  background: #1b3853;
+  box-shadow: none;
+  border-color: #8ac0c6;
+  transform: none;
+}
+
 .cancel-button {
   font-family: Georgia, serif;
   font-size: 15px;
