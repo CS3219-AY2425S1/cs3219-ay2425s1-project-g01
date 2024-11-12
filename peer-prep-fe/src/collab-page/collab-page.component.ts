@@ -128,6 +128,13 @@ export class CollabPageComponent implements OnInit, OnDestroy {
     }
   }
 
+  getCurrUserReturn() {
+    const userData = (sessionStorage.getItem("userData") || '') as string
+    if ( userData !== '') {
+      return this.currentUser = JSON.parse(userData).data.username
+    }
+  }
+
   ngOnDestroy(): void {
     // Unsubscribe from route and session subscriptions
     if (this.routeSubscription) {
