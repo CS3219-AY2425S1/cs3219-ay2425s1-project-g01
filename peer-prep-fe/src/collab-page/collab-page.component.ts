@@ -21,7 +21,6 @@ import { ChatComponent } from '../chat-feature/chat/chat.component';
 export class CollabPageComponent implements OnInit, OnDestroy {
   sessionId!: string;
   userId!: string;
-  userName!: string;
   question!: Question;
   username!: string;
   pairedUsername!: string;
@@ -127,5 +126,13 @@ export class CollabPageComponent implements OnInit, OnDestroy {
     // Disconnect both WebSocket services
     this.editorWebSocketService.disconnect();
     this.chatWebSocketService.disconnect();
+  }
+
+  getCurrUser() {
+    const userData = (sessionStorage.getItem("userData") || '') as string
+    if ( userData !== '') {
+      return JSON.parse(userData).data.username
+    }
+    return ''
   }
 }

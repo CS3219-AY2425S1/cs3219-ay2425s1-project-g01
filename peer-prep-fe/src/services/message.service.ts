@@ -5,9 +5,9 @@ import { Injectable } from '@angular/core';
   providedIn: 'root',
 })
 export class MessageService {
-  private messages: { userID: string; content: string;  }[] = [];
+  private messages: { userID: string; content: string; username: string  }[] = [];
 
-  addMessage(message: { userID: string; content: string; }) {
+  addMessage(message: { userID: string; content: string; username: string}) {
     this.messages.push(message);
   }
 
