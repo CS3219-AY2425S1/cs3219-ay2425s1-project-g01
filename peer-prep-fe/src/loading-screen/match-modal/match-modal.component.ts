@@ -1,5 +1,5 @@
 import {Component, Injectable, Input, OnInit} from '@angular/core';
-import { Subscription } from 'rxjs';
+import {interval, Subscription, take, timer} from 'rxjs';
 import { NgClass, NgIf } from "@angular/common";
 import { Router, ActivatedRoute, NavigationExtras } from '@angular/router';
 import { MatchService } from '../../services/match.service';
@@ -39,6 +39,12 @@ export class MatchModalComponent implements OnInit {
   otherDifficulty: string = '';
   collabSessionId: string = '';
 
+  countdownSeconds: number = 31;
+  frontendTimeoutSubscription: Subscription | undefined;
+
+  acceptCountdown: number = 10;
+  acceptTimeoutSubscription: Subscription | undefined;
+
   constructor(private router: Router,
     private route: ActivatedRoute,
     private matchService: MatchService,
@@ -58,21 +64,6 @@ export class MatchModalComponent implements OnInit {
     this.findMatch();
   }
 
-  // startCountDown() {
-  //   this.seconds = 30;
-  //   this.countdownSubscription = interval(1000).pipe(
-  //     take(this.seconds)
-  //   ).subscribe({
-  //     next: (value) => this.seconds--,
-  //     complete: () => this.onTimeout()
-  //   });
-  // }
-  // onTimeout() {
-  //   if(!this.matchFound) return;
-  //   this.timeout = true;
-  //   this.displayMessage = 'Timeout: oh no!'
-  // }
-
   async findMatch() {
 
     this.isVisible = true;
@@ -80,15 +71,19 @@ export class MatchModalComponent implements OnInit {
     this.matchFound = false;
     this.timeout = false;
     this.displayMessage = 'Finding Suitable Match...';
-    
+
+    this.startFrontendCountdown();
+
     // response - MatchResponse structure, contains matchedUsers[2], sessionId, timeout
     const response = await this.matchService.sendMatchRequest(this.userData, this.queueName);
-    
+
+
     console.log('RESPONSE FROM FINDMATCH ', response);
     console.log('TIMEOUT FROM FINDMATCH ', response.timeout);
 
     // TODO (in BE too): UI if matching process gets disrupted (e.g. rabbitmq server goes down) - avoid silent failures
     if (response.timeout) {
+      this.clearFrontendTimeout();
       this.handleMatchResponseUi(response);
     } else {
       const isUser1 = response.matchedUsers[0].user_id === this.userId;
@@ -97,8 +92,40 @@ export class MatchModalComponent implements OnInit {
       this.otherUsername = isUser1 ? response.matchedUsers[1].username : response.matchedUsers[0].username;
       this.collabSessionId = response.sessionId;
       // console.log('otherUsername', this.otherUsername);
+      this.clearFrontendTimeout();
       this.handleMatchResponseUi(response);
     }
+  }
+
+  startFrontendCountdown() {
+    this.countdownSubscription = interval(1000)
+      .pipe(take(this.countdownSeconds))
+      .subscribe({
+        next: () => this.countdownSeconds--,
+        complete: () => this.onFrontendTimeout()
+      });
+    this.frontendTimeoutSubscription = timer(this.countdownSeconds * 1000).subscribe(() => {
+      this.onFrontendTimeout();
+    });
+  }
+
+  onFrontendTimeout() {
+    if (!this.matchFound) {
+      this.timeout = true;
+      this.isCounting = false;
+      this.displayMessage = 'No matches found';
+      this.clearFrontendTimeout();
+    }
+  }
+
+  clearFrontendTimeout() {
+    if (this.frontendTimeoutSubscription) {
+      this.frontendTimeoutSubscription.unsubscribe();
+    }
+    if (this.countdownSubscription) {
+      this.countdownSubscription.unsubscribe();
+    }
+    this.countdownSeconds = 31;
   }
 
   handleMatchResponseUi(response: MatchResponse) {
@@ -116,7 +143,21 @@ export class MatchModalComponent implements OnInit {
       this.isCounting = false;
       this.otherUserId = response.matchedUsers[1].user_id;
       this.displayMessage = `BEST MATCH FOUND!`;
+      this.startAcceptTimer();
     }
+  }
+
+  startAcceptTimer() {
+    this.acceptCountdown = 10;
+    this.acceptTimeoutSubscription = timer(this.acceptCountdown * 1000).subscribe(() => {
+      if (!this.isVisible) return;
+      this.timeout = true;
+      this.isCounting = false;
+      this.displayMessage = 'Did not accept in time :('
+    });
+    interval(1000)
+      .pipe(take(this.acceptCountdown))
+      .subscribe(() => this.acceptCountdown--);
   }
 
   async setMyUsername(): Promise<void> {
@@ -153,11 +194,14 @@ export class MatchModalComponent implements OnInit {
     this.findMatch();
   }
 
-  // TODO: HANDLE CANCEL MATCH - SYNC W MATCHING SVC BE PEEPS @KERVYN @IVAN 
+  // TODO: HANDLE CANCEL MATCH - SYNC W MATCHING SVC BE PEEPS @KERVYN @IVAN
   cancelMatch() {
     this.isVisible = false;
     if (this.countdownSubscription) {
       this.countdownSubscription.unsubscribe();
+    }
+    if (this.acceptTimeoutSubscription) {
+      this.acceptTimeoutSubscription.unsubscribe();
     }
     // navigate back to /landing
     this.router.navigate(['/landing']);
