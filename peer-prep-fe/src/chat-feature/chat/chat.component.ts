@@ -2,7 +2,7 @@ import { CommonModule, NgClass } from '@angular/common';
 import { Component, OnInit, OnDestroy, Input, ChangeDetectorRef, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Subscription } from 'rxjs';
-import { WebSocketService } from '../websocket.service'; 
+import { WebSocketService } from '../../services/chat-websocket.service'; 
 import { MessageService } from '../../services/message.service';
 
 @Component({

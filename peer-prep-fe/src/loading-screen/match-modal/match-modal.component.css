@@ -140,6 +140,20 @@
   padding: 10px 20px;
   cursor: pointer;
   z-index: 2;
+  right: 175px;
+}
+
+.cancel-button-accepted {
+  font-family: Georgia, serif;
+  font-size: 15px;
+  position: absolute;
+  bottom: -60px;
+  background: #1b3853;
+  color: #f1cc8f;
+  border: 2px solid #f1cc8f;
+  padding: 10px 20px;
+  cursor: pointer;
+  z-index: 2;
   margin-left: 200px;
 }
 
