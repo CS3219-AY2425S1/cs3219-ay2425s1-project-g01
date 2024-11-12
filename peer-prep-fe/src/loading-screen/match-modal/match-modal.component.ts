@@ -49,6 +49,7 @@ export class MatchModalComponent implements OnInit, OnDestroy {
   waitingForOtherUser: boolean = false;
   bothAcceptedSub: Subscription | undefined;
   userCanceledSub: Subscription | undefined;
+  matchAccepted: boolean = false;
 
   constructor(private router: Router,
     private route: ActivatedRoute,
@@ -113,6 +114,12 @@ export class MatchModalComponent implements OnInit, OnDestroy {
       this.userCanceledSub = this.webSocketService.onUserCanceled().subscribe(() => {
         this.displayMessage = 'User canceled';
         this.waitingForOtherUser = false;
+        this.timeout = true;
+        this.matchAccepted = false;
+
+        if (this.acceptTimeoutSubscription) {
+          this.acceptTimeoutSubscription.unsubscribe();
+        }
       });
 
       this.clearFrontendTimeout();
@@ -176,7 +183,10 @@ export class MatchModalComponent implements OnInit, OnDestroy {
       if (!this.isVisible) return;
       this.timeout = true;
       this.isCounting = false;
-      this.displayMessage = 'Did not accept in time :('
+      this.displayMessage = 'Unsuccessful Matching';
+      this.waitingForOtherUser = false;
+      this.matchAccepted = false;
+      this.webSocketService.sendCancel(this.collabSessionId, this.userId);
     });
     interval(1000)
       .pipe(take(this.acceptCountdown))
@@ -202,11 +212,10 @@ export class MatchModalComponent implements OnInit, OnDestroy {
   }
 
   acceptMatch() {
+    this.matchAccepted = true;
     this.waitingForOtherUser = true;
-    this.displayMessage = 'Waiting for other user to accept...';
+    this.displayMessage = 'Waiting for other user...';
     this.webSocketService.sendAccept(this.collabSessionId, this.userId);
-
-
     console.log("sent accepted");
   }
 
@@ -238,6 +247,8 @@ export class MatchModalComponent implements OnInit, OnDestroy {
 
     if (this.matchFound && this.collabSessionId) {
       this.webSocketService.sendCancel(this.collabSessionId, this.userId);
+      this.waitingForOtherUser = false;
+      this.matchAccepted = false;
       this.webSocketService.disconnect();
     }
 
