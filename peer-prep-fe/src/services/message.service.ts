@@ -1,14 +1,19 @@
-// message.service.ts
 import { Injectable } from '@angular/core';
 
 @Injectable({
   providedIn: 'root',
 })
 export class MessageService {
-  private messages: { userID: string; content: string;  }[] = [];
+  private messages: { userID: string; content: string; }[] = [];
+
+  constructor() {
+    const storedMessages = localStorage.getItem('chatMessages');
+    this.messages = storedMessages ? JSON.parse(storedMessages) : [];
+  }
 
   addMessage(message: { userID: string; content: string; }) {
     this.messages.push(message);
+    localStorage.setItem('chatMessages', JSON.stringify(this.messages));
   }
 
   getMessages() {
@@ -17,5 +22,6 @@ export class MessageService {
 
   clearMessages() {
     this.messages = [];
+    localStorage.removeItem('chatMessages');
   }
 }
