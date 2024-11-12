@@ -1,11 +1,5 @@
-const express = require('express');
-const http = require('http');
 const WebSocket = require('ws');
-const app = express();
-const port = 8083;
-
-const server = http.createServer(app);
-const wss = new WebSocket.Server({ server });
+const server = new WebSocket.Server({ port: process.env.PORT || 8083 });
 
 const sessions = {};
 
@@ -21,12 +15,12 @@ function broadcast(sessionId, message) {
     }
 }
 
-wss.on('connection', (ws) => {
+server.on('connection', (socket, request) => {
     console.log('New connection established');
     let sessionId;
     let userId;
 
-    ws.on('message', (message) => {
+    socket.on('message', (message) => {
         const data = JSON.parse(message);
         sessionId = data.sessionId;
         userId = data.userId;
@@ -42,7 +36,7 @@ wss.on('connection', (ws) => {
         // Check if user is already in session
         const userExists = sessions[sessionId].clients.some(client => client.userId === userId);
         if (!userExists) {
-            sessions[sessionId].clients.push({ ws, userId });
+            sessions[sessionId].clients.push({ ws: socket, userId });
             console.log(`User ${userId} added to session ${sessionId}. Total clients in session: ${sessions[sessionId].clients.length}`);
         } else {
             console.log(`User ${userId} is already connected in session ${sessionId}`);
@@ -67,9 +61,10 @@ wss.on('connection', (ws) => {
         }
     });
 
-    ws.on('close', () => {
+    socket.on('close', () => {
         if (sessions[sessionId]) {
-            sessions[sessionId].clients = sessions[sessionId].clients.filter(client => client.ws !== ws);
+            sessions[sessionId].clients = sessions[sessionId].clients.filter(client => client.ws !== socket);
+            sessions[sessionId].acceptedUsers.delete(userId);
             console.log(`User ${userId} disconnected from session ${sessionId}. Remaining clients: ${sessions[sessionId].clients.length}`);
             if (sessions[sessionId].clients.length === 0) {
                 delete sessions[sessionId];
@@ -77,8 +72,4 @@ wss.on('connection', (ws) => {
             }
         }
     });
-});
-
-server.listen(port, () => {
-    console.log(`WebSocket server is listening on ws://localhost:${port}`);
 });

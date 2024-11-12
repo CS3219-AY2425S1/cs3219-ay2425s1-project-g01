@@ -23,7 +23,8 @@ export class WebSocketService {
       this.disconnect(); // Ensure any previous connection is cleared
     }
 
-    this.socket$ = new WebSocketSubject(`ws://localhost:8083`);
+    const matchWebSocketUrl = this.isProduction() ? `wss://match-websocket-1093398872288.asia-southeast1.run.app` : `ws://localhost:8083`;
+    this.socket$ = new WebSocketSubject(`${matchWebSocketUrl}`);
     this.socket$.subscribe(
       (message) => {
         console.log('Message received from server:', message);
@@ -34,6 +35,10 @@ export class WebSocketService {
     );
 
     console.log(`WebSocket connection opened for session: ${sessionId}, user: ${userId}`);
+  }
+
+  isProduction(): boolean {
+    return window.location.hostname !== "localhost";
   }
 
   sendAccept(sessionId: string, userId: string) {

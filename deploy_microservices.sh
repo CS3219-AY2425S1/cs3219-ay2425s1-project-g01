@@ -80,6 +80,18 @@ echo "chat-websocket deployed successfully."
 echo "------------------------------------------------------------------------------"
 
 echo "------------------------------------------------------------------------------"
+echo "Building and deploying match-websocket"
+docker build --platform linux/amd64 -t gcr.io/g01-peer-prep/match-websocket ./match-websocket
+docker tag gcr.io/g01-peer-prep/match-websocket:latest gcr.io/g01-peer-prep/match-websocket:latest
+docker push gcr.io/g01-peer-prep/match-websocket:latest
+gcloud run deploy match-websocket \
+  --image gcr.io/g01-peer-prep/match-websocket:latest \
+  --region asia-southeast1 \
+  --allow-unauthenticated
+echo "match-websocket deployed successfully."
+echo "------------------------------------------------------------------------------"
+
+echo "------------------------------------------------------------------------------"
 echo "Building and dploying peer-prep-gateway"
 docker build --platform linux/amd64 -t gcr.io/g01-peer-prep/peer-prep-gateway -f ./peer-prep-gateway/Dockerfile .
 docker tag gcr.io/g01-peer-prep/peer-prep-gateway:latest gcr.io/g01-peer-prep/peer-prep-gateway:latest
