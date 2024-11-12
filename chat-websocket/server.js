@@ -18,7 +18,7 @@ server.on('connection', (socket, request) => {
     if (!activeUsers[sessionID]) {
         activeUsers[sessionID] = {};
     }
-s
+
     activeUsers[sessionID][userID] = socket;
 
     // Broadcast to other users that a new user has connected
