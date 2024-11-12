@@ -3,7 +3,7 @@
 
     <div #chatContainer class="chat-messages">
         <div *ngFor="let message of messages" [ngClass]="{'sent-message': message.userID === message.userID, 'received-message': message.userID !== message.userID}">
-        <strong>{{ message.userID }}:</strong> {{ message.content }}
+        <strong>{{ message.username }}:</strong> {{ message.content }}
       </div>
     </div>
 
