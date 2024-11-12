@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 import { HttpClient, HttpClientModule } from "@angular/common/http"
 import {MonacoEditorModule} from 'ngx-monaco-editor-v2';
 import {FormsModule} from '@angular/forms';
+import { UserService } from '../userService/user-service';
 
 @Component({
   selector: 'app-profile-page',
@@ -13,7 +14,7 @@ import {FormsModule} from '@angular/forms';
   styleUrl: './profile-page.component.css'
 })
 export class ProfilePageComponent {
-  id: string | null = null
+  id: string = ''
   userName: string | null = null
   email: string | null = null
   matches: {
@@ -26,7 +27,7 @@ export class ProfilePageComponent {
     IdInSessionDB: string
   }[] = []
 
-  constructor(private authService: authService, private http: HttpClient) {}
+  constructor(private authService: authService, private http: HttpClient, private userService: UserService) {}
 
   editorOptions = {
     readOnly: true,
@@ -50,8 +51,16 @@ export class ProfilePageComponent {
         this.userName = username
         this.email = email
         this.id = id
-        this.matches = matches
       }
+    })
+    this.userService.getUser(this.id).subscribe({
+      next: (data: any) => {
+        this.matches= data.data.matches
+      },
+      error: (e) => {
+        console.error(e)
+      },
+      complete: () => {}
     })
   }
 

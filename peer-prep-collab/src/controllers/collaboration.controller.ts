@@ -36,21 +36,6 @@ export const initiateCollaboration = async (sessionId: string, difficulty: strin
     }
 }
 
-// Controller to handle creation of new collaboration service - kept for testing
-// export const startCollaboration: RequestHandler = async (req: Request, res: Response): Promise<void> => {
-//     const { sessionId, difficulty, category, username1, username2 } = req.body;
-//     try {
-//         // Call service to create collaboration service
-//         const session = await initiateCollaboration(sessionId, difficulty, category, username1, username2);
-//         res.status(200).json(session);
-//         return;
-//     } catch (error) {
-//         console.error('Error starting collaboration', error);
-//         res.status(500).jsonp('Error starting collaboration');
-//         return;
-//     }
-// };
-
 // Controller to handle fetching session data
 export const getCollaborationSession: RequestHandler = async (req: Request, res: Response): Promise<void> => {
     const { sessionId } = req.params;
