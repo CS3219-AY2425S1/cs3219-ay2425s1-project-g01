@@ -97,11 +97,6 @@ export class CreateAccountComponent {
           return response.json() // Parse the JSON from the response
         }
       })
-      .then((data) => {
-        this.authService.login(data)
-        this.router.navigate(["/"]) // Redirect to homepage when succesfully created account.
-        console.log(data) // Handle the response data
-      })
       .catch((error) => {
         console.error(
           "There has been a problem with your fetch operation:",

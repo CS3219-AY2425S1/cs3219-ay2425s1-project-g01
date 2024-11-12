@@ -4,7 +4,7 @@ import { updateUserService } from '..';
 import SessionModel from '../models/session.schema';
 import {Session} from '../models/session.model';
 
-export const initiateCollaboration = async (sessionId: string, difficulty: string, category: string, username1: string, username2: string) => {
+export const initiateCollaboration = async (sessionId: string, difficulty: string, category: string, username1: string, username2: string, userId1: string, userId2: string) => {
     try {
         // Get question based on given conditions
         const polledQuestion = await getQuestion(difficulty, category);
@@ -16,11 +16,13 @@ export const initiateCollaboration = async (sessionId: string, difficulty: strin
         const session: Session = {
             sessionId,
             users: {username1, username2},
+            userIds: {userId1, userId2},
             question: polledQuestion
         }
 
         const sessionDocument = new SessionModel({ //New entry to add to db
             matchedUsers: session.users,
+            matchedUserIds: session.userIds,
             question: session.question,
             sessionId: session.sessionId
         })
@@ -33,21 +35,6 @@ export const initiateCollaboration = async (sessionId: string, difficulty: strin
         console.error('Error starting collaboration', error);
     }
 }
-
-// Controller to handle creation of new collaboration service - kept for testing
-export const startCollaboration: RequestHandler = async (req: Request, res: Response): Promise<void> => {
-    const { sessionId, difficulty, category, username1, username2 } = req.body;
-    try {
-        // Call service to create collaboration service
-        const session = await initiateCollaboration(sessionId, difficulty, category, username1, username2);
-        res.status(200).json(session);
-        return;
-    } catch (error) {
-        console.error('Error starting collaboration', error);
-        res.status(500).jsonp('Error starting collaboration');
-        return;
-    }
-};
 
 // Controller to handle fetching session data
 export const getCollaborationSession: RequestHandler = async (req: Request, res: Response): Promise<void> => {

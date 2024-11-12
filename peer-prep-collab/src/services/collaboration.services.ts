@@ -6,40 +6,6 @@ import { QuestionsApiResponse } from '../models/qnresponse.model';
 import SessionModel from '../models/session.schema';
 import { SessionResponse } from '../models/sessionResponse.model';
 
-// in-memory session storage, to integrate with Redis later on
-// const activeSessions: Record<string, Session> = {};
-
-// export const createCollaborationService = async (
-//     sessionId: string,
-//     difficulty: string,
-//     category: string,
-//     username1: string,
-//     username2: string
-// ): Promise<Session | null> => {
-//     try {
-//         // fetch questions based on difficulty and category from questions service 
-//         const question = await getQuestion(difficulty, category);
-//         if (!question) {
-//             console.error('No questions found for the given difficulty and category');
-//             return null;
-//         }
-
-//         // alternative: generate unique session ID within collab svc - not sure if that'll work
-//         // const newSessionId = uuidv4();
-//         const session : Session = {
-//             sessionId,
-//             users: {username1, username2},
-//             question,
-//         };
-
-//         // activeSessions[sessionId] = session;
-//         return session;
-//     } catch (error) {
-//         console.error('Error creating collaboration service', error);
-//         return null;
-//     }
-// }
-
 export const getQuestion = async (
     difficulty: string,
     category: string
@@ -101,6 +67,10 @@ export const getSessionDataFromMongo = async (sessionId: string): Promise<Sessio
             users: {
                 username1: result[0].matchedUsers.username1,
                 username2: result[0].matchedUsers.username2
+            },
+            userIds: {
+                userId1: result[0].matchedUserIds.userId1,
+                userId2: result[0].matchedUserIds.userId2
             },
             question: result[0].question,
             docId: result[0].id

@@ -42,16 +42,18 @@ export const updateUserService = (session: any) => {
 // To implement generation of session URL @LYNETTE @YUANTING -
 async function onMessage(message: any) {
   
-  console.log("Session id: ", message.sessionId) 
+  console.log("Session", message) 
 
   const { matchedUsers, sessionId } = message;
   const { finalDifficulty, finalCategory } = processPreferences(matchedUsers);
   const username1 = matchedUsers[0].username;
   const username2 = matchedUsers[1].username;
+  const userId1 = matchedUsers[0].user_id;
+  const userId2 = matchedUsers[1].user_id
 
   console.log("BEFORE CALLING INITIATE COLLABORATION - sessionId: ", sessionId);
   // creates collaboration service 
-  await initiateCollaboration(sessionId, finalDifficulty, finalCategory, username1, username2);
+  await initiateCollaboration(sessionId, finalDifficulty, finalCategory, username1, username2, userId1, userId2);
 }
 
 function processPreferences(matchedUsers: any): { finalDifficulty: string, finalCategory: string } {
