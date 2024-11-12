@@ -102,6 +102,10 @@ export const getSessionDataFromMongo = async (sessionId: string): Promise<Sessio
                 username1: result[0].matchedUsers.username1,
                 username2: result[0].matchedUsers.username2
             },
+            userIds: {
+                userId1: result[0].matchedUserIds.userId1,
+                userId2: result[0].matchedUserIds.userId2
+            },
             question: result[0].question,
             docId: result[0].id
         }

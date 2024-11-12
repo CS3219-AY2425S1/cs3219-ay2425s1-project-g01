@@ -80,9 +80,8 @@ export class CollabPageComponent implements OnInit, OnDestroy {
             console.log("Fetched session question", this.question);
           }
           this.username = session.users.username1;
-          console.log("username 1: ", this.username);
           this.pairedUsername = session.users.username2;
-          console.log("username 2: ", this.pairedUsername);
+
           this.docId = session.docId
           resolve(); // Resolve the promise when data is fetched
         },
