@@ -1,0 +1,21 @@
+ <div class="chat-container">
+    <h2>Chat Room</h2>
+
+    <div #chatContainer class="chat-messages">
+        <div *ngFor="let message of messages" [ngClass]="{'sent-message': message.userID === message.userID, 'received-message': message.userID !== message.userID}">
+        <strong>{{ message.username }}:</strong> {{ message.content }}
+      </div>
+    </div>
+
+    <div class="chat-input-container">
+      <input 
+        class="chat-input" 
+        type="text" 
+        [(ngModel)]="newMessage" 
+        (keydown)="onUserInteraction()"
+        placeholder="Type a message..." 
+        (keypress)="onKeyPress($event)" 
+      />
+      <button class="send-button" (click)="sendMessage()">Send</button>
+    </div>
+</div>

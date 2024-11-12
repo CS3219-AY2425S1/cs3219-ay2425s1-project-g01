@@ -23,7 +23,7 @@ COPY . .
 EXPOSE 4003
 
 # Start the application
-# CMD ["npm", "start"]
+CMD ["npm", "start"]
 
 # docker build -t peer-prep-collab .
 # docker run -p 4003:4003 peer-prep-collab

@@ -2,6 +2,7 @@ import express from 'express';
 import dotenv from 'dotenv';
 import collabRoutes from './routes/collaboration.routes';
 import { connectToRabbitMQ, initConsumer } from '.';
+import connectToDB from './mongo'
 
 dotenv.config();
 
@@ -26,6 +27,7 @@ app.use('/collab', collabRoutes);
 connectToRabbitMQ()
     .then(async () => {
         await initConsumer() //Start consuming
+        await connectToDB()
     })
     .then(() => {
         const PORT = process.env.PORT || 4003;

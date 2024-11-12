@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { NGX_MONACO_EDITOR_CONFIG } from 'ngx-monaco-editor-v2';
 import { ProfilePageComponent } from './profile-page.component';
 
 describe('ProfilePageComponent', () => {
@@ -8,7 +8,15 @@ describe('ProfilePageComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [ProfilePageComponent]
+      imports: [ProfilePageComponent],
+      providers: [
+        {
+          provide: NGX_MONACO_EDITOR_CONFIG,
+          useValue: {
+            baseUrl: 'assets/monaco',
+            defaultOptions: { scrollBeyondLastLine: false },
+          }
+        }]
     })
     .compileComponents();
 

@@ -243,6 +243,7 @@ app.post("/match", async (req: Request, res: Response) => {
   }
 })
 
-app.listen(3002, () => {
-  console.log("Matching service running.")
-})
+const port = process.env.PORT || 3002;
+app.listen(port, () => {
+  console.log(`Matching service running on port ${port}.`);
+});

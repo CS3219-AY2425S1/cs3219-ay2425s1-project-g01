@@ -10,6 +10,7 @@ import { AdminComponent } from "./admin/admin.component"
 import { authService } from "./authService/authService"
 import { HomeComponent } from "./home/home.component"
 import { LoginComponent } from "./login/login.component"
+import { CollabService } from "../services/collab.service" 
 
 const MODULES = [
   CommonModule,
@@ -36,7 +37,7 @@ export class AppComponent {
   userName: string | null = null
   hideNavbar = false
 
-  constructor(private authService: authService, private router: Router) {}
+  constructor(private authService: authService, private router: Router, private collabService: CollabService) {}
 
   //Check if username is logged in, set this.userName
   ngOnInit(): void {
@@ -68,5 +69,9 @@ export class AppComponent {
   // Is Admin
   isAdmin(): boolean {
     return this.authService.isAdmin()
+  }
+
+  isInSession(): boolean {
+    return this.collabService.isInSession()
   }
 }

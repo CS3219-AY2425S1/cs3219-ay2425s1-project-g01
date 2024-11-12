@@ -9,6 +9,7 @@ import {
   Validators
 } from "@angular/forms"
 import { Router } from "@angular/router"
+import { baseUrlProduction } from "../../../constants"
 
 import { authService } from "../authService/authService"
 
@@ -62,9 +63,12 @@ export class CreateAccountComponent {
   // signInWithGoogle() {
   //   this.authService.login();
   // }
+  isProduction(): boolean {
+    return window.location.hostname !== "localhost"
+  }
 
   createAccount() {
-    let apiUrl: string = "http://localhost:3001/users"
+    let apiUrl: string = this.isProduction() ? `${baseUrlProduction}/users` : "http://localhost:3001/users"
 
     if (this.createAccountForm.invalid) {
       return
@@ -92,11 +96,6 @@ export class CreateAccountComponent {
           this.router.navigate(["/login"]) // Redirect to homepage when succesfully created account.
           return response.json() // Parse the JSON from the response
         }
-      })
-      .then((data) => {
-        this.authService.login(data)
-        this.router.navigate(["/"]) // Redirect to homepage when succesfully created account.
-        console.log(data) // Handle the response data
       })
       .catch((error) => {
         console.error(

@@ -10,15 +10,22 @@ export class WebSocketService {
 
   constructor() {}
 
+  isProduction(): boolean {
+    return window.location.hostname !== 'localhost';
+  }
+
   connect(sessionId: string, userId: string): void {
     if (this.socket$) {
       this.disconnect();
     }
-    this.socket$ = webSocket(`ws://localhost:8081/${sessionId}?userID=${userId}`);
+    this.socket$ = this.isProduction() 
+    ? webSocket(`wss://peer-prep-gateway-1093398872288.asia-southeast1.run.app/websocket/${sessionId}?userID=${userId}`) 
+    : webSocket(`ws://localhost:8082/${sessionId}?userID=${userId}`);
   }
 
   sendMessage(message: any): void {
     this.socket$.next(message);
+    console.log('SENDING MESSAGE', message)
   }
 
   getMessages(): Observable<any> {

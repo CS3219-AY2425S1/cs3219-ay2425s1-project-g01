@@ -1,14 +1,10 @@
-import http from "http"
-
-import index from "./index.js"
-
-import "dotenv/config"
-
-import { connectToDB } from "./model/repository.js"
+import http from "http";
+import index from "./index.js";
+import "dotenv/config";
+import { connectToDB } from "./model/repository.js";
 import { connectToRabbitMQ, initConsumer } from "./mq-consumer/consumer.js"
 
 const port = process.env.PORT || 3001
-
 const server = http.createServer(index)
 
 await connectToRabbitMQ()
@@ -26,6 +22,10 @@ await connectToDB()
     console.log("User service server listening on http://localhost:" + port)
   })
   .catch((err) => {
-    console.error("Failed to connect to DB")
-    console.error(err)
-  })
+    console.error("Failed to connect to DB");
+    console.error(err);
+  });
+
+server.on("error", (err) => {
+  console.error("Server failed to start:", err);
+});

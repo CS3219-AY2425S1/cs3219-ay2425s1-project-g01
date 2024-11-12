@@ -1,6 +1,7 @@
 .editor-container {
   display: flex;
   position: relative;
+  flex-direction: row;
   padding-top: 20px;
   flex-direction: column;
   height: 100%;

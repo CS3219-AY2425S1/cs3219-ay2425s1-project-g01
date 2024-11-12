@@ -1,15 +1,33 @@
+html,
+body {
+  height: 100%;
+  /* Ensure the body takes the full height of the viewport */
+  margin: 0;
+  /* Remove default margin */
+}
+
+.container::-webkit-scrollbar {
+  display: none;
+}
+
 .container {
   display: flex;
   color: rgb(255, 78, 196);
   flex-direction: column;
+  /* overflow: scroll; */
+  height:100%;
+  overflow-y: auto;
+  justify-content: flex-start;  
 }
 
 .header {
   color: white;
-  font-size: 2rem;
-  width: 90%;
-  margin-top: 5vh;
+  font-size: 3rem;
+  width: 95%;
   font-weight: 600;
+  flex: 1;
+  margin-top: 5vh;
+  font-family: "Tourney", sans-serif;
 }
 
 .inner-container {
@@ -17,10 +35,27 @@
   background-color: rgb(34, 36, 39);
   opacity: 0.9;
   border-radius: 6px;
-  width: 90%;
+  width: 95%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  flex: 1;
+  padding: 5vh 0;
+  margin-bottom: 10vh;
+  height: fit-content;
 }
+
+.editor-container {
+  margin-top: 15vh;
+}
+
+.editor {
+  width: 55vw;
+  height: 100vh;
+}
+
 .details {
-  margin-top: 2vh;
+  /* margin-top: 100px; */
   margin-left: 1vw;
 }
 
@@ -35,4 +70,19 @@
   font-size: 16px;
   border-radius: 10px;
   color: white;
+}
+
+.item {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+button {
+  margin-left: 20px;
+  border: none;
+  cursor: pointer;
+  background-color: rgb(76, 155, 106);
+  color: white;
+  border-radius: 2px;
 }

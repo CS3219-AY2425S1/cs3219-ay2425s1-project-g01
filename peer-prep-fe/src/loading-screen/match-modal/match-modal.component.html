@@ -1,14 +1,24 @@
-<!-- <button (click)="findMatch()">Open Match Modal</button> -->
-
 <div class="modal-overlay" *ngIf="isVisible">
   <div class="modal-content">
     <div class="outer-border">
       <div class="border-circle-wrapper">
 
-        <svg class="countdown-svg">
+        <!-- 30-second countdown circle for finding match -->
+        <svg class="countdown-svg" *ngIf="!matchFound">
           <circle
             class="countdown-circle"
-            [ngClass]="{'match-found': matchFound, 'timeout': timeout}"
+            [ngClass]="{'timeout': timeout}"
+            cx="50%"
+            cy="50%"
+            r="205"
+          ></circle>
+        </svg>
+
+        <!-- 10-second countdown circle for accepting match -->
+        <svg class="accept-countdown-svg" *ngIf="matchFound">
+          <circle
+            class="accept-countdown-circle"
+            [ngClass]="{'timeout': timeout}"
             cx="50%"
             cy="50%"
             r="205"
@@ -18,13 +28,11 @@
         <!-- MATCHING PROCESS, STILL LOADING -->
         <div class="matching-container" *ngIf="!matchFound && !timeout">
           <div class="message">{{ displayMessage }}</div>
-          <div class="details">{{ difficulty }} • {{category}}</div>
+          <div class="details">{{ difficulty }} • {{ category }}</div>
         </div>
 
-        <!-- MATCH FOUND, SHOW BOTH PLAYERS -->
-        <div class="inner-content" 
-        *ngIf="matchFound"
-        >
+        <!-- MATCH FOUND, SHOW BOTH PLAYERS, WAITING FOR ACCEPTANCE -->
+        <div class="inner-content" *ngIf="matchFound && !timeout">
           <div class="message">{{ displayMessage }}</div>
           <div class="player-info">
             <div class="player my-player">
@@ -136,7 +144,8 @@
             <button class="inner-button" (click)="requeue()">Requeue</button>
           </div>
         </div>
+      </div>
     </div>
-    <button class="cancel-button" (click)="cancelMatch()">CANCEL</button>
+    <button class="cancel-button-accepted" *ngIf="!matchAccepted" (click)="cancelMatch()">CANCEL</button>
   </div>
 </div>

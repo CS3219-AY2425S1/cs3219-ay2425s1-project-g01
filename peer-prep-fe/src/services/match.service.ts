@@ -3,6 +3,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable} from '@angular/core';
 import {MatchRequest, MatchResponse} from '../app/models/match.model';
 import { UserData } from '../types/userdata';
+import { baseUrlProduction } from '../../constants';
 
 import { lastValueFrom, Observable } from 'rxjs';
 
@@ -11,9 +12,13 @@ import { lastValueFrom, Observable } from 'rxjs';
 })
 
 export class MatchService {
-    private apiUrl = 'http://localhost:3002/match';
+    private apiUrl = this.isProduction() ? `${baseUrlProduction}/match` : 'http://localhost:3002/match';
 
     constructor(private http: HttpClient) {}
+
+    isProduction (): boolean {
+        return window.location.hostname !== 'localhost';
+    }
 
     // send user data and difficulty to rabbitMQ (match request)
     // this is a post request, which returns a response 

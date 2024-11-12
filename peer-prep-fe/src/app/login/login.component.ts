@@ -8,6 +8,7 @@ import {
   Validators
 } from "@angular/forms"
 import { Router, RouterLink } from "@angular/router"
+import { baseUrlProduction } from "../../../constants"
 
 import { authService } from "../authService/authService"
 
@@ -39,8 +40,12 @@ export class LoginComponent {
     ])
   })
 
+  isProduction(): boolean {
+    return window.location.hostname !== "localhost"
+  }
+
   loginAccount() {
-    let apiUrl: string = "http://localhost:3001/auth/login"
+    let apiUrl: string = this.isProduction() ? `${baseUrlProduction}/auth/login` : "http://localhost:3001/auth/login"
 
     if (this.loginForm.invalid) {
     }

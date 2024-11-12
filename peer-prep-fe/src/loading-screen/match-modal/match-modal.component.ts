@@ -132,11 +132,14 @@ export class MatchModalComponent implements OnInit, OnDestroy {
     }
   }
 
+<<<<<<< HEAD
   sleep(ms: number): Promise<void> {
     return new Promise(resolve => setTimeout(resolve, ms));
   }
   
 
+=======
+>>>>>>> main
   startFrontendCountdown() {
     this.countdownSubscription = interval(1000)
       .pipe(take(this.countdownSeconds))

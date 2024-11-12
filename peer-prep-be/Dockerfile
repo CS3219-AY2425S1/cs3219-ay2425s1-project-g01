@@ -25,6 +25,11 @@ WORKDIR /root/
 # Copy the Go binary from the first stage
 COPY --from=builder /app/test_run .
 
+# Uncomment when deploying question service. Comment back before any commit. 
+# COPY .env .
+
+ENV PORT=8080
+
 # Expose the application's port
 EXPOSE 8080
 

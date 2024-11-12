@@ -41,7 +41,7 @@
     align-items: center;
     background-color: white;
     border-radius: 15px;
-    padding: 0.2rem;
+    padding: 0.5rem;
     width: max-content;
     padding: 0.2rem 1rem;
     gap: 0.3rem;
@@ -114,34 +114,43 @@
 }
 
 .collab-container {
-  display: flex;
-  height: 80vh;
-  background-color: #000;
-  flex-direction: row;
-  margin-top: 1%;
-  gap: 2%;
-  overflow: hidden;
+    display: flex;
+    height: 80vh;
+    background-color: #000;
+    flex-direction: row;
+    margin-top: 1%;
+    gap: 2%;
+    overflow: hidden;
+    width: 100%;
+    justify-content: center;
 }
 
 .question-container {
     flex: 1;
     color: white;
-    overflow-y: hidden;
+    overflow-y: auto;
 }
 
 app-sidebar {
-    /* enable scroll within the component */
     display: block;
     overflow-y: hidden;
-    flex-grow: 1;
+    flex: 1;
+    min-width: 15%;
 }
 
 app-collaborative-editor {
-  /* width: 65%; */
-  flex: 2;
-  overflow-y: auto;
-  background-color: #1e1e1e;
+    flex: 2;
+    overflow-y: auto;
+    background-color: #1e1e1e;
 }
+
+app-chat {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    min-width: 20%;
+}
+
 
 .main-container {
     display: flex;

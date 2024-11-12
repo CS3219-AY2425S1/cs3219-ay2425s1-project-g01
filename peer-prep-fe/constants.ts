@@ -1,0 +1,1 @@
+export const baseUrlProduction = "https://peer-prep-gateway-1093398872288.asia-southeast1.run.app/api";

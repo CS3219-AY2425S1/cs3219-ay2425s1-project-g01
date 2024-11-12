@@ -4,13 +4,19 @@ import { Observable } from "rxjs"
 
 import { Question } from "../app/models/question.model"
 import { Category } from "../app/models/category.model"
+import { baseUrlProduction } from "../../constants"
+
 
 @Injectable({
   providedIn: "root"
 })
 export class QuestionService {
-  private baseUrl = "http://localhost:8080/questions"
+  private baseUrl = this.isProduction() ? `${baseUrlProduction}/questions` : "http://localhost:8080/questions"
   constructor(private http: HttpClient) {}
+
+  isProduction(): boolean {
+    return window.location.hostname !== "localhost"
+  }
 
   getAllQuestion(): Observable<Question[]> {
     return this.http.get<Question[]>(this.baseUrl)

@@ -1,0 +1,98 @@
+.chat-container {
+    display: flex;
+    flex-direction: column;
+    height: 80%; /* Match the height with other containers */
+    width: 300px;
+    color: white;
+    background-color: black;
+    border: 2px solid #2e2e2e;
+    padding: 2%;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  h2 {
+    background-color: #063c76;
+    color: white;
+    padding: 10px;
+    font-family: Tourney, sans-serif;
+    margin: 0;
+    border-radius: 5px;
+  }
+  
+  .chat-messages {
+    flex: 1;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding: 10px;
+    background-color: black;
+    color: white;
+    font-family: Signika Negative, sans-serif;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    scrollbar-width: none;
+  }
+  
+  .chat-messages::-webkit-scrollbar {
+    display: none; 
+  }
+  
+  .chat-input-container {
+    display: flex;
+    align-items: center;
+    gap: 10px; 
+    padding: 10px;
+    background-color: #242222;
+    border-radius: 10px;
+  }
+  
+  .chat-input {
+    flex-grow: 1;
+    padding: 10px;
+    background-color: white;
+    color: black;
+    font-family: Signika Negative, sans-serif;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+  }
+  
+  .send-button {
+    background-color: rgb(212, 41, 41);
+    border-radius: 15px;
+    color: white;
+    padding: 0.5rem 1rem;
+    font-family: 'Signika Negative', sans-serif;
+    border: none;
+    cursor: pointer;
+    white-space: nowrap;
+    width: max-content;
+  }
+
+  .sent-message,
+.received-message {
+    max-width: 80%;
+    padding: 10px;
+    border-radius: 10px;
+    font-family: Signika Negative, sans-serif;
+    display: inline-block;
+    word-wrap: break-word;
+    white-space: pre-wrap;
+}
+
+/* Styles for user’s messages */
+.sent-message {
+    background-color: #007bff;
+    color: white;
+    align-self: flex-end;
+    border-bottom-right-radius: 0;
+}
+
+/* Styles for other users’ messages */
+.received-message {
+    background-color: #e5e5e5;
+    color: black;
+    align-self: flex-start;
+    border-bottom-left-radius: 0;
+}
+  

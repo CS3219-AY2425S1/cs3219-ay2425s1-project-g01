@@ -25,7 +25,6 @@ export class AdminComponent {
     this.userService.getAllUsers().subscribe({
       next: (data: any) => {
         this.users = data.data
-        console.log(this.users)
       },
       error: (e) => {
         console.error("Error fetching: ", e)

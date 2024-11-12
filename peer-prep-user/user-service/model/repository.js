@@ -53,25 +53,24 @@ export async function updateUserById(userId, username, email, password) {
   )
 }
 
-export async function updateUsers(user1, user2, question) {
-  console.log("Here")
+export async function updateUsers(sessionIdentifier, user1, user2, question) {
   var today = new Date();
   var dd = String(today.getDate()).padStart(2, '0');
-  var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+  var mm = String(today.getMonth() + 1).padStart(2, '0');
   var time = String(today.getHours() + ":" + today.getMinutes())
   var yyyy = today.getFullYear();
   var dateTime = dd + '/' + mm + '/' + yyyy + " at " + time + " HOURS";
   await UserModel.updateMany(
     {username: user1},
     { $push: 
-        {matches: {...{matchedUser: user2},...question, dateTime}}
+        {matches: {IdInSessionDB: sessionIdentifier ,dateTime,...{matchedUser: user2},...question}}
     }
   )
 
   await UserModel.updateMany(
     {username: user2},
     { $push: 
-        {matches: {...{matchedUser: user1},...question, dateTime}}
+         {matches: {IdInSessionDB: sessionIdentifier ,dateTime,...{matchedUser: user1},...question}}
     }
   )
 }
