@@ -1,24 +1,3 @@
-/* ::ng-deep .custom-modalbox {
-    background-color: rgb(167, 55, 55); 
-    border-radius: 8px; 
-}
-
-::ng-deep .custom-modalbox mat-dialog-content {
-    padding: 16px; 
-    background-color: black; 
-    font-family: "Signika Negative", sans-serif;
-    color: red;
-}
-
-::ng-deep .custom-modalbox question-title {
-    background-color: black; 
-    color: white; 
-    padding: 16px; 
-    font-size: 1.5rem; 
-    font-family: "Signika Negative", sans-serif;;
-}
-
- */
 .categories-row {
   display: flex;
   align-items: center;
