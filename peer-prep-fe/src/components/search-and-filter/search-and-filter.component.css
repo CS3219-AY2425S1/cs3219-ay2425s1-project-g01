@@ -5,6 +5,8 @@
 
 .search-container {
   position: relative;
+  display: flex;
+  flex-direction: row;
 }
 
 .search-bar {
@@ -51,7 +53,7 @@ button[type="submit"]:hover {
 
 .button-container {
   display: flex;
-  /* margin-left: 20px; */
+  margin-left: 1%;
   border-radius: 10px;
   margin-top: 0px;
   position: relative;
@@ -80,12 +82,10 @@ button[type="submit"]:hover {
 .filter-container:hover .dropdown-content {
   display: block;
   border-radius: 10px;
-  border-top-left-radius: 10px;
-  border-top-right-radius: 10px;
-  border-top-left-radius: 10px;
-  border-top-right-radius: 10px;
-  /* border-radius: 10px;
-  padding: 6px 15px; */
+  /* border-top-left-radius: 10px;
+  border-top-right-radius: 10px; */
+  border-radius: 10px;
+  /* padding: 6px 15px; */
 }
 
 /* Styling for buttons inside dropdowns */
@@ -99,6 +99,8 @@ button[type="submit"]:hover {
   font-family: "Signika Negative", sans-serif;
   font-size: 0.75rem;
   border: none;
+  /* border-top-left-radius: 10px;
+  border-top-right-radius: 10px; */
 }
 
 .dropdown-btn:hover {

@@ -45,6 +45,13 @@ body {
   background-color: black;
 }
 
+.mat-mdc-dialog-surface.mdc-dialog__surface {
+  height: auto;
+  overflow: hidden;
+  max-height: 90vh;
+  border-radius: 10px;
+}
+
 .difficulty {
   padding: 4px 10px;
   border-radius: 15px;
