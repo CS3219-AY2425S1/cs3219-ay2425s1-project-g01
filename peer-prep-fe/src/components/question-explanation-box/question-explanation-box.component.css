@@ -13,12 +13,13 @@
 }
 
 .question-explanation-box::-webkit-scrollbar {
-  width: 8px;
+  width: 6px;
 }
 
 .question-explanation-box::-webkit-scrollbar-thumb {
-  background-color: #ffffff;
+  background-color: rgb(168, 168, 168);
   border-radius: 4px;
+  margin: 2px;
 }
 
 .question-explanation-box::-webkit-scrollbar-thumb:hover {
@@ -26,5 +27,5 @@
 }
 
 .question-explanation-box::-webkit-scrollbar-track {
-  background: #f1f1f1;
+  background: transparent;
 }
