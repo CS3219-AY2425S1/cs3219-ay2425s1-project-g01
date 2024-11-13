@@ -20,7 +20,7 @@ import { Question } from "../app/models/question.model"
 
 export class LandingPageComponent {
   @ViewChild(MatchModalComponent) matchModal!: MatchModalComponent;
-  selectedDifficulty: string = '';
+  selectedDifficulty: string | null = null;
   selectedCategory: string | null = null;
   question_categories: string[] = [];
   questions: Question[] = []; 
@@ -242,6 +242,8 @@ export class LandingPageComponent {
   }
 
   handleFindMatch() {
+    console.log("selectedDifficulty", this.selectedDifficulty);
+    console.log('in handle')
     this.errorMessage = null;
     const hasSelectedDifficulty = this.selectedDifficulty !== null;
     // const hasSelectedTopics = this.question_categories.some(topic => topic.selected);
@@ -249,11 +251,11 @@ export class LandingPageComponent {
     this.matchButtonActive = hasSelectedDifficulty && hasSelectedTopics;
 
     if (!hasSelectedDifficulty && !hasSelectedTopics) {
-      this.displayError("Please select one difficulty and at least one topic.");
+      this.displayError("Please select one difficulty to choose a topic.");
     } else if (!hasSelectedDifficulty && hasSelectedTopics) {
       this.displayError("Please select a difficulty before selecting a topic.");
     } else if (hasSelectedDifficulty && !hasSelectedTopics) {
-      this.displayError("Please select at least one topic.");   
+      this.displayError("Please select one topic.");   
     }  
     else {
       this.errorMessage = null;
