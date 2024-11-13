@@ -22,7 +22,7 @@ gcloud run deploy peer-prep-user \
   --image gcr.io/g01-peer-prep/peer-prep-user:latest \
   --region asia-southeast1 \
   --allow-unauthenticated \
-  --set-env-vars "ENV=PROD,DB_CLOUD_URI=mongodb+srv://peer-prep:1EjJPR5eiyIwhIql@peer-prep-cluster0.ftsoh.mongodb.net/?retryWrites=true&w=majority&appName=peer-prep-cluster0,JWT_SECRET=you-can-replace-this-with-your-own-secret"
+  --set-env-vars "ENV=PROD,DB_CLOUD_URI=mongodb+srv://peer-prep:1EjJPR5eiyIwhIql@peer-prep-cluster0.ftsoh.mongodb.net/?retryWrites=true&w=majority&appName=peer-prep-cluster0,JWT_SECRET=you-can-replace-this-with-your-own-secret, TZ=Asia/Kuala_Lumpur"
 echo "peer-prep-user deployed successfully."
 echo "------------------------------------------------------------------------------"
 
