@@ -28,7 +28,6 @@
 }
 
 .question-list::-webkit-scrollbar-thumb {
-  /* background-color: #ffffff; */
   background-color: rgb(111, 111, 111);
   border-radius: 4px;
 }
