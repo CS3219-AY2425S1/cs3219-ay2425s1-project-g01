@@ -17,7 +17,7 @@
 
 .question-list {
   max-height: 600px;
-  overflow-y: scroll;
+  overflow-y: auto;
   margin-top: 20px;
   width: 100%;
   max-width: 800px;
@@ -28,16 +28,18 @@
 }
 
 .question-list::-webkit-scrollbar-thumb {
-  background-color: #ffffff;
+  background-color: rgb(111, 111, 111);
   border-radius: 4px;
 }
 
 .question-list::-webkit-scrollbar-thumb:hover {
+  border-radius: 4px;
   background-color: #555;
 }
 
 .question-list::-webkit-scrollbar-track {
-  background: #f1f1f1;
+  border-radius: 4px;
+  background: transparent;
 }
 
 .question-list > ul {

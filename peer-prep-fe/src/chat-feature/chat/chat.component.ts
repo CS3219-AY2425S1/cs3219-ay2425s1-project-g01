@@ -2,7 +2,7 @@ import { CommonModule, NgClass } from '@angular/common';
 import { Component, OnInit, OnDestroy, Input, ChangeDetectorRef, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Subscription } from 'rxjs';
-import { WebSocketService } from '../websocket.service'; 
+import { WebSocketService } from '../../services/chat-websocket.service'; 
 import { MessageService } from '../../services/message.service';
 
 @Component({
@@ -84,6 +84,8 @@ export class ChatComponent implements OnInit, OnDestroy {
       
       this.cdr.detectChanges();
       this.scrollToBottom();
+
+      console.log(sessionStorage)
       
     }
   }
@@ -105,6 +107,7 @@ export class ChatComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     if (this.messageSubscription) {
+      this.messageService.clearMessages()
       this.messageSubscription.unsubscribe();
     }
     this.webSocketService.disconnect();
@@ -127,4 +130,5 @@ export class ChatComponent implements OnInit, OnDestroy {
       this.myUsername = JSON.parse(userData).data.username
     }
   }
+
 }
