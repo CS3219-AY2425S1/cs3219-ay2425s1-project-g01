@@ -94,6 +94,12 @@ export class EditPageComponent implements OnInit {
   }
 
   saveQuestion() {
+    const selectedCategories = this.question_categories.filter(cat => cat.selected);
+    if (selectedCategories.length === 0) {
+      alert("Please select at least one category.");
+      return;
+    }
+
     const updatedQuestion = {
       question_title: this.question_title,
       question_description: this.question_description,
