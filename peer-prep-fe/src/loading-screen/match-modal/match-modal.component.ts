@@ -245,8 +245,9 @@ export class MatchModalComponent implements OnInit, OnDestroy {
   }
 
   // TODO: HANDLE CANCEL MATCH - SYNC W MATCHING SVC BE PEEPS @KERVYN @IVAN
-  cancelMatch() {
+  async cancelMatch() {
     this.isVisible = false;
+    await this.matchService.cancelMatchRequest(this.userData.user_id);
     if (this.countdownSubscription) {
       this.countdownSubscription.unsubscribe();
     }

@@ -251,7 +251,19 @@ app.post("/match", async (req: Request, res: Response) => {
 })
 
 app.post("/match/cancel", async (req: Request, res: Response) => {
-
+  const user_id = req.body.user_id;
+  if (user_id) {
+    delete waitingUsers[user_id]
+    await db.collection("usersQueue").deleteOne({ user_id: user_id })
+    
+    res.status(200).json({
+      message: "User successfully removed from waiting queue."
+    })
+  } else {
+    res.status(400).json({
+      message: "Invalid user_id provided. Please try again."
+    })
+  }
 })
 
 const port = process.env.PORT || 3002;
