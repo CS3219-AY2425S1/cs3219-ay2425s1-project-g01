@@ -2,14 +2,6 @@
   <div class="form-container">
     <h2>Login</h2>
     <form id="userForm" [formGroup]="loginForm">
-      <!-- Username -->
-      <!-- <label for="name">Name:</label>
-      <div *ngIf="createAccountForm.get('username')?.invalid && createAccountForm.get('username')?.touched"
-        class="error-message">
-        <small *ngIf="createAccountForm.get('username')?.hasError('required')">Username is required</small>
-      </div>
-      <input type="text" id="name" formControlName="username"> -->
-
       <!-- Email -->
       <label for="email">Email:</label>
       <div
@@ -48,19 +40,14 @@
         class="submit"
         type="submit"
         (click)="loginAccount()"
-        [disabled]="loginForm.invalid">
-        Login
+        [disabled]="loginForm.invalid || isLoading">
+        <ng-container *ngIf="isLoading">
+          <span class="spinner"></span> 
+        </ng-container>
+        <ng-container *ngIf="!isLoading">
+          Login
+        </ng-container>
       </button>
     </form>
-    <!-- <button
-      class="create-account"
-      routerLink="/create-account"
-      routerLinkActive="activebutton">
-      Create Account
-    </button> -->
   </div>
-  <!-- <div class="button">
-    
-    <div id="google-login-button" class="login-button btn btn-primary" (click)="signInWithGoogle()"></div>
-  </div> -->
 </div>

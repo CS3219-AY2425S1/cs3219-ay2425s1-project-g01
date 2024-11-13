@@ -67,6 +67,9 @@ input.ng-valid.ng-touched {
   border-radius: 0.5rem;
   cursor: pointer;
   font-family: "Signika", sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .submit:hover {
@@ -90,4 +93,29 @@ input.ng-valid.ng-touched {
 button:disabled {
   background-color: grey;
   cursor: not-allowed;
+}
+
+button:disabled:hover {
+  background-color: grey;
+  cursor: not-allowed;
+}
+
+.spinner {
+  display: flex;
+  border: 3px solid #ffffff;
+  border-top: 3px solid rgb(255, 78, 196);
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  flex-direction: space-around;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
