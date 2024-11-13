@@ -88,7 +88,6 @@ export class MatchModalComponent implements OnInit, OnDestroy {
     console.log('RESPONSE FROM FINDMATCH ', response);
     console.log('TIMEOUT FROM FINDMATCH ', response.timeout);
 
-    // TODO (in BE too): UI if matching process gets disrupted (e.g. rabbitmq server goes down) - avoid silent failures
     if (response.timeout) {
       this.clearFrontendTimeout();
       this.handleMatchResponseUi(response);
@@ -244,7 +243,6 @@ export class MatchModalComponent implements OnInit, OnDestroy {
     this.findMatch();
   }
 
-  // TODO: HANDLE CANCEL MATCH - SYNC W MATCHING SVC BE PEEPS @KERVYN @IVAN
   async cancelMatch() {
     this.isVisible = false;
     await this.matchService.cancelMatchRequest(this.userData.user_id);
