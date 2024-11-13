@@ -48,9 +48,7 @@ export class CollabPageComponent implements OnInit, OnDestroy {
       window.history.pushState({}, 'landing', prevURL)
 
       this.sessionId = params['sessionId'];
-
       this.getCurrUser();
-
       this.userId = this.route.snapshot.queryParamMap.get('userId') || '';
 
       console.log('Entering editor');
@@ -59,7 +57,6 @@ export class CollabPageComponent implements OnInit, OnDestroy {
         this.editorWebSocketService.connect(this.sessionId, this.userId, this.currentUser);  // Connect editor WebSocket here
         this.listenForEditorMessages();
       });
-
 
       console.log('Entering chat');
       // Connect to the chat WebSocket service
@@ -109,7 +106,6 @@ export class CollabPageComponent implements OnInit, OnDestroy {
   }
 
   openChat(): void {
-    console.log('toggle chat')
     this.showChat = !this.showChat;  // Toggle chat visibility
   }
 
