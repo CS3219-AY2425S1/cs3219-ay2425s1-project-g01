@@ -9,16 +9,14 @@
     <h2 class="field">Email:</h2>
     <p class="value">{{email}}</p>
     <h2 class="field">Questions Attempted:</h2>
-    <div class="scroll-container">
-      <ul class="value">
-        <li *ngFor="let i of matches">
-          <p class="item">
-            {{i.question_title}} ({{i.question_complexity}}) - {{i.dateTime}} 
-            <button (click)="viewCode(i.IdInSessionDB)">View</button>
-          </p>
-        </li>
-      </ul>
-    </div>  
+    <ul class="value">
+      <li *ngFor="let i of matches">
+        <p class="item">
+          {{i.question_title}} ({{i.question_complexity}}) - {{i.dateTime}} 
+          <button (click)="viewCode(i.IdInSessionDB)">View</button>
+        </p>
+      </li>
+    </ul>
   </div>
   <div class="editor-container">
     <h2>Editor</h2>

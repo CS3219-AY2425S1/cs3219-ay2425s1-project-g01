@@ -6,12 +6,17 @@ body {
   /* Remove default margin */
 }
 
+.container::-webkit-scrollbar {
+  display: none;
+}
 
 .container {
   display: flex;
   color: rgb(255, 78, 196);
   flex-direction: column;
+  /* overflow: scroll; */
   height:100%;
+  overflow-y: auto;
   justify-content: flex-start;  
 }
 
@@ -40,24 +45,13 @@ body {
   height: fit-content;
 }
 
-.scroll-container {
-  flex-direction: column;
-  height: 42vh;
-  overflow-y: scroll;
-  justify-content: flex-start;
-  padding-right: 2.5vh;
-  margin-right: 1.5vh;
-  margin-top: -2vh;
-}
-
 .editor-container {
-  margin-right: 2vh;
+  margin-top: 15vh;
 }
 
 .editor {
   width: 55vw;
-  height: 71vh;
-  overflow-y: scroll;
+  height: 100vh;
 }
 
 .details {
