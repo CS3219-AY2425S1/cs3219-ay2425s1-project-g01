@@ -57,7 +57,7 @@ export async function updateUsers(sessionIdentifier, user1, user2, question) {
   var today = new Date();
   var dd = String(today.getDate()).padStart(2, '0');
   var mm = String(today.getMonth() + 1).padStart(2, '0');
-  var time = String(today.getHours() + ":" + today.getMinutes())
+  var time = String(today.getHours() + ":" + today.getMinutes().padStart(2, '0'))
   var yyyy = today.getFullYear();
   var dateTime = dd + '/' + mm + '/' + yyyy + " at " + time + " HOURS";
   await UserModel.updateMany(
