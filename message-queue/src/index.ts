@@ -40,6 +40,8 @@ const addDataToCollabExchange = (data: CollabExchangeData, key: string) => {
 
 let waitingUsers: { [key: string]: (data: any) => void } = {}
 
+let isStreamClosed = false;
+
 const matchUsers = async (userData: any, key: string): Promise<{ matchedUsers: any[] }> => {
   let changeStream: ChangeStream = null
   try {
@@ -108,16 +110,18 @@ const matchUsers = async (userData: any, key: string): Promise<{ matchedUsers: a
       const timer = setInterval(async () => {
         console.log("Step 4: Timeout reached, removing user from queue")
         await db.collection("usersQueue").deleteOne({ user_id: userData.user_id })
-        resolve({ matchedUsers: [] })
         delete waitingUsers[userData.user_id]
 
         // Close change stream on timeout
-        if (changeStream) {
+        if (changeStream && !isStreamClosed) {
           try {
             console.log("Closing change stream on timeout")
             changeStream.close()
+            isStreamClosed = true;
           } catch (e) {
             console.error(e)
+          } finally {
+            resolve({ matchedUsers: [] })
             return { matchedUsers: [] }
           }
         }
@@ -127,8 +131,8 @@ const matchUsers = async (userData: any, key: string): Promise<{ matchedUsers: a
       changeStream = db.collection("usersQueue").watch()
       changeStream.on("change", async (change) => {
         console.log("Step 5: Change detected", change.operationType)
-
-        if (change.operationType === "insert") {
+        isStreamClosed = false;
+        if (change.operationType === "insert" && !isStreamClosed) {
           const newUser = change.fullDocument
 
           if (
@@ -158,6 +162,7 @@ const matchUsers = async (userData: any, key: string): Promise<{ matchedUsers: a
             if (changeStream) {
               console.log("Closing change stream after match")
               changeStream.close()
+              isStreamClosed = true;
             }
           }
         } else {
@@ -166,6 +171,7 @@ const matchUsers = async (userData: any, key: string): Promise<{ matchedUsers: a
           if (changeStream) {
             console.log("Closing change stream after delete event")
             changeStream.close()
+            isStreamClosed = true;
           }
         }
       })
@@ -177,6 +183,7 @@ const matchUsers = async (userData: any, key: string): Promise<{ matchedUsers: a
     if (changeStream) {
       console.log("Closing change stream on error")
       changeStream.close()
+      isStreamClosed = true;
     }
 
     return { matchedUsers: [] }
@@ -241,6 +248,10 @@ app.post("/match", async (req: Request, res: Response) => {
       timeout: true
     })
   }
+})
+
+app.post("/match/cancel", async (req: Request, res: Response) => {
+
 })
 
 const port = process.env.PORT || 3002;
