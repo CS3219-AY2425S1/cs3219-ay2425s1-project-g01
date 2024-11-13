@@ -48,7 +48,6 @@ export class CollabPageComponent implements OnInit, OnDestroy {
       this.sessionId = params['sessionId'];
 
       this.getCurrUser();
-      console.log(`FK ME: ${this.currentUser}`);
 
       this.userId = this.route.snapshot.queryParamMap.get('userId') || '';
 

@@ -21,9 +21,8 @@ export class WebSocketService {
 
     const userNameParam = encodeURIComponent(userName)
     this.socket$ = this.isProduction()
-    ? webSocket(`wss://peer-prep-gateway-1093398872288.asia-southeast1.run.app/websocket/${sessionId}?userID=${userId}`)
+    ? webSocket(`wss://peer-prep-gateway-1093398872288.asia-southeast1.run.app/websocket/${sessionId}?userID=${userId}&userName=${userNameParam}`)
     : webSocket(`ws://localhost:8081/${sessionId}?userID=${userId}&userName=${userNameParam}`);
-
   }
 
   sendMessage(message: any): void {
