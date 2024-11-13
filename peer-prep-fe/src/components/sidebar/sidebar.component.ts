@@ -18,20 +18,12 @@ export class SidebarComponent {
   private colorMap: Record<string, string> = {
     'Algorithms': 'red',
     'Arrays': 'orange',
-    'Bit Manipulation': 'yellow',
+    'Bit Manipulation': '#fac802',
     'Data Structures': 'green',
     'Databases': 'blue',
     'Recursion': 'navy',
     'Strings': 'purple',
   }
-
-  // ngOnInit(): void {
-  //   console.log("Before Generate Tags");
-  //   if (this.question) {
-  //     this.generateTags();
-  //     console.log("Successfully Generated Tags: ", this.tags);
-  //   }
-  // }
 
   generateTags() {
     return this.tags = this.question.question_categories.map((category) => {
