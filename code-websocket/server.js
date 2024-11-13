@@ -10,6 +10,10 @@ server.on('connection', (socket, request) => {
     const urlParts = request.url.split('/');
     const sessionID = urlParts.pop().split('?')[0];
     const userID = new URLSearchParams(request.url.split('?')[1]).get('userID');
+    const userName = new URLSearchParams(request.url.split('?')[1]).get('userName')
+
+    console.log(`Full request URL: ${request.url}`);
+    console.log(`Extracted userName: ${userName}, userID: ${userID}, sessionID: ${sessionID}`);
 
     if (!sessionID || !userID) {
         console.error(`Invalid connection attempt: sessionID or userID is missing`);
@@ -31,7 +35,7 @@ server.on('connection', (socket, request) => {
 
     broadcastToSession(sessionID, {
         type: 'userConnected',
-        userID,
+        userName,
     });
 
     // Send the current code to the newly connected client
@@ -58,8 +62,12 @@ server.on('connection', (socket, request) => {
                 // Broadcast typingStarted event to lock other users
                 if (!typingStatus[sessionID]) {
                     typingStatus[sessionID] = userID;
-                    broadcastToSession(sessionID, { type: 'typingStarted', userID });
-                    console.log(`User ${userID} started typing in session ${sessionID}`);
+                    broadcastToSession(sessionID, {
+                        type: 'typingStarted',
+                        userID,
+                        userName
+                    });
+                    console.log(`User ${userName} started typing in session ${sessionID}`);
                 }
                 break;
 
@@ -67,8 +75,12 @@ server.on('connection', (socket, request) => {
                 // Broadcast typingEnded event to unlock editor for others
                 if (typingStatus[sessionID] === userID) {
                     delete typingStatus[sessionID];
-                    broadcastToSession(sessionID, { type: 'typingEnded', userID });
-                    console.log(`User ${userID} stopped typing in session ${sessionID}`);
+                    broadcastToSession(sessionID, {
+                        type: 'typingEnded',
+                        userID,
+                        userName
+                    });
+                    console.log(`User ${userName} stopped typing in session ${sessionID}`);
                 }
                 break;
 
@@ -91,12 +103,17 @@ server.on('connection', (socket, request) => {
         broadcastToSession(sessionID, {
             type: 'userDisconnected',
             userID,
+            userName
         });
 
         // Remove typing lock if the user was typing
         if (typingStatus[sessionID] === userID) {
             delete typingStatus[sessionID];
-            broadcastToSession(sessionID, { type: 'typingEnded', userID });
+            broadcastToSession(sessionID, {
+                type: 'typingEnded',
+                userID,
+                userName
+            });
             console.log(`Typing lock released for session ${sessionID}`);
         }
 
