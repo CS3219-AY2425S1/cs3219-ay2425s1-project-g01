@@ -4,7 +4,7 @@
       class="search-bar"
       type="search"
       placeholder="Search..."
-      [(ngModel)]="searchTerm"
+      [(ngModel)]="searchTerm" (input)="searchQuestions()"
       (keyup.enter)="searchQuestions()" />
     <button type="submit" class="search-button" (click)="searchQuestions()">
       <i class="fa-solid fa-magnifying-glass search-icon"> </i>
