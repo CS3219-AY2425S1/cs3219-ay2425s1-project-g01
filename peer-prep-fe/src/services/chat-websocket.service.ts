@@ -19,7 +19,7 @@ export class WebSocketService {
       this.disconnect();
     }
     this.socket$ = this.isProduction() 
-    ? webSocket(`wss://peer-prep-gateway-1093398872288.asia-southeast1.run.app/websocket/${sessionId}?userID=${userId}`) 
+    ? webSocket(`wss://chat-websocket-1093398872288.asia-southeast1.run.app/${sessionId}?userID=${userId}`) 
     : webSocket(`ws://localhost:8082/${sessionId}?userID=${userId}`);
   }
 

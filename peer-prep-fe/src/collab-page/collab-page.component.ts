@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { SidebarComponent } from '../components/sidebar/sidebar.component';
 import { Router, ActivatedRoute } from '@angular/router';
@@ -21,6 +21,7 @@ import { ChatComponent } from '../chat-feature/chat/chat.component';
 export class CollabPageComponent implements OnInit, OnDestroy {
   sessionId!: string;
   userId!: string;
+  currentUser!: string;
   question!: Question;
   username!: string;
   pairedUsername!: string;
@@ -42,14 +43,18 @@ export class CollabPageComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     // Get session ID from route parameters
     this.routeSubscription = this.route.params.subscribe(params => {
-      this.sessionId = params['sessionId'];
+      let prevURL: string = window.location.href
+      window.history.pushState({}, 'collab', '/landing')
+      window.history.pushState({}, 'landing', prevURL)
 
+      this.sessionId = params['sessionId'];
+      this.getCurrUser();
       this.userId = this.route.snapshot.queryParamMap.get('userId') || '';
 
       console.log('Entering editor');
       // Connect to the code editor WebSocket service
       this.fetchSessionData().then(() => {
-        this.editorWebSocketService.connect(this.sessionId, this.userId);  // Connect editor WebSocket here
+        this.editorWebSocketService.connect(this.sessionId, this.userId, this.currentUser);  // Connect editor WebSocket here
         this.listenForEditorMessages();
       });
 
@@ -66,7 +71,6 @@ export class CollabPageComponent implements OnInit, OnDestroy {
       }
     });
   }
-  
 
   fetchSessionData(): Promise<void> {
     console.log("CURRENTLY AT BEFORE FETCHING QUESTION");
@@ -102,7 +106,6 @@ export class CollabPageComponent implements OnInit, OnDestroy {
   }
 
   openChat(): void {
-    console.log('toggle chat')
     this.showChat = !this.showChat;  // Toggle chat visibility
   }
 
@@ -112,6 +115,20 @@ export class CollabPageComponent implements OnInit, OnDestroy {
     this.editorWebSocketService.disconnect();
     this.chatWebSocketService.disconnect();
     this.router.navigate(['landing']);
+  }
+
+  getCurrUser() {
+    const userData = (sessionStorage.getItem("userData") || '') as string
+    if ( userData !== '') {
+      this.currentUser = JSON.parse(userData).data.username
+    }
+  }
+
+  getCurrUserReturn() {
+    const userData = (sessionStorage.getItem("userData") || '') as string
+    if ( userData !== '') {
+      return this.currentUser = JSON.parse(userData).data.username
+    }
   }
 
   ngOnDestroy(): void {
@@ -126,13 +143,5 @@ export class CollabPageComponent implements OnInit, OnDestroy {
     // Disconnect both WebSocket services
     this.editorWebSocketService.disconnect();
     this.chatWebSocketService.disconnect();
-  }
-
-  getCurrUser() {
-    const userData = (sessionStorage.getItem("userData") || '') as string
-    if ( userData !== '') {
-      return JSON.parse(userData).data.username
-    }
-    return ''
   }
 }

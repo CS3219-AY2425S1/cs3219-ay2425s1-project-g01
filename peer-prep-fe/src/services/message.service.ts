@@ -7,12 +7,12 @@ export class MessageService {
   private messages: { userID: string; content: string; username: string  }[] = [];
 
   constructor() {
-    const storedMessages = localStorage.getItem('chatMessages');
+    const storedMessages = sessionStorage.getItem('chatMessages');
     this.messages = storedMessages ? JSON.parse(storedMessages) : [];
   }
   addMessage(message: { userID: string; content: string; username: string}) {
     this.messages.push(message);
-    localStorage.setItem('chatMessages', JSON.stringify(this.messages));
+    sessionStorage.setItem('chatMessages', JSON.stringify(this.messages));
   }
 
   getMessages() {
@@ -21,6 +21,6 @@ export class MessageService {
 
   clearMessages() {
     this.messages = [];
-    localStorage.removeItem('chatMessages');
+    sessionStorage.removeItem('chatMessages');
   }
 }

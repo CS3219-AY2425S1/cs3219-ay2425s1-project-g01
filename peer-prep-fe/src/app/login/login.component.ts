@@ -27,6 +27,9 @@ const MODULES: any[] = [
   styleUrl: "./login.component.scss"
 })
 export class LoginComponent {
+
+  isLoading = false;
+
   constructor(
     private router: Router,
     private authService: authService
@@ -44,12 +47,13 @@ export class LoginComponent {
     return window.location.hostname !== "localhost"
   }
 
-  loginAccount() {
+  async loginAccount() {
+    this.isLoading = true
     let apiUrl: string = this.isProduction() ? `${baseUrlProduction}/auth/login` : "http://localhost:3001/auth/login"
 
     if (this.loginForm.invalid) {
     }
-
+    
     fetch(apiUrl, {
       method: "POST",
       headers: {
@@ -70,8 +74,8 @@ export class LoginComponent {
         // return response.json(); // Parse the JSON from the response
       })
       .then((data) => {
+        this.isLoading = false;
         this.authService.login(data)
-        //this.router.navigate(["/landing"]) // Redirect to homepage when succesfully created account
         console.log(data) // Handle the response data
       })
       .catch((error) => {
