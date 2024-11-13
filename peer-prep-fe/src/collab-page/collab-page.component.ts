@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { SidebarComponent } from '../components/sidebar/sidebar.component';
 import { Router, ActivatedRoute } from '@angular/router';
@@ -30,8 +30,6 @@ export class CollabPageComponent implements OnInit, OnDestroy {
   private sessionSubscription!: Subscription;
   showChat: boolean = false;
 
-
-
   @ViewChild(CollaborativeEditorComponent) editor!: CollaborativeEditorComponent;
 
   constructor(
@@ -45,6 +43,10 @@ export class CollabPageComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     // Get session ID from route parameters
     this.routeSubscription = this.route.params.subscribe(params => {
+      let prevURL: string = window.location.href
+      window.history.pushState({}, 'collab', '/landing')
+      window.history.pushState({}, 'landing', prevURL)
+
       this.sessionId = params['sessionId'];
 
       this.getCurrUser();
@@ -72,7 +74,6 @@ export class CollabPageComponent implements OnInit, OnDestroy {
       }
     });
   }
-
 
   fetchSessionData(): Promise<void> {
     console.log("CURRENTLY AT BEFORE FETCHING QUESTION");
