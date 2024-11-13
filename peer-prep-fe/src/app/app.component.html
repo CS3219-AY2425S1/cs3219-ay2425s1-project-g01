@@ -22,7 +22,7 @@
     routerLinkActive="activebutton"
     >Practice
   </a>
-  <button class="logout-button" *ngIf="isLoggedIn()" (click)="logout()">
+  <button class="logout-button" *ngIf="isLoggedIn() && isInSession()" (click)="logout()">
     Logout
   </button>
 </nav>
