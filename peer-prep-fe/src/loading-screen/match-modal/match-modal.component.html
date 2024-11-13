@@ -56,7 +56,7 @@
 
         <!-- MATCH FOUND, ACCEPT TIMER EXPIRED -->
         <div class="inner-content" *ngIf="matchFound && timeout">
-          <div class="message">Unsuccessful Matching</div>
+          <div class="message">User did not accept in time.</div>
           <div class="player-info">
             <div class="player my-player">
               <div class="player-details">{{ myUsername }}</div>
@@ -98,7 +98,7 @@
 
                     <!-- MATCH FOUND, ACCEPT TIMER EXPIRED -->
                     <div class="inner-content" *ngIf="matchFound && timeout">
-                      <div class="message">Unsuccessful Matching</div>
+                      <div class="message">Accept duration timeout.</div>
                       <div class="player-info">
                         <div class="player my-player">
                           <div class="player-details">{{ myUsername }}</div>
