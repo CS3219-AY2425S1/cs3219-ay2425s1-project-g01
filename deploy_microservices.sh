@@ -2,7 +2,7 @@
 
 echo "------------------------------------------------------------------------------"
 echo "Building and deploying peer-prep-question..."
-docker build --platform linux/amd64 -t gcr.io/g01-peer-prep/peer-prep-question ./peer-prep-be
+docker build --no-cache --platform linux/amd64 -t gcr.io/g01-peer-prep/peer-prep-question ./peer-prep-be
 docker tag gcr.io/g01-peer-prep/peer-prep-question:latest gcr.io/g01-peer-prep/peer-prep-question:latest
 docker push gcr.io/g01-peer-prep/peer-prep-question:latest
 gcloud run deploy peer-prep-question \
@@ -15,7 +15,7 @@ echo "--------------------------------------------------------------------------
 
 echo "------------------------------------------------------------------------------"
 echo "Building and deploying peer-prep-user..."
-docker build --platform linux/amd64 -t gcr.io/g01-peer-prep/peer-prep-user ./peer-prep-user/user-service
+docker build --no-cache --platform linux/amd64 -t gcr.io/g01-peer-prep/peer-prep-user ./peer-prep-user/user-service
 docker tag gcr.io/g01-peer-prep/peer-prep-user:latest gcr.io/g01-peer-prep/peer-prep-user:latest
 docker push gcr.io/g01-peer-prep/peer-prep-user:latest
 gcloud run deploy peer-prep-user \
@@ -28,9 +28,9 @@ echo "--------------------------------------------------------------------------
 
 echo "------------------------------------------------------------------------------"
 echo "Building and deploying peer-prep-matching..."
-docker build --platform linux/amd64 -t gcr.io/g01-peer-prep/rabbitmq ./message_queue
-docker tag gcr.io/g01-peer-prep/rabbitmq:latest gcr.io/g01-peer-prep/rabbitmq:latest
-docker push gcr.io/g01-peer-prep/rabbitmq:latest
+docker build --no-cache --platform linux/amd64 -t gcr.io/g01-peer-prep/peer-prep-matching ./message-queue
+docker tag gcr.io/g01-peer-prep/peer-prep-matching:latest gcr.io/g01-peer-prep/peer-prep-matching:latest
+docker push gcr.io/g01-peer-prep/peer-prep-matching:latest
 gcloud run deploy peer-prep-matching \
   --image gcr.io/g01-peer-prep/peer-prep-matching:latest \
   --region asia-southeast1 \
@@ -41,7 +41,7 @@ echo "--------------------------------------------------------------------------
 
 echo "------------------------------------------------------------------------------"
 echo "Building and deploying peer-prep-collab..."
-docker build --platform linux/amd64 -t gcr.io/g01-peer-prep/peer-prep-collab ./peer-prep-collab
+docker build --no-cache --platform linux/amd64 -t gcr.io/g01-peer-prep/peer-prep-collab ./peer-prep-collab
 docker tag gcr.io/g01-peer-prep/peer-prep-collab:latest gcr.io/g01-peer-prep/peer-prep-collab:latest
 docker push gcr.io/g01-peer-prep/peer-prep-collab:latest
 gcloud run deploy peer-prep-collab \
@@ -57,7 +57,7 @@ echo "--------------------------------------------------------------------------
 
 echo "------------------------------------------------------------------------------"
 echo "Building and deploying collab-websocket..."
-docker build --platform linux/amd64 -t gcr.io/g01-peer-prep/collab-websocket ./code-websocket
+docker build --no-cache --platform linux/amd64 -t gcr.io/g01-peer-prep/collab-websocket ./code-websocket
 docker tag gcr.io/g01-peer-prep/collab-websocket:latest gcr.io/g01-peer-prep/collab-websocket:latest
 docker push gcr.io/g01-peer-prep/collab-websocket:latest
 gcloud run deploy collab-websocket \
@@ -69,7 +69,7 @@ echo "--------------------------------------------------------------------------
 
 echo "------------------------------------------------------------------------------"
 echo "Building and deploying chat-websocket..."
-docker build --platform linux/amd64 -t gcr.io/g01-peer-prep/chat-websocket ./chat-websocket
+docker build --no-cache --platform linux/amd64 -t gcr.io/g01-peer-prep/chat-websocket ./chat-websocket
 docker tag gcr.io/g01-peer-prep/chat-websocket:latest gcr.io/g01-peer-prep/chat-websocket:latest
 docker push gcr.io/g01-peer-prep/chat-websocket:latest
 gcloud run deploy chat-websocket \
@@ -81,7 +81,7 @@ echo "--------------------------------------------------------------------------
 
 echo "------------------------------------------------------------------------------"
 echo "Building and deploying match-websocket"
-docker build --platform linux/amd64 -t gcr.io/g01-peer-prep/match-websocket ./match-websocket
+docker build --no-cache --platform linux/amd64 -t gcr.io/g01-peer-prep/match-websocket ./match-websocket
 docker tag gcr.io/g01-peer-prep/match-websocket:latest gcr.io/g01-peer-prep/match-websocket:latest
 docker push gcr.io/g01-peer-prep/match-websocket:latest
 gcloud run deploy match-websocket \
@@ -93,7 +93,7 @@ echo "--------------------------------------------------------------------------
 
 echo "------------------------------------------------------------------------------"
 echo "Building and dploying peer-prep-gateway"
-docker build --platform linux/amd64 -t gcr.io/g01-peer-prep/peer-prep-gateway -f ./peer-prep-gateway/Dockerfile .
+docker build --no-cache --platform linux/amd64 -t gcr.io/g01-peer-prep/peer-prep-gateway -f ./peer-prep-gateway/Dockerfile .
 docker tag gcr.io/g01-peer-prep/peer-prep-gateway:latest gcr.io/g01-peer-prep/peer-prep-gateway:latest
 docker push gcr.io/g01-peer-prep/peer-prep-gateway:latest
 gcloud run deploy peer-prep-gateway \

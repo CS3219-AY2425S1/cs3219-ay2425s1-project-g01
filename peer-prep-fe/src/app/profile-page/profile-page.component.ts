@@ -5,6 +5,7 @@ import { HttpClient, HttpClientModule } from "@angular/common/http"
 import {MonacoEditorModule} from 'ngx-monaco-editor-v2';
 import {FormsModule} from '@angular/forms';
 import { UserService } from '../userService/user-service';
+import { baseUrlProduction } from '../../../constants';
 
 @Component({
   selector: 'app-profile-page',
@@ -65,7 +66,7 @@ export class ProfilePageComponent {
   }
 
   viewCode(id: string): void {
-    let apiUrl: string = "http://localhost:4003/collab/code/" + id
+    const apiUrl: string = this.isProduction() ? `${baseUrlProduction}/collab/code/${id}` : `http://localhost:4003/collab/code/${id}`;
 
     this.http.get<any>(apiUrl).subscribe({
       next: (data: any) => {
@@ -77,6 +78,10 @@ export class ProfilePageComponent {
       },
       complete: () =>{}
     })
+  }
+
+  isProduction(): boolean {
+    return window.location.hostname !== "localhost";
   }
 
 }
