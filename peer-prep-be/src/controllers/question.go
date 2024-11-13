@@ -88,7 +88,12 @@ func CreateQuestion(c echo.Context) error {
 		return c.JSON(http.StatusBadRequest, responses.StatusResponse{Status: http.StatusBadRequest, Message: errMessage, Data: &echo.Map{"data": validationErr.Error()}})
 	}
 
-	err := questionCollection.FindOne(ctx, bson.M{"question_title": question.Question_title}).Decode(&existingQuestion)
+	err := questionCollection.FindOne(ctx, bson.M{
+		"question_title": bson.M{
+			"$regex":  strings.TrimSpace(question.Question_title),
+			"$options": "i",
+		},
+	}).Decode(&existingQuestion)
 
 	// Only want to throw this error if there's a duplicate found, meaning FindOne has no error
 	if err == nil {
@@ -197,7 +202,12 @@ func UpdateQuestion(c echo.Context) error {
 		return c.JSON(http.StatusBadRequest, responses.StatusResponse{Status: http.StatusBadRequest, Message: errMessage, Data: &echo.Map{"data": validationErr.Error()}})
 	}
 
-	err = questionCollection.FindOne(ctx, bson.M{"question_title": question.Question_title}).Decode(&existingQuestion)
+	err = questionCollection.FindOne(ctx, bson.M{
+		"question_title": bson.M{
+			"$regex":  strings.TrimSpace(question.Question_title),
+			"$options": "i",
+		},
+	}).Decode(&existingQuestion)
 
 	// Only want to throw this error if there's a duplicate found, meaning FindOne has no error
 	if err == nil {

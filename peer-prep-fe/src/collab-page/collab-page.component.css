@@ -128,6 +128,7 @@
 }
 
 app-sidebar {
+    margin-left: 2vh;
     display: block;
     overflow-y: hidden;
     flex: 1;

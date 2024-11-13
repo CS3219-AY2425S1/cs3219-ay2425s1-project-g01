@@ -41,6 +41,13 @@ server.on('connection', (socket, request) => {
     // Send the current code to the newly connected client
     socket.send(JSON.stringify({ type: 'initialCode', content: sessionData[sessionID].code }));
 
+    const pingInterval = setInterval(() => {
+        if (socket.readyState === WebSocket.OPEN) {
+            socket.ping();
+            console.log('ping ping ping');
+        }
+    }, 30000);
+
     // Handle incoming messages
     socket.on('message', (message) => {
         const parsedMessage = JSON.parse(message);
@@ -91,6 +98,7 @@ server.on('connection', (socket, request) => {
 
     // Handle client disconnection
     socket.on('close', (code, reason) => {
+        clearInterval(pingInterval);
         console.log(`User ${userID} disconnected from session ${sessionID}, code: ${code}, reason: ${reason}`);
 
         // Remove the user from the active users list
