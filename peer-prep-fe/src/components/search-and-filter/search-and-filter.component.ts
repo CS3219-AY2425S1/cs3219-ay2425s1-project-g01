@@ -106,7 +106,7 @@ export class SearchAndFilterComponent {
     const dialogRef = this.dialog.open(AddPageComponent, {
       panelClass: "custom-modalbox",
       width: "800px",
-      height: "600px",
+      height: "400px",
       position: {
         top: "200px"
       },

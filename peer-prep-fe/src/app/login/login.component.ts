@@ -63,6 +63,7 @@ export class LoginComponent {
     })
       .then((response) => {
         if (!response.ok) {
+          this.isLoading = false;
           if (response.status === 401) {
             alert("Incorrect email or password.")
           }
