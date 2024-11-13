@@ -39,7 +39,7 @@ export class CollabPageComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private collabService: CollabService,
     private editorWebSocketService: EditorWebSocketService,  // Inject WebSocketService for code editor
-    private chatWebSocketService: ChatWebSocketService  // Inject WebSocketService for chat
+    private chatWebSocketService: ChatWebSocketService,  // Inject WebSocketService for chat
   ) {}
 
   ngOnInit(): void {
@@ -72,7 +72,6 @@ export class CollabPageComponent implements OnInit, OnDestroy {
       }
     });
   }
-
 
   fetchSessionData(): Promise<void> {
     console.log("CURRENTLY AT BEFORE FETCHING QUESTION");
