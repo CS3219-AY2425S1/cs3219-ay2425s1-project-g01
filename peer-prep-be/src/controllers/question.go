@@ -90,7 +90,7 @@ func CreateQuestion(c echo.Context) error {
 
 	err := questionCollection.FindOne(ctx, bson.M{
 		"question_title": bson.M{
-			"$regex":  strings.TrimSpace(question.Question_title),
+			"$regex":   strings.TrimSpace(question.Question_title),
 			"$options": "i",
 		},
 	}).Decode(&existingQuestion)
@@ -202,35 +202,35 @@ func UpdateQuestion(c echo.Context) error {
 		return c.JSON(http.StatusBadRequest, responses.StatusResponse{Status: http.StatusBadRequest, Message: errMessage, Data: &echo.Map{"data": validationErr.Error()}})
 	}
 
+	// 	err = questionCollection.FindOne(ctx, bson.M{
+	// 		"question_title": bson.M{
+	// 			"$regex":  strings.TrimSpace(question.Question_title),
+	// 			"$options": "i",
+	// 		},
+	// 	}).Decode(&existingQuestion)
 
-// 	err = questionCollection.FindOne(ctx, bson.M{
-// 		"question_title": bson.M{
-// 			"$regex":  strings.TrimSpace(question.Question_title),
-// 			"$options": "i",
-// 		},
-// 	}).Decode(&existingQuestion)
+	err = questionCollection.FindOne(ctx, bson.M{"question_id": objId}).Decode(&existingQuestion)
+	if err != nil {
+		return c.JSON(http.StatusNotFound, responses.StatusResponse{Status: http.StatusNotFound, Message: "Question not found.", Data: &echo.Map{"data": err.Error()}})
+	}
 
-    err = questionCollection.FindOne(ctx, bson.M{"question_id": objId}).Decode(&existingQuestion)
-    if err != nil {
-    	return c.JSON(http.StatusNotFound, responses.StatusResponse{Status: http.StatusNotFound, Message: "Question not found.", Data: &echo.Map{"data": err.Error()}})
-    }
-
-    if question.Question_title != "" && strings.ToLower(question.Question_title) != strings.ToLower(existingQuestion.Question_title) {   		var duplicateQuestion models.Question
-   		err = questionCollection.FindOne(ctx, bson.M{
-   			"question_title": bson.M{
-   			    "$regex":   "^" + strings.TrimSpace(question.Question_title) + "$",
-   			    "$options": "i", // Case-insensitive option
-    		},
-    	}).Decode(&duplicateQuestion)
-    	if err == nil {
-    		return c.JSON(http.StatusBadRequest, responses.StatusResponse{Status: http.StatusBadRequest, Message: "Question with the same title already exists.", Data: &echo.Map{"data": "Title conflict."}})
-    	}
-    }
+	if question.Question_title != "" && strings.ToLower(question.Question_title) != strings.ToLower(existingQuestion.Question_title) {
+		var duplicateQuestion models.Question
+		err = questionCollection.FindOne(ctx, bson.M{
+			"question_title": bson.M{
+				"$regex":   "^" + strings.TrimSpace(question.Question_title) + "$",
+				"$options": "i", // Case-insensitive option
+			},
+		}).Decode(&duplicateQuestion)
+		if err == nil {
+			return c.JSON(http.StatusBadRequest, responses.StatusResponse{Status: http.StatusBadRequest, Message: "Question with the same title already exists.", Data: &echo.Map{"data": "Title conflict."}})
+		}
+	}
 
 	// Only want to throw this error if there's a duplicate found, meaning FindOne has no error
-// 	if err == nil {
-// 		return c.JSON(http.StatusBadRequest, responses.StatusResponse{Status: http.StatusBadRequest, Message: errMessage, Data: &echo.Map{"data": "Question with the same title already exists."}})
-// 	}
+	// 	if err == nil {
+	// 		return c.JSON(http.StatusBadRequest, responses.StatusResponse{Status: http.StatusBadRequest, Message: errMessage, Data: &echo.Map{"data": "Question with the same title already exists."}})
+	// 	}
 
 	// Update the question in the database
 	update := bson.M{
