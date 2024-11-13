@@ -18,33 +18,34 @@ Admin account (if needed):
 2. Open 2 terminals on your IDE (One for Frontend, One for Backend)
 3. Ensure you're on our latest commit on main branch
 4. Create `.env` files in the following directories, and populate them respectively:
+
 > [!NOTE]
 > The following section is solely for official testing in CS3219.
 
-`peer-prep-be/`:
-```
-MONGODB_URI=mongodb+srv://peer-prep:1EjJPR5eiyIwhIql@peer-prep-cluster0.ftsoh.mongodb.net/?retryWrites=true&w=majority&appName=peer-prep-cluster0
-PORT=8080
-```
-`message-queue/`
-```
-AMQP_SERVER=amqps://lguugvwb:UtQY1D0zOoX8s0ZvR4GunuRDk0xv8UuI@octopus.rmq3.cloudamqp.com/lguugvwb
-MONGODB_URI=mongodb+srv://peer-prep:1EjJPR5eiyIwhIql@peer-prep-cluster0.ftsoh.mongodb.net/?retryWrites=true&w=majority&appName=peer-prep-cluster0
-PORT=3002
-```
-`peer-prep-collab/src/`:
-```
-PORT=4003
-MATCHING_SERVICE_URL=http://localhost:3002
-QUESTIONS_SERVICE_URL=http://localhost:8080
-DB_CLOUD_URI=mongodb+srv://peer-prep:1EjJPR5eiyIwhIql@peer-prep-cluster0.ftsoh.mongodb.net/?retryWrites=true&w=majority&appName=peer-prep-cluster0
-```
-`peer-prep-user/user-service/`
-```
-ENV=PROD
-DB_CLOUD_URI=mongodb+srv://peer-prep:1EjJPR5eiyIwhIql@peer-prep-cluster0.ftsoh.mongodb.net/?retryWrites=true&w=majority&appName=peer-prep-cluster0
-JWT_SECRET=you-can-replace-this-with-your-own-secret
-```
+> `peer-prep-be/`:
+> ```
+> MONGODB_URI=mongodb+srv://peer-prep:1EjJPR5eiyIwhIql@peer-prep-cluster0.ftsoh.mongodb.net/?retryWrites=true&w=majority&appName=peer-prep-cluster0
+> PORT=8080
+> ```
+> `message-queue/`
+> ```
+> AMQP_SERVER=amqps://lguugvwb:UtQY1D0zOoX8s0ZvR4GunuRDk0xv8UuI@octopus.rmq3.cloudamqp.com/lguugvwb
+> MONGODB_URI=mongodb+srv://peer-prep:1EjJPR5eiyIwhIql@peer-prep-cluster0.ftsoh.mongodb.net/?retryWrites=true&w=majority&appName=peer-prep-cluster0
+> PORT=3002
+> ```
+> `peer-prep-collab/src/`:
+> ```
+> PORT=4003
+> MATCHING_SERVICE_URL=http://localhost:3002
+> QUESTIONS_SERVICE_URL=http://localhost:8080
+> DB_CLOUD_URI=mongodb+srv://peer-prep:1EjJPR5eiyIwhIql@peer-prep-cluster0.ftsoh.mongodb.net/?retryWrites=true&w=majority&appName=peer-prep-cluster0
+> ```
+> `peer-prep-user/user-service/`
+> ```
+> ENV=PROD
+> DB_CLOUD_URI=mongodb+srv://peer-prep:1EjJPR5eiyIwhIql@peer-prep-cluster0.ftsoh.mongodb.net/?retryWrites=true&w=majority&appName=peer-prep-cluster0
+> JWT_SECRET=you-can-replace-this-with-your-own-secret
+> ```
 
 #### Spin up backend
 Before proceeding to the following procedures, install Docker Desktop
