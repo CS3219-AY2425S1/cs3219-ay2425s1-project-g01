@@ -101,7 +101,7 @@ export class AddPageComponent {
         this.onAddComplete()
       },
       (error) => {
-        alert("Question already exist! Check question title.")
+        alert("Question with the same title already exists, duplicate questions aren’t allowed!")
       }
     )
   }
