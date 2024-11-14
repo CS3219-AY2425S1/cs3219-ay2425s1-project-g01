@@ -87,6 +87,6 @@
   </div>
 
   <div class="saving-button">
-    <button class="save-button" (click)="saveQuestion()">SAVE</button>
+    <button class="save-button" (click)="saveQuestion()" [disabled]="questionForm.invalid">SAVE</button>
   </div>
 </div>
