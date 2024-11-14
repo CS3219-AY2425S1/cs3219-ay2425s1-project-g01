@@ -1,0 +1,153 @@
+services:
+  question:
+    image: golang:1.23-alpine
+    container_name: peer-prep-question
+    working_dir: /app
+    env_file:
+      - ./peer-prep-be/.env
+    volumes:
+      - ./peer-prep-be:/app
+    command: sh -c "go run ./src/server.go"
+    ports:
+      - "8080:8080"
+    environment:
+      - CGO_ENABLED=0
+    depends_on:
+      - mongo
+    networks:
+      - ihatefrontend  
+
+  user:
+    image: node:18-alpine
+    container_name: peer-prep-user
+    working_dir: /app
+    env_file:
+      - ./peer-prep-user/user-service/.env
+    volumes:
+      - ./peer-prep-user/user-service:/app
+      - /app/node_modules
+    environment:
+      - TZ=Asia/Kuala_Lumpur
+    command: >
+        sh -c "apk add --no-cache tzdata\ && ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && 
+        echo $TZ > /etc/timezone && 
+        npm install &&
+        npm start"
+    ports:
+      - "3001:3001"
+    depends_on:
+      - mongo
+    networks:
+      - ihatefrontend    
+
+  mongo:
+    image: mongo:6.0
+    container_name: peer-prep-mongo
+    volumes:
+      - mongo_data:/data/db
+    ports:
+      - "27017:27017"
+    networks:
+      - ihatefrontend    
+
+  rabbitmq:
+    image: node:18-alpine
+    container_name: 'rabbitmq'
+    working_dir: /app
+    environment:
+      - AMQP_SERVER=amqps://lguugvwb:UtQY1D0zOoX8s0ZvR4GunuRDk0xv8UuI@octopus.rmq3.cloudamqp.com/lguugvwb
+    env_file:
+      - ./message-queue/.env
+    volumes:
+      - ./message-queue:/app
+      - rabbitmq_data:/var/lib/rabbitmq
+    command: sh -c "npm install && npm start"
+    ports:
+      - 3002:3002
+    networks:
+      - rabbitmqNetwork
+      - ihatefrontend
+
+  collaboration:
+    image: node:16-alpine
+    container_name: peer-prep-collab
+    working_dir: /app
+    env_file:
+      - ./peer-prep-collab/.env  
+    volumes:
+      - ./peer-prep-collab:/app  
+    command: sh -c "npm install && npm start"  
+    ports:
+      - "4003:4003"
+    depends_on:
+      - mongo  
+      - question
+      - rabbitmq 
+    environment:
+      - QUESTIONS_SERVICE_URL=http://question:8080
+      - RABBITMQ_URL=http://rabbitmq:3002  
+      - AMQP_SERVER=amqps://lguugvwb:UtQY1D0zOoX8s0ZvR4GunuRDk0xv8UuI@octopus.rmq3.cloudamqp.com/lguugvwb
+    networks:
+      - rabbitmqNetwork 
+      - ihatefrontend
+
+  websocket:
+    image: node:18-alpine
+    container_name: collab-websocket
+    volumes:
+      - ./code-websocket:/app
+    working_dir: /app
+    command: sh -c "npm install && npm start" 
+    ports:
+      - "8081:8081"  
+    networks:
+      - ihatefrontend 
+
+  chat-websocket: 
+    image: node:18-alpine
+    container_name: chat-websocket
+    working_dir: /app
+    volumes:
+      - ./chat-websocket:/app
+    command: sh -c "npm install && npm start"
+    ports:
+      - "8082:8082"
+    networks:
+      - ihatefrontend  
+    
+  match-websocket: 
+    image: node:18-alpine
+    container_name: match-websocket
+    working_dir: /app
+    volumes:
+      - ./match-websocket:/app
+    command: sh -c "npm install && npm start"
+    ports:
+      - "8083:8083"
+    networks:
+      - ihatefrontend
+      
+  nginx:
+    image: nginx:alpine
+    container_name: peer-prep-gateway
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+    depends_on:
+      - question
+      - user
+      - collaboration
+      - websocket
+    networks:
+      - ihatefrontend
+      
+networks:
+  rabbitmqNetwork:
+    driver: bridge
+  ihatefrontend:
+    driver: bridge  
+
+volumes:
+  mongo_data:
+  rabbitmq_data:

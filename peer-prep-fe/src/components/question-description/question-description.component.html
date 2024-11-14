@@ -1,0 +1,28 @@
+<div class="mat-dialog-content">
+  <div class="upper-half">
+    <p class="question-title">{{ data.questionTitle }}</p>
+    <p class="difficulty" [ngClass]="data.questionDifficulty">
+      {{ data.questionDifficulty }}
+    </p>
+    <div class="mat-dialog-actions">
+      <button class="close-button" mat-button mat-dialog-close>
+        <i class="fa-solid fa-x"></i>
+      </button>
+    </div>
+  </div>
+  <div class="bottom-half">
+    <p>QUESTION DESCRIPTION</p>
+    <app-question-explanation-box
+      [questionDescription]="
+        data.questionDescription
+      "></app-question-explanation-box>
+  </div>
+  <div>
+    <p>CATEGORIES</p>
+    <div class="categories-row">
+      <app-question-categories
+        *ngFor="let category of data.questionCategories"
+        [questionCategory]="category"></app-question-categories>
+    </div>
+  </div>
+</div>

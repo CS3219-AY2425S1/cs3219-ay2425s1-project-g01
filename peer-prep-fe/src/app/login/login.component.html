@@ -1,0 +1,53 @@
+<div class="container">
+  <div class="form-container">
+    <h2>Login</h2>
+    <form id="userForm" [formGroup]="loginForm">
+      <!-- Email -->
+      <label for="email">Email:</label>
+      <div
+        *ngIf="
+          loginForm.get('email')?.invalid && loginForm.get('email')?.touched
+        "
+        class="error-message">
+        <small *ngIf="loginForm.get('email')?.hasError('required')"
+          >Email is required</small
+        >
+        <small *ngIf="loginForm.get('email')?.hasError('email')"
+          >Invalid email address</small
+        >
+      </div>
+
+      <input type="email" id="email" formControlName="email" />
+
+      <!-- Password -->
+      <label for="password">Password:</label>
+      <div
+        *ngIf="
+          loginForm.get('password')?.invalid &&
+          loginForm.get('password')?.touched
+        "
+        class="error-message">
+        <small *ngIf="loginForm.get('password')?.hasError('required')"
+          >Password is required</small
+        >
+        <small *ngIf="loginForm.get('password')?.hasError('minlength')"
+          >Minimum 6 characters</small
+        >
+      </div>
+      <input type="password" id="password" formControlName="password" />
+
+      <button
+        class="submit"
+        type="submit"
+        (click)="loginAccount()"
+        [disabled]="loginForm.invalid || isLoading">
+        <ng-container *ngIf="isLoading">
+          <span class="spinner"></span> 
+        </ng-container>
+        <ng-container *ngIf="!isLoading">
+          Login
+        </ng-container>
+      </button>
+    </form>
+  </div>
+</div>

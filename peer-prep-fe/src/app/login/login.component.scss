@@ -1,0 +1,121 @@
+h2 {
+  font-family: "Tourney", sans-serif;
+  font-size: 40px;
+}
+
+.button {
+  width: 10vw;
+  height: 5vh;
+}
+
+.container {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 70vh;
+}
+
+.form-container {
+  width: 20vw;
+  padding: 10px;
+  color: #f5f5f5;
+  font-family: "Tourney", sans-serif;
+  font-size: 1.5em;
+}
+
+input {
+  padding: 10px;
+  margin-top: 0.5vh;
+  margin-bottom: 2vh;
+  font-size: 0.7em;
+  border-radius: 15px;
+  font-family: "Signika", sans-serif;
+  width: 100%;
+}
+
+small {
+  font-family: "Signika", sans-serif;
+}
+
+input.ng-invalid.ng-touched {
+  border: 2px solid red;
+  background-color: #ffcccc;
+}
+
+input.ng-valid.ng-touched {
+  border: 3px solid rgb(39, 182, 39);
+  background-color: #ffffff;
+}
+
+.error-message {
+  color: red;
+  font-size: 0.7em;
+  margin: 0;
+}
+
+.submit {
+  width: 12vw;
+  height: 5vh;
+  margin-top: 3vh;
+  margin-bottom: 2vh;
+  margin-left: 25%;
+  font-size: 0.8em;
+  font-weight: 700;
+  border: none;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  font-family: "Signika", sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.submit:hover {
+  background-color: yellow;
+}
+
+.create-account {
+  width: 12vw;
+  height: 5vh;
+  font-size: 0.7em;
+  font-weight: 700;
+  border: none;
+  border-radius: 0.5rem;
+  margin-left: 25%;
+  background-color: #f3d009;
+  cursor: pointer;
+  &:hover {
+    color: #f5f5f5;
+  }
+}
+button:disabled {
+  background-color: grey;
+  cursor: not-allowed;
+}
+
+button:disabled:hover {
+  background-color: grey;
+  cursor: not-allowed;
+}
+
+.spinner {
+  display: flex;
+  border: 3px solid #ffffff;
+  border-top: 3px solid rgb(255, 78, 196);
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  flex-direction: space-around;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}

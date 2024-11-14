@@ -1,0 +1,108 @@
+/* You can add global styles to this file, and also import other style files */
+
+@import "@angular/material/prebuilt-themes/indigo-pink.css";
+/* You can add global styles to this file, and also import other style files */
+html,
+body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  font-family: "Signika Negative", sans-serif;
+  background-image: url(./assets/background.png);
+  overflow: hidden;
+}
+
+/* Fix flex layout only for specific elements */
+.container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.custom-modalbox {
+  border-radius: 15px;
+  background-color: #000000;
+}
+
+.mat-dialog-content {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: flex-start;
+  padding: 16px;
+  background-color: black;
+  font-family: "Signika Negative", sans-serif;
+  color: #a4a4a4;
+  overflow: hidden;
+}
+
+.mat-mdc-dialog-inner-container {
+  height: auto !important;
+}
+
+.mat-dialog-actions {
+  background-color: black;
+}
+
+.mat-mdc-dialog-surface.mdc-dialog__surface {
+  height: auto;
+  overflow: hidden;
+  max-height: 90vh;
+  border-radius: 10px;
+}
+
+.difficulty {
+  padding: 4px 10px;
+  border-radius: 15px;
+  font-size: 14px;
+  font-family: Arial, Helvetica, sans-serif;
+  margin-left: auto;
+  background-color: #f0f0f0;
+}
+
+.difficulty.Easy {
+  background-color: #159200;
+  color: white;
+}
+
+.difficulty.Medium {
+  background-color: #cec600;
+  color: white;
+}
+
+.difficulty.Hard {
+  background-color: #a80000;
+  color: white;
+}
+
+.close-button {
+  background-color: transparent;
+  color: white;
+  border: none;
+  cursor: pointer;
+  margin-right: 10px;
+  position: absolute;
+  right: 5px;
+  top: 18px;
+  transform: translateY(-50%);
+}
+
+.cursor-pointer {
+  cursor: pointer;
+}
+
+/* Button styling */
+#button {
+  background-color: #003d84;
+  color: white;
+  font-family: "Signika Negative", sans-serif;
+  font-size: 20px;
+  border-radius: 10px;
+  padding: 6px 15px;
+  margin-right: 8px;
+  border: none;
+  cursor: pointer;
+}
+
+

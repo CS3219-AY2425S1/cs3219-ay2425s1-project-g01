@@ -1,0 +1,98 @@
+<div class="add-question-container">
+  <div class="header">
+    ADD QUESTION
+    <button class="back-button" (click)="navigateBack()">&#10005;</button>
+  </div>
+
+  <form [formGroup]="questionForm" (ngSubmit)="saveQuestion()">
+    <div class="question-title">
+      <h2>QUESTION TITLE</h2>
+      <div class="title-box">
+        <textarea
+          [(ngModel)]="question_title"
+          class="editable-box"
+          placeholder="Enter question title here..."
+          formControlName="question_title"></textarea>
+      </div>
+      <div
+        *ngIf="
+          questionForm.get('question_title')?.touched &&
+          questionForm.get('question_title')?.invalid
+        "
+        class="error-message-title">
+        Title is required.
+      </div>
+    </div>
+
+    <div class="question-description">
+      <h2>QUESTION DESCRIPTION</h2>
+      <div class="description-box">
+        <textarea
+          [(ngModel)]="question_description"
+          class="editable-box"
+          placeholder="Enter question description here..."
+          formControlName="question_description"></textarea>
+      </div>
+      <div
+        *ngIf="
+          questionForm.get('question_description')?.touched &&
+          questionForm.get('question_description')?.invalid
+        "
+        class="error-message-description">
+        Description is required.
+      </div>
+    </div>
+  </form>
+
+  <div class="question-category">
+    <h2>CATEGORY</h2>
+    <div class="selection">
+      <div class="dropdown">
+        <button
+          class="dropdown-toggle"
+          type="button"
+          (click)="toggleDropdown()">
+          Select all that applies
+        </button>
+        <div class="dropdown-menu" [class.show]="dropdownOpen">
+          <div
+            *ngFor="let category of question_categories"
+            class="dropdown-item">
+            <label class="dropdown-label">
+              {{ category.name }}
+              <input type="checkbox" [(ngModel)]="category.selected" />
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <div class="difficulty-buttons">
+        <button
+          class="diff-butt"
+          type="button"
+          [ngClass]="{ selected: question_complexity === 'Easy' }"
+          (click)="setDifficulty('Easy')">
+          EASY
+        </button>
+        <button
+          class="diff-butt"
+          type="button"
+          [ngClass]="{ selected: question_complexity === 'Medium' }"
+          (click)="setDifficulty('Medium')">
+          MEDIUM
+        </button>
+        <button
+          class="diff-butt"
+          type="button"
+          [ngClass]="{ selected: question_complexity === 'Hard' }"
+          (click)="setDifficulty('Hard')">
+          HARD
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="saving-button">
+    <button class="save-button" (click)="saveQuestion()" [disabled]="questionForm.invalid">SAVE</button>
+  </div>
+</div>

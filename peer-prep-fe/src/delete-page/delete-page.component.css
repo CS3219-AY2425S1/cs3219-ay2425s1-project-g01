@@ -1,0 +1,90 @@
+* {
+  font-family: "Signika Negative", sans-serif;
+}
+
+
+.delete-question-container {
+  background-color: black; 
+  height: 300px;
+  color: white;
+  width: 400px;
+  padding: 20px;
+  border-radius: 10px;
+  box-sizing: border-box;
+  margin-left: auto;
+  margin-right: auto;
+  border: 1px solid #ccc;
+}
+
+.header {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 470px;
+  font-size: 1.4rem;
+  margin-top: 20px;
+  margin-bottom: 35px;
+}
+
+.title-box {
+  width: 100%;
+  height: 100%;
+  padding: 10px;
+  box-sizing: border-box;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  resize: none;
+  overflow-y: auto;
+  background-color: #333;
+  color: white;
+  font-size: 15px;
+  margin-top: -15px;
+}
+
+.confirm {
+  left: 90px;
+  font-size: 14px;
+  align-items: center;
+  position: relative;
+  width: 80px;
+  height: 30px;
+  border-radius: 10px;
+  margin-top: 20px;
+  background-color: white;
+  color: black;
+  cursor: pointer;
+  border: transparent;
+}
+
+.confirm:hover {
+  background-color: darkgreen;
+  color: white;
+  transform: scale(1.1);
+}
+
+.reject {
+  left: 110px;
+  font-size: 14px;
+  position: relative;
+  width: 80px;
+  height: 30px;
+  border-radius: 10px;
+  margin-top: 20px;
+  background-color: white;
+  color: black;
+  cursor: pointer;
+  border: transparent;
+}
+
+.reject:hover {
+  background-color: darkred;
+  color: white;
+  transform: scale(1.1);
+}
+
+.mat-mdc-dialog-container mdc-dialog cdk-dialog-container mdc-dialog--open {
+  height: auto !important; /* Restores auto height based on content */
+  max-height: 90vh; /* Optional: Set a max-height so it doesn't overflow too much */
+  overflow-y: auto; /* Allow scrolling if content exceeds max-height */
+}

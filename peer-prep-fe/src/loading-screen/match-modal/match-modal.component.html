@@ -1,0 +1,151 @@
+<div class="modal-overlay" *ngIf="isVisible">
+  <div class="modal-content">
+    <div class="outer-border">
+      <div class="border-circle-wrapper">
+
+        <!-- 30-second countdown circle for finding match -->
+        <svg class="countdown-svg" *ngIf="!matchFound">
+          <circle
+            class="countdown-circle"
+            [ngClass]="{'timeout': timeout}"
+            cx="50%"
+            cy="50%"
+            r="205"
+          ></circle>
+        </svg>
+
+        <!-- 10-second countdown circle for accepting match -->
+        <svg class="accept-countdown-svg" *ngIf="matchFound">
+          <circle
+            class="accept-countdown-circle"
+            [ngClass]="{'timeout': timeout}"
+            cx="50%"
+            cy="50%"
+            r="205"
+          ></circle>
+        </svg>
+
+        <!-- MATCHING PROCESS, STILL LOADING -->
+        <div class="matching-container" *ngIf="!matchFound && !timeout">
+          <div class="message">{{ displayMessage }}</div>
+          <div class="details">{{ difficulty }} • {{ category }}</div>
+        </div>
+
+        <!-- MATCH FOUND, SHOW BOTH PLAYERS, WAITING FOR ACCEPTANCE -->
+        <div class="inner-content" *ngIf="matchFound && !timeout">
+          <div class="message">{{ displayMessage }}</div>
+          <div class="player-info">
+            <div class="player my-player">
+              <div class="player-details">{{ myUsername }}</div>
+              <div class="player-details">{{ difficulty }} • {{ category }}</div>
+            </div>
+            <div class="versus my-player">vs</div>
+            <div class="player my-player">
+              <div class="player-details">{{ otherUsername }}</div>
+              <div class="player-details">{{ otherDifficulty }} • {{ otherCategory }}</div>
+            </div>
+          </div>
+          <div class="button-wrapper">
+            <button 
+            class="inner-button" 
+            (click)="acceptMatch()" 
+            [ngClass]="{ 'disabled-button': matchAccepted }"
+            [disabled]="matchAccepted">Accept!</button>
+          </div>
+        </div>
+
+        <!-- MATCH FOUND, ACCEPT TIMER EXPIRED -->
+        <div class="inner-content" *ngIf="matchFound && timeout">
+          <div class="message">User did not accept in time.</div>
+          <div class="player-info">
+            <div class="player my-player">
+              <div class="player-details">{{ myUsername }}</div>
+              <div class="player-details">{{ difficulty }} • {{ category }}</div>
+            </div>
+            <div class="versus my-player">vs</div>
+            <div class="player my-player"><div class="modal-overlay" *ngIf="isVisible">
+              <div class="modal-content">
+                <div class="outer-border">
+                  <div class="border-circle-wrapper">
+
+                    <!-- 30-second countdown circle for finding match -->
+                    <svg class="countdown-svg" *ngIf="!matchFound">
+                      <circle
+                        class="countdown-circle"
+                        [ngClass]="{'timeout': timeout}"
+                        cx="50%"
+                        cy="50%"
+                        r="205"
+                      ></circle>
+                    </svg>
+
+                    <!-- 10-second countdown circle for accepting match -->
+                    <svg class="accept-countdown-svg" *ngIf="matchFound">
+                      <circle
+                        class="accept-countdown-circle"
+                        [ngClass]="{'timeout': timeout}"
+                        cx="50%"
+                        cy="50%"
+                        r="205"
+                      ></circle>
+                    </svg>
+
+                    <!-- MATCHING PROCESS, STILL LOADING -->
+                    <div class="matching-container" *ngIf="!matchFound && !timeout">
+                      <div class="message">{{ displayMessage }}</div>
+                      <div class="details">{{ difficulty }} • {{ category }}</div>
+                    </div>
+
+                    <!-- MATCH FOUND, ACCEPT TIMER EXPIRED -->
+                    <div class="inner-content" *ngIf="matchFound && timeout">
+                      <div class="message">Accept duration timeout.</div>
+                      <div class="player-info">
+                        <div class="player my-player">
+                          <div class="player-details">{{ myUsername }}</div>
+                          <div class="player-details">{{ difficulty }} • {{ category }}</div>
+                        </div>
+                        <div class="versus my-player">vs</div>
+                        <div class="player my-player">
+                          <div class="player-details">{{ otherUsername }}</div>
+                          <div class="player-details">{{ otherDifficulty }} • {{ otherCategory }}</div>
+                        </div>
+                      </div>
+                      <div class="button-wrapper">
+                        <button class="inner-button" (click)="requeue()">Requeue</button>
+                      </div>
+                    </div>
+
+<!--                    &lt;!&ndash; REQUEST TIMEOUT (NO MATCH FOUND) &ndash;&gt;-->
+<!--                    <div class="inner-content" *ngIf="!matchFound && timeout && !otherUsername">-->
+<!--                      <div class="message">No matches found</div>-->
+<!--                      <div class="button-wrapper">-->
+<!--                        <button class="inner-button" (click)="requeue()">Requeue</button>-->
+<!--                      </div>-->
+<!--                    </div>-->
+                  </div>
+                </div>
+                <button class="cancel-button" (click)="cancelMatch()">CANCEL</button>
+              </div>
+            </div>
+
+              <div class="player-details">{{ otherUsername }}</div>
+              <div class="player-details">{{ otherDifficulty }} • {{ otherCategory }}</div>
+            </div>
+          </div>
+          <div class="button-wrapper">
+            <button class="inner-button" (click)="requeue()">Requeue</button>
+          </div>
+        </div>
+
+        <!-- REQUEST TIMEOUT (NO MATCH FOUND) -->
+        <div class="inner-content" *ngIf="!matchFound && timeout && !otherUsername">
+          <div class="message">No matches found</div>
+          <div class="button-wrapper">
+            <button class="inner-button" (click)="requeue()">Requeue</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <button class="cancel-button-accepted" *ngIf="!matchAccepted" (click)="cancelMatch()">CANCEL</button>
+  </div>
+</div>

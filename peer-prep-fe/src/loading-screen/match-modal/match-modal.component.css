@@ -1,0 +1,309 @@
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.8);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-content {
+  width: 480px;
+  height: 480px;
+  position: relative;
+}
+
+.outer-border {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  border: 2px solid #966919;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
+
+.border-circle-wrapper {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.countdown-svg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.countdown-circle {
+  fill: none;
+  stroke: lightblue;
+  stroke-width: 8;
+  transform: rotate(90deg);
+  transform-origin: center;
+  stroke-dasharray: 1288.05;
+  stroke-dashoffset: 0;
+  animation: countdown 30s linear forwards, change-colour 30s linear forwards;
+}
+
+.match-found {
+  stroke: green;
+  animation: glow-animation-success 1.5s infinite alternate;
+}
+
+.timeout {
+  stroke: red;
+  animation: glow-animation-failure 1.5s infinite alternate;
+}
+
+.inner-content {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  color: white;
+  z-index: 1;
+}
+
+.matching-container {
+  position: relative;
+  width: 100%;
+  height: 70%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  color: white;
+  z-index: 1;
+}
+
+.message {
+  margin-top: 180px;
+  margin-bottom: auto;
+  font-family: Georgia, serif;
+  font-size: 30px;
+}
+
+.details {
+  color: lightslategrey;
+  margin-bottom: 60px;
+  font-family: Georgia, serif;
+}
+
+.player-details {
+  color: lightslategrey;
+  margin-bottom: 10px;
+  font-family: Georgia, serif;
+}
+
+.button-wrapper {
+  margin-top: auto;
+  margin-bottom: 120px;
+}
+
+.inner-button {
+  background: #1b3853;
+  color: #95bee4;
+  border: 2px solid #8ac0c6;
+  font-family: Georgia, serif;
+  font-size: 20px;
+  padding: 10px 20px;
+  cursor: pointer;
+  z-index: 2;
+}
+
+.inner-button:hover {
+  background: #2b4c70;
+  box-shadow: 0 0 15px 5px rgba(150, 210, 255, 0.7);
+  border-color: #b0e3f0;
+  transform: scale(1.1);
+}
+
+.disabled-button {
+  background: #1b3853;
+  color: rgb(128, 128, 128);
+  border: 2px solid #8ac0c6;
+  font-family: Georgia, serif;
+  font-size: 20px;
+  padding: 10px 20px;
+  cursor: not-allowed;
+  z-index: 2;
+  opacity: 0.5;
+}
+
+.disabled-button:hover {
+  background: #1b3853;
+  box-shadow: none;
+  border-color: #8ac0c6;
+  transform: none;
+}
+
+.cancel-button {
+  font-family: Georgia, serif;
+  font-size: 15px;
+  position: absolute;
+  bottom: -60px;
+  background: #1b3853;
+  color: #f1cc8f;
+  border: 2px solid #f1cc8f;
+  padding: 10px 20px;
+  cursor: pointer;
+  z-index: 2;
+  right: 175px;
+}
+
+.cancel-button-accepted {
+  font-family: Georgia, serif;
+  font-size: 15px;
+  position: absolute;
+  bottom: -60px;
+  background: #1b3853;
+  color: #f1cc8f;
+  border: 2px solid #f1cc8f;
+  padding: 10px 20px;
+  cursor: pointer;
+  z-index: 2;
+  margin-left: 200px;
+}
+
+.cancel-button:hover {
+  transform: scale(1.05);
+}
+
+.player-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 80%;
+  margin-top: 50px;
+  color: white;
+}
+
+.player {
+  text-align: center;
+  color: white;
+  font-size: 10px;
+  font-family: Georgia, serif;
+}
+
+.my-player {
+  flex: 1;
+  margin-bottom: 60px;
+}
+
+.other-player {
+  flex: 1;
+}
+
+.versus {
+  flex: 0.2;
+  color: lightgrey;
+  font-size: 10px;
+  font-family:Georgia, serif;
+}
+
+
+@keyframes glow-animation-success {
+  50% {
+    stroke-width: 12;
+    stroke: mediumspringgreen;
+  }
+  100% {
+    stroke-width: 8;
+    stroke: darkgreen;
+  }
+}
+
+@keyframes glow-animation-failure {
+  50% {
+    stroke-width: 12;
+    stroke: red;
+  }
+  100% {
+    stroke-width: 8;
+    stroke: darkred;
+  }
+}
+
+@keyframes countdown {
+  from {
+    stroke-dashoffset: 0;
+  }
+  to {
+    stroke-dashoffset: 1288.05;
+  }
+}
+
+@keyframes change-colour {
+  0% {
+    stroke: #8ac0c6;
+  }
+
+  25% {
+    stroke: #6e999e;
+  }
+
+  50% {
+    stroke: #527376;
+  }
+
+  75% {
+    stroke: #374c4f;
+  }
+}
+
+/* 10-second countdown styles */
+.accept-countdown-svg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.accept-countdown-circle {
+  fill: none;
+  stroke-width: 8;
+  transform: rotate(90deg);
+  transform-origin: center;
+  stroke-dasharray: 1288.05;
+  stroke-dashoffset: 0;
+  animation: accept-countdown 10s linear forwards, change-accept-colour 10s linear forwards;
+}
+
+@keyframes accept-countdown {
+  from {
+    stroke-dashoffset: 0;
+  }
+  to {
+    stroke-dashoffset: 1288.05;
+  }
+}
+
+@keyframes change-accept-colour {
+  0% {
+    stroke: darkseagreen;
+  }
+  50% {
+    stroke: mediumspringgreen;
+  }
+  100% {
+    stroke: darkgreen;
+  }
+}
+
+.accept-countdown-circle.timeout {
+  stroke: red;
+  animation: glow-animation-failure 1.5s infinite alternate;
+}
+

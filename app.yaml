@@ -1,0 +1,8 @@
+runtime: nodejs16
+env: standard
+handlers:
+  - url: /
+    static_files: dist/peer-prep-fe/browser/index.html
+    upload: dist/peer-prep-fe/browser/index.html
+  - url: /
+    static_dir: dist/peer-prep-fe/browser

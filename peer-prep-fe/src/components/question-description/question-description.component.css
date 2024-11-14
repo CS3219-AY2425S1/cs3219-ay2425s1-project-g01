@@ -1,0 +1,21 @@
+.categories-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.upper-half {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  width: 100%;
+  gap: 15px;
+}
+
+.question-title {
+  color: white;
+  font-size: 1.5rem;
+  line-height: 1.15;
+}
+

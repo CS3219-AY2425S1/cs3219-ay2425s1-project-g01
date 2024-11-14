@@ -1,0 +1,62 @@
+<div class="container">
+  <div class="search-container">
+    <input
+      class="search-bar"
+      type="search"
+      placeholder="Search..."
+      [(ngModel)]="searchTerm" (input)="searchQuestions()"
+      (keyup.enter)="searchQuestions()" />
+    <button type="submit" class="search-button" (click)="searchQuestions()">
+      <i class="fa-solid fa-magnifying-glass search-icon"> </i>
+    </button>
+  </div>
+
+  <div class="button-container">
+    <button id="button" (click)="sortQuestions()">SORT</button>
+
+    <!-- Filter Button with Hover -->
+    <div class="filter-container">
+      <button id="button" (mouseover)="showFilterOptions = true">FILTER</button>
+
+      <!-- Dropdown Content to toggle between Difficulty and Category buttons, or options -->
+      <div
+        class="dropdown-content"
+        *ngIf="showFilterOptions"
+        (mouseleave)="showFilterOptions = false">
+        <!-- Show Difficulty and Category buttons if no filter option is selected -->
+        <div *ngIf="!isDifficultyClicked && !isCategoryClicked">
+          <button class="dropdown-btn cursor-pointer" (click)="showDifficultyOptions()">
+            Difficulty
+          </button>
+          <button class="dropdown-btn cursor-pointer" (click)="showCategoryOptions()">
+            Category
+          </button>
+          <button class="dropdown-btn cursor-pointer" (click)="resetFilters()">
+            Reset Filters
+          </button>
+        </div>
+
+        <!-- Show Difficulty Options -->
+        <div *ngIf="isDifficultyClicked">
+          <button class="dropdown-btn cursor-pointer" (click)="filterByDifficulty('Easy')">Easy</button>
+          <button class="dropdown-btn cursor-pointer" (click)="filterByDifficulty('Medium')">Medium</button>
+          <button class="dropdown-btn cursor-pointer" (click)="filterByDifficulty('Hard')">Hard</button>
+        </div>
+
+        <!-- Show Category Options -->
+        <div *ngIf="isCategoryClicked">
+          <button 
+            class="dropdown-btn cursor-pointer"
+            *ngFor="let category of categories"
+            (click)="filterByCategory(category)">
+            {{ category }}
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <button *ngIf="isAdmin()" id="button" (click)="openAddModal()">
+      ADD QUESTION
+    </button>
+  </div>
+</div>

@@ -1,0 +1,38 @@
+<div class="main-container">
+    <nav class = "nav-bar">
+        <div class="left-container">
+            <header class ="header">
+                Peer Prep
+            </header>
+        </div>
+
+        <div class="right-container">
+            <div class = "pair-settings">
+                <button class = "users-icon">
+                    <i class="fa-solid fa-user-group"> </i>
+                </button>
+                <div class = "pair-info">
+                    <div class = "pair-name">
+                        &#64;{{ username }} paired with &#64;{{ pairedUsername }}
+                    </div>
+                </div>
+            </div>
+            <button class = "end-session" (click)="endSession()">
+                End Session
+            </button>
+        </div>
+    </nav>
+
+
+    <div class="collab-container">
+        <div class="question-container">
+            <app-sidebar [question]="question"></app-sidebar>
+        </div>
+        <!-- <div class="editor-container"> -->
+        <app-collaborative-editor [sessionId]="sessionId" [userId]="userId" [docId]="docId" [userName]="username"></app-collaborative-editor>
+        <app-chat [sessionId]="sessionId" [userId]="userId" [matchedUser]="getCurrUserReturn() === username ? pairedUsername : username"></app-chat>
+
+        <!-- </div> -->
+    </div>
+
+</div>

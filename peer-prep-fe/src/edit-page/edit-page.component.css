@@ -1,0 +1,235 @@
+* {
+  font-family: "Signika Negative", sans-serif;
+}
+
+.edit-question-container {
+  background-color: black;
+  height: auto;
+  color: white;
+  width: 800px;
+  padding: 20px;
+  border-radius: 10px;
+  box-sizing: border-box;
+  margin-left: auto;
+  margin-right: auto;
+  border: 1px solid #ccc;
+  overflow: visible;
+}
+
+.question-title {
+  margin-top: -20px;
+  margin-bottom: 20px;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between; 
+  align-items: center;
+  font-size: 1.5rem;
+  margin-bottom: 20px;
+}
+
+
+.back-button {
+  background-color: transparent;
+  border: none;
+  color: white;
+  font-size: 30px;
+  cursor: pointer;
+  padding-right: 5px;
+  padding-top: -5px; 
+  transition: transform 0.2s, color 0.2s;
+  
+}
+
+
+.description-box {
+  margin-top: 20px;
+  width: 100%;
+  max-width: 100%;
+  height: 80px;
+  margin-bottom: 10px;
+}
+
+.editable-box {
+  width: 100%;
+  height: 100%;
+  padding: 10px;
+  box-sizing: border-box;
+  border-radius: 5px;
+  resize: none;
+  overflow-y: auto;
+  background-color: #2C2C2C;
+  color: white;
+  font-size: 15px;
+  margin-top: -15px;
+}
+
+.editable-box::-webkit-scrollbar {
+  width: 6px;
+}
+
+.editable-box::-webkit-scrollbar-thumb {
+  background-color: #888;
+  border-radius: 10px;
+}
+
+.selection {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 4px;
+}
+
+.dropdown {
+  position: relative;
+  display: inline-block;
+  width: 100%;
+}
+
+.dropdown-toggle {
+  width: 80%;
+  padding: 10px;
+  background-color: #444;
+  color: white;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 15px;
+  margin-top: -15px;
+}
+
+.dropdown-menu {
+  display: none;
+  position: fixed;
+  width: 30%;
+  height: 100%;
+  border: 1px solid #ccc;
+  max-height: 100px;
+  overflow-y: auto;
+  box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  border-radius: 3px;
+  background-color: #333333;
+
+}
+
+.dropdown-menu.show {
+  display: block;
+}
+
+.dropdown-item {
+  padding: 8px;
+  display: flex;
+  align-items: center;
+}
+
+.dropdown-label {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  cursor: pointer;
+}
+
+.dropdown-label input[type="checkbox"] {
+  margin-left: auto;
+  cursor: pointer;
+}
+
+.dropdown-item:hover {
+  background-color: grey;
+}
+
+.dropdown-label input[type="checkbox"]:checked {
+  accent-color: #dddddd;
+}
+
+input[type="checkbox"] {
+  margin-right: 10px;
+}
+
+.difficulty-buttons {
+  display: flex;
+  justify-content: center;
+  margin-top: -10px;
+}
+
+.diff-butt {
+  flex: 1;
+  padding: 10px 0;
+  background-color: #444;
+  color: white;
+  cursor: pointer;
+  border-radius: 0;
+  font-size: 16px;
+  transition: background-color 0.3s;
+  width: 80px;
+}
+
+.diff-butt:not(:last-child) {
+  border-right: none;
+}
+
+.diff-butt:first-child {
+  border-top-left-radius: 5px;
+  border-bottom-left-radius: 5px;
+}
+
+.diff-butt:last-child {
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 5px;
+}
+
+.diff-butt.selected {
+  background-color: #C0C0C0;
+}
+
+.diff-butt:hover {
+  background-color: #C0C0C0;
+  color: black;
+  transform: scale(1.1);
+}
+
+.save-button {
+  font-size: 16px;
+  font-weight: bold;
+  position: relative;
+  left: 680px;
+  width: 80px;
+  height: 30px;
+  border-radius: 10px;
+  margin-top: 20px;
+  background-color: white;
+  color: black;
+  cursor: pointer;
+}
+
+.save-button:hover {
+  background-color: darkgreen;
+  color: white;
+  transform: scale(1.1);
+}
+
+.error-message-title {
+  color: red;
+  font-size: 15px;
+}
+
+.error-message-description {
+  color: red;
+  font-size: 15px;
+  margin-top: -15px;
+}
+
+.error-message-difficulty {
+  margin-top: 5px;
+  margin-left: 570px;
+  color: red;
+}
+
+
+.mat-mdc-dialog-surface.mdc-dialog__surface {
+  /* height: auto !important; */
+  height: 100vh;
+  overflow: hidden;
+}

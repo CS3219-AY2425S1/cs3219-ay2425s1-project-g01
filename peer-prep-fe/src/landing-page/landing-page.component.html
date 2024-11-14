@@ -1,0 +1,56 @@
+<div class="home">
+    <div class="content">
+      <h1>Welcome to PeerPrep.</h1>
+      <h2>PICK 1 DIFFICULTY & 1 TOPIC.</h2>
+      <div *ngIf = "errorMessage" class = "error-message">{{ errorMessage }}
+      </div>
+    </div>
+</div>
+
+<div class="categories">
+    <button (click)="handleDifficulty('Easy'); onDifficultySelected('EASY')" [ngClass]="{'difficulty-selected': selectedDifficulty === 'Easy'}">EASY</button>
+    <button (click)="handleDifficulty('Medium'); onDifficultySelected('MEDIUM')" [ngClass]="{'difficulty-selected': selectedDifficulty === 'Medium'}">MEDIUM</button>
+    <button (click)="handleDifficulty('Hard'); onDifficultySelected('HARD')" [ngClass]="{'difficulty-selected': selectedDifficulty === 'Hard'}">HARD</button>
+</div>
+
+<hr style="width: 50%; margin: 0 auto; border: 1px solid #ccc;">
+
+<img *ngIf="selectedDifficulty" 
+     [src]="imagePath" 
+     alt="UFO" 
+     class="difficulty-image" 
+     [ngStyle]="{ 
+       'transform': 'rotate(' + rotation + ')', 
+       'position': 'absolute', 
+       'left': xPosition, 
+       'top': yPosition,
+       'width': '55%',
+     }">
+
+     <div *ngIf="categoryLines.length > 0" class="categories">
+      <div class="category-list">
+        <div *ngFor="let line of categoryLines">
+          <div class="category-line">
+
+            <button *ngFor="let category of line"
+                    (click)="toggleCategory(category)"
+                    [ngClass]="{
+                        'category-selected': selectedCategory && selectedCategory === category,
+                        'highlight-selected': selectedCategory && selectedCategory === category && selectedDifficulty
+                    }"
+                    class="cat-buttons">
+                {{ category.toUpperCase() }}
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+
+<div>
+    <button class="match-button"  
+            (click)="handleFindMatch()" 
+            [ngClass]="{'active': matchButtonActive}">  
+    FIND MATCH 
+  </button>
+</div>

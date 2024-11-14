@@ -1,0 +1,143 @@
+  .home {
+    width: 100vw; 
+    padding-top: 200px;
+    margin: 0;
+    position: relative;
+    display: flex;
+    flex-direction: column; 
+    justify-content: center; 
+    align-items: center; 
+    font-family: "Signika Negative", sans-serif;
+}
+  
+  h1 {
+    color: white;
+    font-family: "Tourney", sans-serif !important;
+    text-align: center;
+    font-size: 4rem;
+    white-space: nowrap; /* Prevent text from wrapping */
+  }
+  
+  h2 {
+    color: white;
+    font-family: "Signika Negative", sans-serif;
+    font-weight: 600;
+    text-align: center;
+    margin-bottom: 50px;
+  }
+  
+  .home .content h2 {
+    margin-top: 32px;
+  }
+
+  .categories {
+    margin-top: 45px; 
+    display: flex;
+    justify-content: center; 
+    align-items: center;
+    gap: 20px; 
+    background-color: transparent; 
+    position: relative;
+    width: 100%;
+  }
+
+.categories button {
+    padding: 10px 20px; 
+    font-size: 1.2rem;
+    color: white; 
+    background-color: transparent;
+    cursor: pointer;
+    transition: color 0.3s; 
+    border: none;
+    margin-top: -80px;
+    font-family: "Signika Negative", sans-serif;
+    font-size: 150%
+}
+
+.categories button:hover {
+    color: yellow; 
+}
+
+.categories button:focus {
+    color: yellow;
+}
+
+.category-line {
+    display: flex;
+    justify-content: center; 
+    align-items: center; 
+    gap: 10px; 
+    margin-bottom: 10px; 
+}
+
+.categories .category-list .category-line .cat-buttons {
+    padding: 5px 15px; 
+    text-align: center;
+    border-radius: 5px;
+    margin: 5px;
+}
+.match-button {
+    background-color: transparent;
+    border: none;
+    color: yellow;
+    font-family: "Signika Negative", sans-serif;
+    cursor: pointer;
+    background-color: #888888;
+    border-radius: 20px;
+    padding: 5px 10px;
+    font-size: 20px;
+    align-items: end;
+    position: fixed;  
+    bottom: 20px;  
+    right: 18px; 
+  }
+
+.match-button.active {
+    background-color: #5e0c87; 
+}
+
+.categories .difficulty-selected {
+    color: yellow;
+}
+
+
+.categories .difficulty-selected:active {
+  color: yellow;
+}
+
+
+/* .categories .highlight-selected {
+    color: yellow;
+} */
+
+.categories .category-list .category-selected {
+  color: yellow; /* default color */
+}
+
+.categories .category-list .highlight-selected {
+  color: yellow; /* yellow only when both are selected */
+}
+
+
+.difficulty-image {
+    position: relative;
+    max-width: none; 
+    z-index: 1; 
+    opacity: 0.9; 
+    width: 800px; 
+    height: auto;
+    object-fit: cover;
+    opacity: 0.2;
+    pointer-events: none;
+}
+
+.error-message {
+    color: red; 
+    font-weight: bold;
+    text-align: center;
+    font-size: 1.2rem; 
+    margin-top: -40px;
+    margin-bottom: 50px;
+  }
+  
+

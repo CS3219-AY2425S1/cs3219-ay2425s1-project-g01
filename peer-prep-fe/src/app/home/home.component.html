@@ -1,0 +1,14 @@
+<div class="home">
+  <div class="content">
+    <h1>Welcome to PeerPrep.</h1>
+    <h2>WHERE YOU FIND YOUR MATCH, MASTER THE CHALLENGE</h2>
+    <div *ngIf="!isLoggedIn()" class="button-container">
+      <button (click)="goToLoginPage()" class="home-button">
+        Login
+      </button>
+      <button (click)="goToCreateAccountPage()" class="home-button">
+        Create account
+      </button>
+    </div>
+  </div>
+</div>

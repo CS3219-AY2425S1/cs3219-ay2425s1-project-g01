@@ -1,0 +1,22 @@
+<div class="delete-question-container">
+  <div class="header">
+    DELETE QUESTION
+  </div>
+
+  <div class="question-title">
+    QUESTION TITLE
+    <textarea
+      readonly
+      [(ngModel)]="question_title"
+      class="title-box"></textarea>
+  </div>
+
+  <div class="confirmation">
+    <button class="confirm" type="button" (click)="deleteQuestion()">
+      CONFIRM
+    </button>
+    <button class="reject" type="button" (click)="navigateBack()">
+      CANCEL
+    </button>
+  </div>
+</div>

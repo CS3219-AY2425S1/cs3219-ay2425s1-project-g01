@@ -1,0 +1,31 @@
+.question-explanation-box {
+  background-color: #2c2c2c;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  padding: 5px 15px;
+  border-radius: 10px;
+  margin-bottom: 10px;
+  width: 300px;
+  height: 150px;
+  overflow-y: auto;
+  color: white;
+}
+
+.question-explanation-box::-webkit-scrollbar {
+  width: 6px;
+}
+
+.question-explanation-box::-webkit-scrollbar-thumb {
+  background-color: rgb(168, 168, 168);
+  border-radius: 4px;
+  margin: 2px;
+}
+
+.question-explanation-box::-webkit-scrollbar-thumb:hover {
+  background-color: #555;
+}
+
+.question-explanation-box::-webkit-scrollbar-track {
+  background: transparent;
+}

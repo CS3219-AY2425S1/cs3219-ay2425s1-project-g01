@@ -1,0 +1,37 @@
+<nav class="navbar" *ngIf="!hideNavbar">
+  <header id="header" class="cursor-pointer" routerLink="/">Peer Prep</header>
+  <a *ngIf="userName" routerLink="/profile" class="username">-{{ userName }}-</a>
+  <a
+  class="button"
+  *ngIf="isLoggedIn()"
+  routerLink="/question-list"
+  routerLinkActive="activebutton"
+    >Question List</a
+  >
+  <a
+    class="button"
+    *ngIf="isAdmin()"
+    routerLink="/admin-controls"
+    routerLinkActive="activebutton"
+  >Admin
+  </a>
+  <a 
+    class="button" 
+    *ngIf="isLoggedIn()"
+    routerLink="/landing"
+    routerLinkActive="activebutton"
+    >Practice
+  </a>
+  <button class="logout-button" *ngIf="isLoggedIn() && isInSession()" (click)="logout()">
+    Logout
+  </button>
+</nav>
+
+
+
+
+
+<!-- <div id="container"></div>
+<app-question-list></app-question-list> -->
+
+<router-outlet></router-outlet>

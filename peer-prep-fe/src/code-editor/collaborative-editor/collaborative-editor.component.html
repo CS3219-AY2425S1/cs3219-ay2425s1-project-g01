@@ -1,0 +1,26 @@
+<div class="editor-container">
+  <div class="editor-top-bar">
+    <div class = "editor-language">
+      <span class="symbol">&lt;/&gt;</span>
+      <span>  JavaScript</span>
+    </div>
+    <button class="format-button" (click)="formatCode()">Format Code</button>
+  </div>
+
+  <div *ngIf="notifications.length > 0" class="notification-panel">
+    <div *ngFor="let notification of notifications" class="notification">
+      {{ notification }}
+    </div>
+  </div>
+
+  <ngx-monaco-editor
+    [options]="editorOptions"
+    [(ngModel)]="code"
+    (ngModelChange)="onEditorChange($event)"
+    (onInit)="onEditorInit($event)"
+  ></ngx-monaco-editor>
+
+  <div class="editor-bottom-bar">
+    Ln {{ line }}, Col {{ column }}
+  </div>
+</div>

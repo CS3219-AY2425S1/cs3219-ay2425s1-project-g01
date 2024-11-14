@@ -1,0 +1,54 @@
+.home {
+  height: 100vh;
+  width: 100vw;
+  padding: 0;
+  margin: 0;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+h1 {
+  color: white;
+  font-family: "Tourney", sans-serif !important;
+  text-align: center;
+  font-size: 4rem;
+  /* font: 400 3.562rem / 4rem, sans-serif; */
+}
+
+h2 {
+  color: white;
+  font-family: "Signika Negative", sans-serif;
+  font-weight: 600;
+  text-align: center;
+}
+
+.home-button {
+  display: inline-flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0;
+  /* flex: 1 1 auto; */
+  cursor: pointer;
+  color: white;
+  font-family: "Tourney", sans-serif;
+  font-size: 1.5em;
+  min-width: 0;
+  padding: 20px 30px;
+  background-color: rgb(170, 3, 3);
+  border-radius: 15px;
+  border: none;
+  gap: 10px;
+}
+
+.button-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+}
+
+.home .content h2 {
+  margin-top: 32px;
+}
