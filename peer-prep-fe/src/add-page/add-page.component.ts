@@ -79,6 +79,13 @@ export class AddPageComponent {
       this.questionForm.markAllAsTouched()
       return
     }
+
+    const selectedCategories = this.question_categories.filter(cat => cat.selected);
+    if (selectedCategories.length === 0) {
+      alert("Please select at least one category.");
+      return;
+    }
+
     const newQuestion = {
       Question_title: this.questionForm.value.question_title,
       Question_description: this.questionForm.value.question_description,
@@ -94,7 +101,7 @@ export class AddPageComponent {
         this.onAddComplete()
       },
       (error) => {
-        alert("Error adding question")
+        alert("Question already exist! Check question title.")
       }
     )
   }

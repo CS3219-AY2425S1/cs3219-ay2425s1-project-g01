@@ -117,7 +117,7 @@ export class EditPageComponent implements OnInit {
           this.onEditComplete()
         },
         (error) => {
-          alert("Error updating question")
+          alert("Question already exist! Check question title.")
         }
       )
   }
